@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eve Beauty | Premium Cosmetics</title>
+    <meta
+      name="description"
+      content="Eve Beauty-Premium makeup, skincare, fragrance and beauty products."
+    />
+
+    <!--Font links-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lucide Icons links -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- CSS link-->
+    <link rel="stylesheet" href="css/home.css" />
+  </head>
+  <body>
+    <!--The Top Bar codes-->
+    <div class="top-bar">
+      <div class="top-item">
+        <i data-lucide="truck"></i>
+        <span>Free shipping on orders over $50</span>
+      </div>
+
+      <div class="top-item">
+        <i data-lucide="gift"></i>
+        <span>Exclusiveoffers for members</span>
+      </div>
+      <div class="top-item">
+        <i data-lucide="rotate-ccw"></i>
+        <span>Easy returns within 15 days</span>
+      </div>
+    </div>
+
+    <!--header codes-->
+    <header class="eve-header">
+      <nav class="navbar">
+        <div class="navbar-container">
+          <!--My Logo-->
+
+          <a href="#" class="my-logo">
+            <span class="sit-logo-main">EVE</span>
+            <span class="sit-logo-sub">BEAUTY</span>
+          </a>
+          <!--The desktop navbar-->
+          <ul class="navbar-menu">
+            <li>
+              <a href="#" class="navbar-link active">Home</a>
+            </li>
+
+            <li class="dropdown">
+              <button class="navbar-link dropdown-toggle">
+                Shop
+                <i data-lucide="chevron-down"></i>
+              </button>
+
+              <div class="dropdown-menu">
+                <a href="#">Face</a>
+                <a href="#">Makeup</a>
+                <a href="#">Skincare</a>
+                <a href="#">Fragrance</a>
+                <a href="#">Hair Care</a>
+              </div>
+            </li>
+            <li>
+              <a href="#" class="navbar-link">New Arivals</a>
+            </li>
+
+            <li>
+              <a href="#" class="navbar-link">Brands</a>
+            </li>
+            <li class="dropdown">
+              <button class="navbar-link dropdown-toggle">
+                Collections
+                <i data-lucide="chevron-down"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a href="#">BestSellers</a>
+                <a href="#">New Collection</a>
+                <a href="#">Luxury Sets</a>
+                <a href="#">Mini Must-Haves</a>
+              </div>
+            </li>
+
+            <li>
+              <a href="#" class="navbar-link">About Us</a>
+            </li>
+            <li>
+              <a href="#" class="navbar-link">Contact</a>
+            </li>
+          </ul>
+
+          <!--Right Side of Navbar-->
+
+          <div class="right-navbar">
+            <button
+              class="icon-button search-button"
+              id="searchButton"
+              aria-label="Search"
+            >
+              <i data-lucide="search"></i>
+            </button>
+
+            <button
+              class="icon-button dropdown-toggle"
+              id="accountButton"
+              aria-label="Account"
+            >
+              <i data-lucide="user-round"></i>
+            </button>
+            <div class="dropdown-menu">
+              <a href="#">Sign up</a>
+              <a href="#">Login</a>
+            </div>
+
+            <button
+              class="icon-button notification-button"
+              id="favoritelistButton"
+              aria-label="favoritelist"
+            >
+              <i data-lucide="heart"></i>
+              <small id="favoritelistCount">0</small>
+            </button>
+
+            <button
+              class="icon-button notification-button"
+              id="cartButton"
+              aria-label="Shopping bag"
+            >
+              <i data-lucide="Shopping-bag"></i>
+              <small id="cartCount">0</small>
+            </button>
+            <button
+              id="themeToggle"
+              class="theme-toggle"
+              aria-label="Toggle theme"
+            >
+              <i data-lucide="sun" class="sun-icon"></i>
+              <i data-lucide="moon" class="moon-icon"></i>
+            </button>
+
+            <button class="language-button dropdown-toggle">
+              English
+              <i data-lucide="chevron-down"></i>
+            </button>
+
+            <div class="dropdown-menu">
+              <a href="#">Dari</a>
+              <a href="#">Arabic</a>
+            </div>
+          </div>
+
+          <!--The Mobile Menu Buttons-->
+          <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Open menu"
+          >
+            <i data-lucide="menu"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!--The Search Overlay Section-->
+
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-box">
+        <button class="close-search" id="closeSearch" aria-label="Close search">
+          <i data-lucide="x"></i>
+        </button>
+
+        <h2>Search Beauty Products</h2>
+
+        <div class="search-input-wrapper">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for products..."
+          />
+          <button id="searchSubmit">
+            Search
+
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+
+        <p id="searchMessage"></p>
+      </div>
+    </div>
+
+    <!--The Mobile Navbar-->
+    <div class="mobile-menu" id="mobileMenu">
+      <button class="mobile-close" id="mobileClose">
+        <i data-lucide="x"></i>
+      </button>
+
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">New Arrivals</a>
+      <a href="#">Brands</a>
+      <a href="#">Collections</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <main>
+      <!--Hero Section-->
+
+      <section class="hero-section">
+        <div class="hero-container">
+          <!--Left side content-->
+          <div class="hero-content">
+            <p class="hero-small-title">
+              BE CONFIDENT. BE BEAUTIFUL.
+
+              <span>✦</span>
+            </p>
+
+            <h1>
+              Beauty That
+              <br />
+              <em>Defines</em> You
+            </h1>
+
+            <p class="hero-description">
+              Premium cosmetics crafted to enhance
+              <br />
+              your natural beauty and boost yor confidence.
+            </p>
+
+            <div class="hero-buttons">
+              <a href="#products" class="btn btn-primary">
+                Shop Now
+                <i data-lucide="arrow-right"></i>
+              </a>
+
+              <a href="#collections" class="btn btn-outline">
+                Explore Collection
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+
+            <!--Benefits-->
+            <div class="hero-benefits">
+              <div class="benefit">
+                <div class="benefit-icon">
+                  <i data-lucide="leaf"></i>
+                </div>
+                <div>
+                  <strong>Clean &amp; Safe</strong>
+                  <small>High quality ingredients</small>
+                </div>
+              </div>
+              <div class="benefit">
+                <div class="benefit-icon">
+                  <i data-lucide="heart"></i>
+                </div>
+                <div>
+                  <strong>Cruelty Free</strong>
+                  <small>We love makeup</small>
+                </div>
+              </div>
+
+              <div class="benefit">
+                <div class="benefit-icon">
+                  <i data-lucide="shield-check"></i>
+                </div>
+
+                <div>
+                  <strong>Secure Payment</strong>
+                  <small>100% protected</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Hero Image-->
+          <div class="hero-image">
+            <img
+              src="images/hero.jpg"
+              alt="Eve Beauty model with beauty products"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!--catagories Section-->
+
+      <section class="categories-section">
+        <div class="container">
+          <div class="categories">
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/face.jpg" alt="Face" />
+              </div>
+              <span>Face</span>
+            </a>
+
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/makeup.jpg" alt="Makeup" />
+              </div>
+
+              <span>Makeup</span>
+            </a>
+
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/skincare.jpg" alt="Skincare" />
+              </div>
+              <span>Skincare</span>
+            </a>
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/fragrance.jpg" alt="Fragrance" />
+              </div>
+              <span>Fragrance</span>
+            </a>
+
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/hair.jpg" alt="Hair Care" />
+              </div>
+              <span>Hair Care</span>
+            </a>
+
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/brushes.jpg" alt="Brushes" />
+              </div>
+              <span>Brushes &amp; Tools</span>
+            </a>
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/bath.jpg" alt="Bath and Body" />
+              </div>
+
+              <span>Bath &amp; Body</span>
+            </a>
+
+            <a href="#" class="category-item">
+              <div class="category-image">
+                <img src="images/men.jpg" alt="Men's Care" />
+              </div>
+              <span>Men's Care</span>
+            </a>
+
+            <a href="#" class="discover-categories">
+              <span>Discover All</span>
+              <strong>Categories</strong>
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!--Collections Section-->
+
+      <section class="collection-section" id="collections">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Shop By Collection</h2>
+            <div class="slider-arrows">
+              <button class="collection-prev">
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <button class="collection-next">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="collection-grid">
+            <article class="collection-card">
+              <div class="collection-details">
+                <span>Bestsellers</span>
+                <h3>Customer favorites</h3>
+
+                <a href="#">
+                  Shop Now
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+              <img src="images/bestsellers.jpg" alt="Bestseller collection" />
+            </article>
+
+            <article class="collection-card">
+              <div class="collection-details">
+                <span>New In</span>
+
+                <h3>Fresh arrivals</h3>
+
+                <a href="#">
+                  Shop Now
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+              <img src="images/fresh-arrivals.jpg" alt="New collection" />
+            </article>
+
+            <article class="collection-card">
+              <div class="collection-details">
+                <span>Luxury Sets</span>
+                <h3>Complete beauty</h3>
+                <a href="#">
+                  Shop Now
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+              <img src="images/luxury.jpg" alt="Luxury collection" />
+            </article>
+
+            <article class="collection-card">
+              <div class="collection-details">
+                <span>Mini Must-Haves</span>
+                <h3>Small size, big impact</h3>
+
+                <a href="#">
+                  Shop Now
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+
+              <img src="images/mini-collection.jpg" alt="Mini collection" />
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!--Products Section-->
+      <section class="products-section" id="products">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Popular Picks For You</h2>
+
+            <a href="#" class="view-all">
+              View All Products
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="products-wrapper">
+            <button class="product-arrow product-prev">
+              <i data-lucide="chevron-left"></i>
+            </button>
+
+            <div class="products-grid" id="productsGrid">
+              <!--First Product-->
+
+              <article class="product-card">
+                <div class="product-pic">
+                  <span class="product-badge">Bestseller</span>
+
+                  <button class="favoritelist">
+                    <i data-lucide="heart"></i>
+                  </button>
+
+                  <img src="images/perfume.jpg" alt="Eve Eau de Parfum" />
+                </div>
+                <div class="product-information">
+                  <h3>Eve Eau de Parfum</h3>
+                  <span class="product-size">100ml</span>
+
+                  <div class="rating">
+                    ★★★★★
+                    <small>(128)</small>
+                  </div>
+
+                  <div class="product-bottom">
+                    <strong> $90.00 </strong>
+
+                    <button class="add-cart" aria-label="Add perform to cart">
+                      <i data-lucide="shopping-bag"></i>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!--Second Product-->
+              <article class="product-card">
+                <div class="product-pic">
+                  <button class="favoritelist">
+                    <i data-lucide="heart"></i>
+                  </button>
+
+                  <img src="images/lipstick.jpg" alt="Velvet Matte Lipstick" />
+                </div>
+
+                <div class="product-information">
+                  <h3>Velvet Matte Lipstick</h3>
+
+                  <span class="product-size"> Various Shades</span>
+
+                  <div class="rating">
+                    ★★★★★
+                    <small>(96)</small>
+                  </div>
+
+                  <div class="product-bottom">
+                    <strong> $32.00 </strong>
+                    <button class="add-cart">
+                      <i data-lucide="shopping-bag"></i>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!--Third Product-->
+
+              <article class="product-card">
+                <div class="product-pic">
+                  <span class="discount-badge"> -25% </span>
+
+                  <button class="favoritelist">
+                    <i data-lucide="heart"></i>
+                  </button>
+
+                  <img src="images/foundation.jpg" alt="Flawless Foundation" />
+                </div>
+
+                <div class="product-information">
+                  <h3>Flawless Foundation</h3>
+
+                  <span class="product-size">35ml</span>
+
+                  <div class="rating">
+                    ★★★★★
+                    <small>(76)</small>
+                  </div>
+
+                  <div class="product-bottom">
+                    <div>
+                      <strong>$28.00</strong>
+                      <del>$35.00</del>
+                    </div>
+                    <button class="add-cart">
+                      <i data-lucide="shopping-bag"></i>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Fourth Product -->
+
+              <article class="product-card">
+                <div class="product-pic">
+                  <button class="favoritelist">
+                    <i data-lucide="heart"></i>
+                  </button>
+
+                  <img
+                    src="images/eyeshadow.jpg"
+                    alt="Soft Glam Eyeshadow Palette"
+                  />
+                </div>
+                <div class="product-information">
+                  <h3>Soft Glam Eyeshadow Palette</h3>
+
+                  <span class="product-size"> Palette </span>
+
+                  <div class="rating">
+                    ★★★★★
+                    <small>(112)</small>
+                  </div>
+
+                  <div class="product-bottom">
+                    <strong>$49.00</strong>
+
+                    <button class="add-cart">
+                      <i data-lucide="shopping-bag"></i>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!--Fifth Product -->
+
+              <article class="product-card">
+                <div class="product-pic">
+                  <span class="discount-badge"> -15% </span>
+
+                  <button class="favoritelist">
+                    <i data-lucide="heart"></i>
+                  </button>
+
+                  <img src="images/serum.jpg" alt="Radiance Facial Serum" />
+                </div>
+
+                <div class="product-information">
+                  <h3>Radiance Facial Serum</h3>
+
+                  <span class="product-size"> 30ml </span>
+
+                  <div class="rating">
+                    ★★★★★
+                    <small>(88)</small>
+                  </div>
+
+                  <div class="product-bottom">
+                    <div>
+                      <strong>$45.00</strong>
+                      <del>$52.00</del>
+                    </div>
+
+                    <button class="add-cart">
+                      <i data-lucide="shopping-bag"></i>
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Sixth Product-->
+
+              <article class="product-card">
+                <div class="product-pic">
+                  <button class="favoritelist">
+                    <i data-lucide="heart"></i>
+                  </button>
+
+                  <img
+                    src="images/mascara.jpg"
+                    alt="Volume Mascara Waterproof"
+                  />
+                </div>
+
+                <div class="product-information">
+                  <h3>Volume Mascara Waterproof</h3>
+
+                  <span class="product-size"> 10ml </span>
+
+                  <div class="rating">
+                    ★★★★★
+                    <small>(54)</small>
+                  </div>
+
+                  <div class="product-bottom">
+                    <strong>$20.00</strong>
+
+                    <button class="add-cart">
+                      <i data-lucide="shopping-bag"></i>
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <button class="product-arrow product-next">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!--Benefits Section-->
+
+      <section class="benefits-sec">
+        <div class="container">
+          <div class="benefits-grid">
+            <div class="large-benefit">
+              <div class="benefit-large-icon">
+                <i data-lucide="leaf"></i>
+              </div>
+              <div>
+                <h3>Vegan Ingredients</h3>
+
+                <p>
+                  Gentle on skin,
+                  <br />
+                  kind to nature
+                </p>
+              </div>
+            </div>
+            <div class="large-benefit">
+              <div class="benefit-large-icon">
+                <i data-lucide="flower-2"></i>
+              </div>
+
+              <div>
+                <h3>Dermatologist Tested</h3>
+
+                <p>
+                  Safe &amp; effective for
+                  <br />
+                  all skin types
+                </p>
+              </div>
+            </div>
+            <div class="large-benefit">
+              <div class="benefit-large-icon">
+                <i data-lucide="badge-check"></i>
+              </div>
+
+              <div>
+                <h3>Premium Quality</h3>
+
+                <p>
+                  Luxury products,
+                  <br />
+                  trusted results
+                </p>
+              </div>
+            </div>
+            <div class="large-benefit">
+              <div class="benefit-large-icon">
+                <i data-lucide="truck"></i>
+              </div>
+
+              <div>
+                <h3>Worldwide Shipping</h3>
+
+                <p>
+                  Delivering beauty
+                  <br />
+                  everywhere
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--NewsLetter Section-->
+
+      <section class="newsletter-sec">
+        <div class="container">
+          <div class="news-letter">
+            <div class="newsletter-pic">
+              <img src="images/newsletter.jpg" alt="Eve Beauty products" />
+            </div>
+
+            <div class="newsletter-details">
+              <h2>Stay Beautiful, Every Day</h2>
+
+              <p>
+                Join our newsletter for exclusive offers,
+                <br />
+                new arrivals, and beauty tips.
+              </p>
+
+              <form class="newsletter-form" id="newsletterForm">
+                <input
+                  type="email"
+                  id="emailInput"
+                  placeholder="Enter your email"
+                  required
+                />
+
+                <button type="submit">
+                  Subscribe Now
+
+                  <i data-lucide="arrow-right"></i>
+                </button>
+              </form>
+
+              <p id="newsletterMessage"></p>
+            </div>
+
+            <div class="newsletter-design">
+              <i data-lucide="flower-2"></i>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!--Footer Section-->
+
+    <footer class="footer-sec">
+      <div class="container">
+        <div class="footer-grid">
+          <!--The Brand Part-->
+
+          <div class="brand-part">
+            <a href="#" class="brand-logo">
+              <span>EVE</span>
+              <small>BEAUTY</small>
+            </a>
+
+            <p>
+              Premium cosmetics for every
+              <br />
+              beauty, every day.
+            </p>
+
+            <div class="social-url">
+              <a href="#" aria-label="Instagram">
+                <i data-lucide="instagram"></i>
+              </a>
+
+              <a href="#" aria-label="Facebook">
+                <i data-lucide="facebook"></i>
+              </a>
+
+              <a href="#" aria-label="LinkedIn">
+                <i data-lucide="linkedIn"></i>
+              </a>
+
+              <a href="#" aria-label="Youtube">
+                <i data-lucide="youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <!--Shop Part-->
+
+          <div class="footer-column">
+            <h3>Shop</h3>
+
+            <ul>
+              <li><a href="#">All Products</a></li>
+              <li><a href="#">Best Sellers</a></li>
+              <li><a href="#">New Arrivals</a></li>
+              <li><a href="#">Special Offers</a></li>
+              <li><a href="#">Gift Cards</a></li>
+            </ul>
+          </div>
+
+          <!--Customer Part-->
+          <div class="footer-column">
+            <h3>Customer Service</h3>
+
+            <ul>
+              <li><a href="#">Track Order</a></li>
+              <li><a href="#">Shipping &amp; Delivery</a></li>
+              <li><a href="#">Returns &amp; Refunds</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Contuct us</a></li>
+            </ul>
+          </div>
+
+          <!-- Information Part-->
+
+          <div class="footer-column">
+            <h3>Information</h3>
+
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Our Brands</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms &amp; Conditions</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+
+          <!--Contact Part-->
+
+          <div class="footer-column contact-column">
+            <h3>Contact Us</h3>
+
+            <ul>
+              <li>
+                <i data-lucide="mail"></i>
+                Support@evebeauty.com
+              </li>
+
+              <li>
+                <i data-lucide="phone"></i>
+                +93 (79) 2126-795
+              </li>
+
+              <li>
+                <i data-lucide="clock-3"></i>
+                Mon - Fri: 9AM - 6PM EST
+              </li>
+
+              <li>
+                <i data-lucide="map-pin"></i>
+                Kabul, Afghanistan
+              </li>
+            </ul>
+          </div>
+
+          <!--Payment Part-->
+
+          <div class="payment-column">
+            <h3>We Accept</h3>
+
+            <div class="payment-system">
+              <span>VISA</span>
+              <span>MC</span>
+              <span>PayPal</span>
+              <span>Pay</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2024 Eve Beauty. All Rights Reserved.</p>
+
+          <div class="footer-bottom-url">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Refund Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!--Cart Alert-->
+
+    <div class="cart-alert" id="cartAlert">
+      <span class="cart-check">
+        <i data-lucide="check"></i>
+      </span>
+
+      <div>
+        <strong> Added to cart</strong>
+        <small>Your product was added successfully. </small>
+      </div>
+    </div>
+
+    <!--JavaScript URL-->
+
+    <script src="js/home.js"></script>
+  </body>
+</html>
