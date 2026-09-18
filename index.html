@@ -110,19 +110,22 @@
             >
               <i data-lucide="search"></i>
             </button>
+            <ul class="navbar-menu">
+              <li>
+                <button
+                  class="icon-button dropdown-toggle"
+                  id="accountButton"
+                  aria-label="Account"
+                >
+                  <i data-lucide="user-round"></i>
+                </button>
 
-            <button
-              class="icon-button dropdown-toggle"
-              id="accountButton"
-              aria-label="Account"
-            >
-              <i data-lucide="user-round"></i>
-            </button>
-            <div class="dropdown-menu">
-              <a href="#">Sign up</a>
-              <a href="#">Login</a>
-            </div>
-
+                <div class="dropdown-menu">
+                  <a href="#">Sign up</a>
+                  <a href="#">Login</a>
+                </div>
+              </li>
+            </ul>
             <button
               class="icon-button notification-button"
               id="favoritelistButton"
@@ -148,17 +151,18 @@
               <i data-lucide="sun" class="sun-icon"></i>
               <i data-lucide="moon" class="moon-icon"></i>
             </button>
-
-            <button class="language-button dropdown-toggle">
-              English
-              <i data-lucide="chevron-down"></i>
-            </button>
-
-            <div class="dropdown-menu">
-              <a href="#">Dari</a>
-              <a href="#">Arabic</a>
-              <a href="#">Chines</a>
-            </div>
+            <ul class="navbar-menu">
+              <li class="dropdown">
+                <button class="language-button dropdown-toggle">
+                  English
+                  <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a href="#">Arabic</a>
+                  <a href="#">Dari</a>
+                </div>
+              </li>
+            </ul>
           </div>
 
           <!--The Mobile Menu Buttons-->
@@ -744,9 +748,8 @@
               <h2>Stay Beautiful, Every Day</h2>
 
               <p>
-                Join our newsletter for exclusive offers,
-                <br />
-                new arrivals, and beauty tips.
+                Join our newsletter for exclusive offers, new arrivals, and
+                beauty tips.
               </p>
 
               <form class="newsletter-form" id="newsletterForm">

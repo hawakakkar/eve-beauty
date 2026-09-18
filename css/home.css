@@ -305,6 +305,10 @@ a svg {
   gap: 5px;
 }
 
+.language-button:hover {
+  color: var(--burgundy);
+}
+
 .language-button svg {
   width: 12px;
   height: 12px;
@@ -576,6 +580,69 @@ a svg {
   margin-top: 5px;
 }
 
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.section-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  font-family: var(--serif);
+
+  font-size: 28px;
+
+  font-weight: 600;
+
+  color: var(--text);
+}
+
+.slider-arrows {
+  display: flex;
+
+  gap: 7px;
+}
+
+.slider-arrows button,
+.product-arrow {
+  width: 31px;
+  height: 31px;
+
+  border-radius: 50%;
+
+  border: 2px solid var(--burgundy);
+
+  background: #ffffff;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--burgundy);
+
+  transition: var(--transition);
+}
+
+.slider-arrows button:hover,
+.product-arrow:hover {
+  background: var(--burgundy);
+
+  color: white;
+}
+
+.slider-arrows svg,
+.product-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
 /*Collection Section Styles*/
 
 .collection-section {
@@ -601,8 +668,8 @@ a svg {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  left: 90px;
+  object-fit: cover;
+
   z-index: 0;
 }
 
@@ -614,13 +681,13 @@ a svg {
 }
 
 .collection-details span {
-  font-size: 9px;
-  color: var(--burgundy);
+  font-size: 11px;
+  color: rgb(102, 98, 98);
 }
 
 .collection-details h3 {
   font-family: var(--serif);
-  font-size: 22px;
+  font-size: 18px;
   margin: 8px 0 17px;
 }
 
@@ -629,9 +696,13 @@ a svg {
   align-items: center;
   gap: 7px;
   font-size: 10px;
-  color: var(--burgundy);
+  color: var(--burgundy-dark);
+  font-weight: bold;
 }
 
+.collection-details a:hover {
+  color: white;
+}
 .collection-details svg {
   width: 13px;
   height: 13px;
@@ -819,11 +890,8 @@ a svg {
 }
 
 .product-arrow {
-  position: flex;
+  position: absolute;
   z-index: 10;
-  border-radius: 9px;
-  background: var(--burgundy);
-  color: white;
 }
 
 .product-prev {
@@ -892,32 +960,46 @@ a svg {
 }
 
 .news-letter {
-  min-height: 155px;
+  min-height: 250px;
   border-radius: 14px;
   overflow: hidden;
-  background: #f7e9e9;
-  display: grid;
-  grid-template-columns: 38% 62%;
   position: relative;
+
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(247, 233, 233, 0.15) 0%,
+      rgba(247, 233, 233, 0.35) 45%,
+      rgba(247, 233, 233, 0.9) 72%,
+      rgba(247, 233, 233, 0.98) 100%
+    ),
+    url("../images/newsletter.jpg");
+
+  background-size: cover;
+  background-position: center left;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
 }
 
 .newsletter-pic {
-  overflow: hidden;
-}
-
-.newsletter-pic img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: none;
 }
 
 .newsletter-details {
-  padding: 28px 35px;
+  position: relative;
+  z-index: 2;
+  margin-left: auto;
+  width: 62%;
+  padding: 25px 35px;
+  left: 100px;
 }
 
 .newsletter-details h2 {
   font-family: var(--serif);
   font-size: 27px;
+  margin: 0;
 }
 
 .newsletter-details p {
@@ -938,7 +1020,7 @@ a svg {
   border: 1px solid #d8c4c6;
   padding: 0 13px;
   outline: none;
-  background: white;
+  background: rgba(255, 255, 255, 0.92);
   font-size: 10px;
 }
 
@@ -948,9 +1030,11 @@ a svg {
   background: var(--burgundy);
   color: white;
   padding: 0 17px;
+
   display: flex;
   align-items: center;
   gap: 8px;
+
   font-size: 10px;
 }
 
@@ -968,6 +1052,7 @@ a svg {
   right: 20px;
   bottom: 12px;
   opacity: 0.45;
+  z-index: 2;
 }
 
 .newsletter-design svg {
