@@ -140,12 +140,12 @@ a svg {
 
 .sit-logo-main {
   font-family: var(--serif);
-  font-size: 28px;
+  font-size: 40px;
   letter-spacing: 5px;
 }
 
 .sit-logo-sub {
-  font-size: 7px;
+  font-size: 12px;
   letter-spacing: 4px;
   margin-top: 4px;
 }
@@ -164,7 +164,7 @@ a svg {
   border: 0;
   background: transparent;
   color: var(--black);
-  font-size: 12px;
+  font-size: 16px;
   padding: 28px 0;
   display: flex;
   align-items: center;
@@ -200,7 +200,7 @@ a svg {
 .dropdown-menu {
   position: absolute;
 
-  top: 72px;
+  top: 60px;
   left: -15px;
 
   width: 190px;
@@ -248,7 +248,7 @@ a svg {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 25px;
 }
 
 .icon-button,
@@ -272,8 +272,8 @@ a svg {
 
 .icon-button svg,
 .theme-toggle svg {
-  width: 19px;
-  height: 19px;
+  width: 23px;
+  height: 23px;
 }
 
 .notification-button small {
@@ -296,13 +296,16 @@ a svg {
 }
 
 .language-button {
+  position: relative;
   border: 0;
   background: transparent;
   color: var(--black);
-  font-size: 11px;
+  font-size: 16px;
+  padding: 28px 0;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  transition: color 0.25s ease;
 }
 
 .language-button:hover {
@@ -310,8 +313,91 @@ a svg {
 }
 
 .language-button svg {
-  width: 12px;
-  height: 12px;
+  width: 15px;
+  height: 15px;
+}
+
+/* =========================================================
+   PROFILE AVATAR
+   ========================================================= */
+
+.profile-avatar {
+  width: 40px !important;
+  height: 40px !important;
+
+  min-width: 40px !important;
+  min-height: 40px !important;
+
+  max-width: 40px !important;
+  max-height: 40px !important;
+
+  display: none;
+  margin-right: 20px;
+
+  border-radius: 50% !important;
+
+  object-fit: cover !important;
+  object-position: center !important;
+
+  flex-shrink: 0 !important;
+
+  border: 2px solid var(--burgundy);
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================================
+   PROFILE INFORMATION
+   ========================================================= */
+
+.profile-info {
+  display: none;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  padding: 12px 16px;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.profile-info strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-info small {
+  font-size: 11px;
+  opacity: 0.65;
+}
+
+/* =========================================================
+   LOGOUT BUTTON
+   ========================================================= */
+
+#logoutButton {
+  display: none;
+
+  width: 100%;
+
+  padding: 10px 16px;
+
+  border: none;
+
+  background: transparent;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+#logoutButton:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /*Mobile Menu Button*/
@@ -400,9 +486,10 @@ a svg {
 
 .hero-small-title {
   color: var(--burgundy);
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   margin-bottom: 18px;
+  margin-left: 6px;
 }
 
 .hero-small-title span {
@@ -428,7 +515,7 @@ a svg {
 .hero-description {
   margin-top: 25px;
   max-width: 410px;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.7;
   color: #493e40;
 }
@@ -452,8 +539,8 @@ a svg {
 }
 
 .btn svg {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 }
 
 .btn-primary {
@@ -521,7 +608,7 @@ a svg {
 }
 
 .categories {
-  min-height: 125px;
+  min-height: 180px;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 3px 15px rgba(50, 20, 30, 0.05);
@@ -539,13 +626,13 @@ a svg {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
+  font-size: 12px;
   text-align: center;
 }
 
 .category-image {
-  width: 90px;
-  height: 85px;
+  width: 100px;
+  height: 95px;
   border-radius: 50%;
   overflow: hidden;
   background: #f9eded;
@@ -567,7 +654,7 @@ a svg {
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .discover-categories strong {
@@ -681,7 +768,7 @@ a svg {
 }
 
 .collection-details span {
-  font-size: 11px;
+  font-size: 12px;
   color: rgb(102, 98, 98);
 }
 
@@ -695,7 +782,7 @@ a svg {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--burgundy-dark);
   font-weight: bold;
 }
@@ -716,7 +803,7 @@ a svg {
 
 .view-all {
   color: var(--burgundy);
-  font-size: 10px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   gap: 7px;
@@ -808,7 +895,7 @@ a svg {
   border-radius: 8px;
   background: var(--burgundy);
   color: white;
-  font-size: 7px;
+  font-size: 10px;
 }
 
 .discount-badge {
@@ -820,7 +907,7 @@ a svg {
 }
 
 .product-information h3 {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
   min-height: 28px;
@@ -833,7 +920,7 @@ a svg {
 
   color: #8a7d7f;
 
-  font-size: 8px;
+  font-size: 12px;
 }
 
 .rating {
@@ -943,13 +1030,13 @@ a svg {
 }
 
 .large-benefit h3 {
-  font-size: 11px;
+  font-size: 13px;
   margin-bottom: 5px;
 }
 
 .large-benefit p {
   color: #7f7375;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.5;
 }
 
@@ -998,13 +1085,13 @@ a svg {
 
 .newsletter-details h2 {
   font-family: var(--serif);
-  font-size: 27px;
+  font-size: 30px;
   margin: 0;
 }
 
 .newsletter-details p {
   margin-top: 7px;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -1017,13 +1104,16 @@ a svg {
 .newsletter-form input {
   flex: 1;
   height: 36px;
-  border: 1px solid #d8c4c6;
+  border: 1px solid var(--burgundy-dark);
   padding: 0 13px;
   outline: none;
   background: rgba(255, 255, 255, 0.92);
-  font-size: 10px;
+  font-size: 12px;
 }
 
+.newsletter-form input:focus {
+  outline: none !important;
+}
 .newsletter-form button {
   height: 36px;
   border: 0;
@@ -1035,7 +1125,7 @@ a svg {
   align-items: center;
   gap: 8px;
 
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .newsletter-form button svg {
@@ -1085,12 +1175,12 @@ a svg {
 
 .brand-logo span {
   font-family: var(--serif);
-  font-size: 29px;
+  font-size: 34px;
   letter-spacing: 4px;
 }
 
 .brand-logo small {
-  font-size: 7px;
+  font-size: 12px;
   letter-spacing: 3px;
   text-align: center;
   margin-top: 4px;
@@ -1098,7 +1188,7 @@ a svg {
 
 .brand-part p {
   margin-top: 12px;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.6;
 }
 
@@ -1119,13 +1209,13 @@ a svg {
 }
 
 .social-url svg {
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
 }
 
 .footer-column h3,
 .payment-column h3 {
-  font-size: 10px;
+  font-size: 14px;
   margin-bottom: 12px;
 }
 
@@ -1135,7 +1225,7 @@ a svg {
 
 .footer-column li {
   margin-bottom: 8px;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .footer-column a:hover {
@@ -1149,8 +1239,8 @@ a svg {
 }
 
 .contact-column svg {
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
   color: var(--burgundy);
 }
 
@@ -1165,7 +1255,7 @@ a svg {
   border: 1px solid #ded3d4;
   padding: 7px 8px;
   border-radius: 4px;
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .footer-bottom {
@@ -1179,7 +1269,7 @@ a svg {
 }
 
 .footer-bottom p {
-  font-size: 8px;
+  font-size: 11px;
 }
 
 .footer-bottom-url {
@@ -1190,7 +1280,7 @@ a svg {
 }
 
 .footer-bottom-url a {
-  font-size: 8px;
+  font-size: 11px;
 }
 
 /* The Search Overlay Styles*/
@@ -1245,6 +1335,9 @@ a svg {
   border: 1px solid var(--border);
   padding: 0 13px;
   outline: none;
+}
+.search-input-wrapper input:focus {
+  outline: none !important;
 }
 
 .search-input-wrapper button {
@@ -1357,11 +1450,11 @@ body.dark-mode .navbar-link:hover,
 body.dark-mode .navbar-link.active,
 body.dark-mode .icon-button:hover,
 body.dark-mode .theme-toggle:hover {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 body.dark-mode .navbar-link.active::after {
-  background: #d97986;
+  background: var(--burgundy);
 }
 
 /*Dropdown Dark Mode*/
@@ -1377,7 +1470,7 @@ body.dark-mode .dropdown-menu a {
 
 body.dark-mode .dropdown-menu a:hover {
   background: #302126;
-  color: #e2a0a9;
+  color: var(--burgundy);
 }
 
 /*Hero Section Dark Mode*/
@@ -1408,11 +1501,11 @@ body.dark-mode .hero h1 {
 }
 
 body.dark-mode .hero h1 em {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 body.dark-mode .hero-small-title {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 body.dark-mode .hero-description {
@@ -1428,11 +1521,11 @@ body.dark-mode .benefit small {
 }
 
 body.dark-mode .benefit-icon {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 body.dark-mode .btn-outline {
-  border-color: #d97986;
+  border-color: var(--burgundy);
 
   color: #f1c2c8;
 
@@ -1457,7 +1550,7 @@ body.dark-mode .category-image {
 }
 
 body.dark-mode .discover-categories strong {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 /*Heading Dark Mode*/
@@ -1470,7 +1563,7 @@ body.dark-mode .slider-arrows button,
 body.dark-mode .product-arrow {
   background: #251d20;
   border-color: #49383b;
-  color: #d97986;
+  color: var(--burgundy);
 }
 body.dark-mode .slider-arrows button:hover,
 body.dark-mode .product-arrow:hover {
@@ -1490,7 +1583,7 @@ body.dark-mode .collection-details h3 {
 
 body.dark-mode .collection-details span,
 body.dark-mode .collection-details a {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 /*Product Dark Mode8*/
@@ -1527,11 +1620,11 @@ body.dark-mode .product-bottom del {
 body.dark-mode .favoritelist {
   background: rgba(35, 27, 30, 0.92);
 
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 body.dark-mode .favoritelist.active svg {
-  fill: #d97986;
+  fill: var(--burgundy);
 }
 
 /*Benefits Dark Mode*/
@@ -1544,7 +1637,7 @@ body.dark-mode .large-benefit {
 }
 
 body.dark-mode .benefit-large-icon {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 body.dark-mode .large-benefit h3 {
@@ -1556,16 +1649,13 @@ body.dark-mode .large-benefit p {
 }
 
 /*Newsletter Dark Mode*/
-body.dark-mode .news-letter {
-  background: #2b2023;
-}
 
 body.dark-mode .newsletter-details h2 {
-  color: #f8edef;
+  color: #0e0d0d;
 }
 
-body.dark-mode .newsletter-detailst p {
-  color: #cbbabd;
+body.dark-mode .newsletter-details p {
+  color: #1a0106;
 }
 
 body.dark-mode .newsletter-form input {
@@ -1581,7 +1671,7 @@ body.dark-mode .newsletter-form input::placeholder {
 }
 
 body.dark-mode #newsletterMessage {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 /*Footer Dark Mode*/
@@ -1601,7 +1691,7 @@ body.dark-mode .social-url a {
 }
 
 body.dark-mode .contact-column svg {
-  color: #d97986;
+  color: var(--burgundy);
 }
 
 body.dark-mode .payment-system span {

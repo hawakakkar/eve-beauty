@@ -111,18 +111,36 @@
               <i data-lucide="search"></i>
             </button>
             <ul class="navbar-menu">
-              <li>
+              <li class="dropdown">
                 <button
                   class="icon-button dropdown-toggle"
                   id="accountButton"
                   aria-label="Account"
+                  type="button"
                 >
-                  <i data-lucide="user-round"></i>
+                  <i data-lucide="user-round" id="accountUserIcon"></i>
+
+                  <img
+                    id="profileAvatar"
+                    class="profile-avatar"
+                    src=""
+                    alt="Profile"
+                  />
                 </button>
 
-                <div class="dropdown-menu">
-                  <a href="#">Sign up</a>
-                  <a href="#">Login</a>
+                <div class="dropdown-menu" id="accountDropdown">
+                  <a href="signup.html" id="signupAccountLink"> Sign up </a>
+
+                  <a href="login.html" id="loginAccountLink"> Login </a>
+
+                  <div id="profileInfo" class="profile-info">
+                    <strong id="profileName"></strong>
+                    <small id="profileEmail"></small>
+                  </div>
+
+                  <a href="profile.html" id="profileLink"> My Profile </a>
+
+                  <button type="button" id="logoutButton">Logout</button>
                 </div>
               </li>
             </ul>
@@ -158,8 +176,8 @@
                   <i data-lucide="chevron-down"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a href="#">Arabic</a>
                   <a href="#">Dari</a>
+                  <a href="#">Arabic</a>
                 </div>
               </li>
             </ul>
@@ -927,5 +945,6 @@
     <!--JavaScript URL-->
 
     <script src="js/home.js"></script>
+    <script src="js/profile.js"></script>
   </body>
 </html>

@@ -217,12 +217,6 @@ newsletterForm?.addEventListener("submit", (event) => {
   emailInput.value = "";
 });
 
-/*Account Button Section*/
-const accountButton = document.getElementById("accountButton");
-accountButton?.addEventListener("click", () => {
-  alert("Welcome to Eve Beauty. Account feature comming soon.");
-});
-
 /*Cart Button*/
 const cartButton = document.getElementById("cartButton");
 
