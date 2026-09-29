@@ -21,179 +21,20 @@
     <!-- Lucide Icons links -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
     <!-- CSS link-->
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/navbar.css" />
+    <link rel="stylesheet" href="css/footer.css" />
   </head>
-  <body>
-    <!--The Top Bar codes-->
-    <div class="top-bar">
-      <div class="top-item">
-        <i data-lucide="truck"></i>
-        <span>Free shipping on orders over $50</span>
-      </div>
-
-      <div class="top-item">
-        <i data-lucide="gift"></i>
-        <span>Exclusiveoffers for members</span>
-      </div>
-      <div class="top-item">
-        <i data-lucide="rotate-ccw"></i>
-        <span>Easy returns within 15 days</span>
-      </div>
-    </div>
-
-    <!--header codes-->
-    <header class="eve-header">
-      <nav class="navbar">
-        <div class="navbar-container">
-          <!--My Logo-->
-
-          <a href="#" class="my-logo">
-            <span class="sit-logo-main">EVE</span>
-            <span class="sit-logo-sub">BEAUTY</span>
-          </a>
-          <!--The desktop navbar-->
-          <ul class="navbar-menu">
-            <li>
-              <a href="#" class="navbar-link active">Home</a>
-            </li>
-
-            <li class="dropdown">
-              <button class="navbar-link dropdown-toggle">
-                Shop
-                <i data-lucide="chevron-down"></i>
-              </button>
-
-              <div class="dropdown-menu">
-                <a href="#">Face</a>
-                <a href="#">Makeup</a>
-                <a href="#">Skincare</a>
-                <a href="#">Fragrance</a>
-                <a href="#">Hair Care</a>
-              </div>
-            </li>
-            <li>
-              <a href="#" class="navbar-link">New Arivals</a>
-            </li>
-
-            <li>
-              <a href="#" class="navbar-link">Brands</a>
-            </li>
-            <li class="dropdown">
-              <button class="navbar-link dropdown-toggle">
-                Collections
-                <i data-lucide="chevron-down"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a href="#">BestSellers</a>
-                <a href="#">New Collection</a>
-                <a href="#">Luxury Sets</a>
-                <a href="#">Mini Must-Haves</a>
-              </div>
-            </li>
-
-            <li>
-              <a href="#" class="navbar-link">About Us</a>
-            </li>
-            <li>
-              <a href="#" class="navbar-link">Contact</a>
-            </li>
-          </ul>
-
-          <!--Right Side of Navbar-->
-
-          <div class="right-navbar">
-            <button
-              class="icon-button search-button"
-              id="searchButton"
-              aria-label="Search"
-            >
-              <i data-lucide="search"></i>
-            </button>
-            <ul class="navbar-menu">
-              <li class="dropdown">
-                <button
-                  class="icon-button dropdown-toggle"
-                  id="accountButton"
-                  aria-label="Account"
-                  type="button"
-                >
-                  <i data-lucide="user-round" id="accountUserIcon"></i>
-
-                  <img
-                    id="profileAvatar"
-                    class="profile-avatar"
-                    src=""
-                    alt="Profile"
-                  />
-                </button>
-
-                <div class="dropdown-menu" id="accountDropdown">
-                  <a href="signup.html" id="signupAccountLink"> Sign up </a>
-
-                  <a href="login.html" id="loginAccountLink"> Login </a>
-
-                  <div id="profileInfo" class="profile-info">
-                    <strong id="profileName"></strong>
-                    <small id="profileEmail"></small>
-                  </div>
-
-                  <a href="profile.html" id="profileLink"> My Profile </a>
-
-                  <button type="button" id="logoutButton">Logout</button>
-                </div>
-              </li>
-            </ul>
-            <button
-              class="icon-button notification-button"
-              id="favoritelistButton"
-              aria-label="favoritelist"
-            >
-              <i data-lucide="heart"></i>
-              <small id="favoritelistCount">0</small>
-            </button>
-
-            <button
-              class="icon-button notification-button"
-              id="cartButton"
-              aria-label="Shopping bag"
-            >
-              <i data-lucide="Shopping-bag"></i>
-              <small id="cartCount">0</small>
-            </button>
-            <button
-              id="themeToggle"
-              class="theme-toggle"
-              aria-label="Toggle theme"
-            >
-              <i data-lucide="sun" class="sun-icon"></i>
-              <i data-lucide="moon" class="moon-icon"></i>
-            </button>
-            <ul class="navbar-menu">
-              <li class="dropdown">
-                <button class="language-button dropdown-toggle">
-                  English
-                  <i data-lucide="chevron-down"></i>
-                </button>
-                <div class="dropdown-menu">
-                  <a href="#">Dari</a>
-                  <a href="#">Arabic</a>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <!--The Mobile Menu Buttons-->
-          <button
-            class="mobile-menu-button"
-            id="mobileMenuButton"
-            aria-label="Open menu"
-          >
-            <i data-lucide="menu"></i>
-          </button>
-        </div>
-      </nav>
-    </header>
+  <body class="home-page">
+    <!-- Navbar Component -->
+    <div id="navbar-container"></div>
 
     <!--The Search Overlay Section-->
 
@@ -228,12 +69,12 @@
         <i data-lucide="x"></i>
       </button>
 
-      <a href="#">Home</a>
-      <a href="#">Shop</a>
-      <a href="#">New Arrivals</a>
-      <a href="#">Brands</a>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="shop.html">Shop</a>
+      <a href="new-arrivals.html">New Arrivals</a>
+      <a href="brands.html">Brands</a>
       <a href="#">Collections</a>
-      <a href="#">About Us</a>
       <a href="#">Contact</a>
     </div>
 
@@ -384,6 +225,43 @@
               <strong>Categories</strong>
               <i data-lucide="arrow-right"></i>
             </a>
+          </div>
+        </div>
+      </section>
+
+      <!--About EVE Beauty Section-->
+
+      <section class="about-eve-section">
+        <div class="container">
+          <div class="about-eve-wrapper">
+            <div class="about-eve-image">
+              <img
+                src="assets/images/about-us1.jpg"
+                alt="Eve Beauty products"
+              />
+            </div>
+
+            <div class="about-eve-content">
+              <span class="about-eve-label">OUR STORY</span>
+
+              <h2>About EVE Beauty</h2>
+
+              <p>
+                At EVE Beauty, we believe beauty is more than makeup. It is
+                about confidence, self-expression, and feeling beautiful in your
+                own way.
+              </p>
+
+              <p>
+                We carefully select premium beauty products that combine
+                quality, elegance, and everyday beauty.
+              </p>
+
+              <a href="#" class="about-eve-button">
+                Discover Our Story
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -685,6 +563,203 @@
         </div>
       </section>
 
+      <!-- ============================= -->
+      <!-- SPECIAL OCCASIONS DISCOUNT -->
+      <!-- ============================= -->
+
+      <section class="special-occasions-section">
+        <div class="special-occasions-container">
+          <!-- LEFT CONTENT -->
+          <div class="special-occasions-content">
+            <span class="special-occasions-eyebrow"> EVE BEAUTY </span>
+
+            <h2>
+              Special Occasions
+              <span>Discount</span>
+            </h2>
+
+            <p class="special-occasions-description">
+              Celebrate every special moment with exclusive beauty offers.
+            </p>
+
+            <a href="offers.html" class="special-occasions-main-btn">
+              <span>View All Discounts</span>
+              <i data-lucide="arrow-right"></i>
+            </a>
+
+            <div class="special-occasions-features">
+              <div class="special-feature">
+                <div class="special-feature-icon">
+                  <i data-lucide="gift"></i>
+                </div>
+
+                <div>
+                  <strong>Exclusive</strong>
+                  <span>Offers</span>
+                </div>
+              </div>
+
+              <div class="special-feature">
+                <div class="special-feature-icon">
+                  <i data-lucide="heart"></i>
+                </div>
+
+                <div>
+                  <strong>Limited</strong>
+                  <span>Time</span>
+                </div>
+              </div>
+
+              <div class="special-feature">
+                <div class="special-feature-icon">
+                  <i data-lucide="sparkles"></i>
+                </div>
+
+                <div>
+                  <strong>Premium</strong>
+                  <span>Beauty</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT VISUAL -->
+          <div class="special-occasions-visual">
+            <div class="special-visual-glow"></div>
+
+            <div class="special-visual-decoration decoration-one"></div>
+            <div class="special-visual-decoration decoration-two"></div>
+
+            <img
+              src="assets/images/special-occasions.jpg"
+              alt="EVE Beauty Special Occasions"
+            />
+          </div>
+        </div>
+
+        <!-- OCCASION CARDS -->
+
+        <div class="special-occasions-cards">
+          <!-- NEW YEAR -->
+          <article class="occasion-card">
+            <div class="occasion-image">
+              <span class="occasion-discount">
+                UP TO
+                <strong>30%</strong>
+                OFF
+              </span>
+
+              <img src="assets/images/new-year.jpg" alt="New Year Beauty" />
+            </div>
+
+            <div class="occasion-info">
+              <h3>New Year</h3>
+
+              <p>Fresh Beauty, New Beginnings</p>
+
+              <span class="occasion-month"> — JANUARY — </span>
+            </div>
+          </article>
+
+          <!-- VALENTINE -->
+          <article class="occasion-card">
+            <div class="occasion-image">
+              <span class="occasion-discount">
+                UP TO
+                <strong>25%</strong>
+                OFF
+              </span>
+
+              <img src="assets/images/valentine.jpg" alt="Valentine Beauty" />
+            </div>
+
+            <div class="occasion-info">
+              <h3>Valentine's Day</h3>
+
+              <p>Love Yourself More</p>
+
+              <span class="occasion-month"> — FEBRUARY — </span>
+            </div>
+          </article>
+
+          <!-- EID -->
+          <article class="occasion-card">
+            <div class="occasion-image">
+              <span class="occasion-discount">
+                UP TO
+                <strong>30%</strong>
+                OFF
+              </span>
+
+              <img src="assets/images/eid.jpg" alt="Eid Beauty" />
+            </div>
+
+            <div class="occasion-info">
+              <h3>Eid</h3>
+
+              <p>Beauty for Your Celebrations</p>
+
+              <span class="occasion-month"> — APRIL — </span>
+            </div>
+          </article>
+
+          <!-- SPRING -->
+          <article class="occasion-card">
+            <div class="occasion-image">
+              <span class="occasion-discount">
+                UP TO
+                <strong>20%</strong>
+                OFF
+              </span>
+
+              <img src="assets/images/spring.jpg" alt="Spring Beauty" />
+            </div>
+
+            <div class="occasion-info">
+              <h3>Spring</h3>
+
+              <p>Fresh Season, Fresh You</p>
+
+              <span class="occasion-month"> — MARCH — </span>
+            </div>
+          </article>
+
+          <!-- CHRISTMAS -->
+          <article class="occasion-card">
+            <div class="occasion-image">
+              <span class="occasion-discount">
+                UP TO
+                <strong>35%</strong>
+                OFF
+              </span>
+
+              <img src="assets/images/christmas.jpg" alt="Christmas Beauty" />
+            </div>
+
+            <div class="occasion-info">
+              <h3>Christmas</h3>
+
+              <p>Make It More Beautiful</p>
+
+              <span class="occasion-month"> — DECEMBER — </span>
+            </div>
+          </article>
+        </div>
+
+        <!-- BOTTOM BUTTON -->
+
+        <div class="special-occasions-bottom">
+          <span></span>
+
+          <a href="offers.html">
+            View All Discounts
+            <i data-lucide="arrow-right"></i>
+          </a>
+
+          <span></span>
+        </div>
+      </section>
+
       <!--Benefits Section-->
 
       <section class="benefits-sec">
@@ -753,6 +828,153 @@
         </div>
       </section>
 
+      <!--Why Choose Us Section-->
+
+      <section class="why-choose-section">
+        <div class="container">
+          <div class="why-choose-heading">
+            <span>WHY EVE BEAUTY</span>
+
+            <h2>Why Choose Us?</h2>
+
+            <p>
+              Everything we do is designed to make your beauty experience
+              simple, safe, and special.
+            </p>
+          </div>
+
+          <div class="why-choose-list">
+            <div class="why-choose-item">
+              <div class="why-choose-icon">
+                <i data-lucide="sparkles"></i>
+              </div>
+
+              <h3>Carefully Selected</h3>
+
+              <p>We choose beauty products with quality and care.</p>
+            </div>
+
+            <div class="why-choose-item">
+              <div class="why-choose-icon">
+                <i data-lucide="heart"></i>
+              </div>
+
+              <h3>Beauty With Care</h3>
+
+              <p>Your beauty and satisfaction always come first.</p>
+            </div>
+
+            <div class="why-choose-item">
+              <div class="why-choose-icon">
+                <i data-lucide="shield-check"></i>
+              </div>
+
+              <h3>Safe Shopping</h3>
+
+              <p>Enjoy a secure and reliable shopping experience.</p>
+            </div>
+
+            <div class="why-choose-item">
+              <div class="why-choose-icon">
+                <i data-lucide="star"></i>
+              </div>
+
+              <h3>Premium Quality</h3>
+
+              <p>Beautiful products selected for beautiful results.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--Beauty Journal Section-->
+
+      <section class="beauty-journal-section">
+        <div class="container">
+          <div class="beauty-journal-heading">
+            <div>
+              <span>BEAUTY JOURNAL</span>
+              <h2>Beauty Tips &amp; Inspiration</h2>
+            </div>
+
+            <a href="#" class="journal-view-all">
+              View All
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="beauty-journal-grid">
+            <article class="beauty-journal-card">
+              <div class="beauty-journal-image">
+                <img
+                  src="assets/images/beauty-journal-skincare.jpg"
+                  alt="Skincare beauty tips"
+                />
+              </div>
+
+              <div class="beauty-journal-content">
+                <span>SKINCARE</span>
+
+                <h3>Simple Steps for Beautiful Skin</h3>
+
+                <p>
+                  Discover simple everyday habits for healthier-looking skin.
+                </p>
+
+                <a href="#">
+                  Read More
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <article class="beauty-journal-card">
+              <div class="beauty-journal-image">
+                <img
+                  src="assets/images/beauty-journal-makeup.jpg"
+                  alt="Makeup beauty tips"
+                />
+              </div>
+
+              <div class="beauty-journal-content">
+                <span>MAKEUP</span>
+
+                <h3>Everyday Makeup Made Easy</h3>
+
+                <p>Easy beauty ideas to create an effortless everyday look.</p>
+
+                <a href="#">
+                  Read More
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <article class="beauty-journal-card">
+              <div class="beauty-journal-image">
+                <img
+                  src="assets/images/beauty-journal-beauty.jpg"
+                  alt="Beauty inspiration"
+                />
+              </div>
+
+              <div class="beauty-journal-content">
+                <span>BEAUTY TIPS</span>
+
+                <h3>Little Beauty Secrets</h3>
+
+                <p>Small beauty tips that can make a beautiful difference.</p>
+
+                <a href="#">
+                  Read More
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <!--NewsLetter Section-->
 
       <section class="newsletter-sec">
@@ -795,156 +1017,11 @@
         </div>
       </section>
     </main>
-
-    <!--Footer Section-->
-
-    <footer class="footer-sec">
-      <div class="container">
-        <div class="footer-grid">
-          <!--The Brand Part-->
-
-          <div class="brand-part">
-            <a href="#" class="brand-logo">
-              <span>EVE</span>
-              <small>BEAUTY</small>
-            </a>
-
-            <p>
-              Premium cosmetics for every
-              <br />
-              beauty, every day.
-            </p>
-
-            <div class="social-url">
-              <a href="#" aria-label="Instagram">
-                <i data-lucide="instagram"></i>
-              </a>
-
-              <a href="#" aria-label="Facebook">
-                <i data-lucide="facebook"></i>
-              </a>
-
-              <a href="#" aria-label="LinkedIn">
-                <i data-lucide="linkedIn"></i>
-              </a>
-
-              <a href="#" aria-label="Youtube">
-                <i data-lucide="youtube"></i>
-              </a>
-            </div>
-          </div>
-
-          <!--Shop Part-->
-
-          <div class="footer-column">
-            <h3>Shop</h3>
-
-            <ul>
-              <li><a href="#">All Products</a></li>
-              <li><a href="#">Best Sellers</a></li>
-              <li><a href="#">New Arrivals</a></li>
-              <li><a href="#">Special Offers</a></li>
-              <li><a href="#">Gift Cards</a></li>
-            </ul>
-          </div>
-
-          <!--Customer Part-->
-          <div class="footer-column">
-            <h3>Customer Service</h3>
-
-            <ul>
-              <li><a href="#">Track Order</a></li>
-              <li><a href="#">Shipping &amp; Delivery</a></li>
-              <li><a href="#">Returns &amp; Refunds</a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Contuct us</a></li>
-            </ul>
-          </div>
-
-          <!-- Information Part-->
-
-          <div class="footer-column">
-            <h3>Information</h3>
-
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Our Brands</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms &amp; Conditions</a></li>
-              <li><a href="#">Careers</a></li>
-            </ul>
-          </div>
-
-          <!--Contact Part-->
-
-          <div class="footer-column contact-column">
-            <h3>Contact Us</h3>
-
-            <ul>
-              <li>
-                <i data-lucide="mail"></i>
-                Support@evebeauty.com
-              </li>
-
-              <li>
-                <i data-lucide="phone"></i>
-                +93 (79) 2126-795
-              </li>
-
-              <li>
-                <i data-lucide="clock-3"></i>
-                Mon - Fri: 9AM - 6PM EST
-              </li>
-
-              <li>
-                <i data-lucide="map-pin"></i>
-                Kabul, Afghanistan
-              </li>
-            </ul>
-          </div>
-
-          <!--Payment Part-->
-
-          <div class="payment-column">
-            <h3>We Accept</h3>
-
-            <div class="payment-system">
-              <span>VISA</span>
-              <span>MC</span>
-              <span>PayPal</span>
-              <span>Pay</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <p>© 2024 Eve Beauty. All Rights Reserved.</p>
-
-          <div class="footer-bottom-url">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Refund Policy</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!--Cart Alert-->
-
-    <div class="cart-alert" id="cartAlert">
-      <span class="cart-check">
-        <i data-lucide="check"></i>
-      </span>
-
-      <div>
-        <strong> Added to cart</strong>
-        <small>Your product was added successfully. </small>
-      </div>
-    </div>
-
+    <!-- Footer Component -->
+    <div id="footer-container"></div>
     <!--JavaScript URL-->
 
     <script src="js/home.js"></script>
-    <script src="js/profile.js"></script>
+    <script src="js/components.js"></script>
   </body>
 </html>

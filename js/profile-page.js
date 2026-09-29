@@ -1,191 +1,288 @@
 /* =========================================================
-   EVE BEAUTY
-   PROFILE PAGE
-   ========================================================= */
+   EVE BEAUTY — PROFILE PAGE
 
-/* =========================================================
-   ELEMENTS
-   ========================================================= */
+   Login source of truth:
+   eveBeautyCurrentUser
+========================================================= */
 
-const profilePageImage = document.getElementById("profilePageImage");
+(() => {
+  "use strict";
 
-const profileImageInput = document.getElementById("profileImageInput");
+  const CURRENT_USER_KEY = "eveBeautyCurrentUser";
 
-const profilePageName = document.getElementById("profilePageName");
+  const PROFILE_IMAGE_KEY = "eveBeautyProfileImage";
 
-const profilePageEmail = document.getElementById("profilePageEmail");
+  /* =======================================================
+     ELEMENTS
+  ======================================================= */
 
-const profilePageNameInput = document.getElementById("profilePageNameInput");
+  const image = document.getElementById("profilePageImage");
 
-const profilePageEmailInput = document.getElementById("profilePageEmailInput");
+  const imageInput = document.getElementById("profileImageInput");
 
-const profileForm = document.getElementById("profileForm");
+  const nameTitle = document.getElementById("profilePageName");
 
-const profileMessage = document.getElementById("profileMessage");
+  const emailTitle = document.getElementById("profilePageEmail");
 
-/* =========================================================
-   CHECK LOGIN
-   ========================================================= */
+  const nameInput = document.getElementById("profilePageNameInput");
 
-const isLoggedIn = localStorage.getItem("eveBeautyLoggedIn") === "true";
+  const emailInput = document.getElementById("profilePageEmailInput");
 
-if (!isLoggedIn) {
-  window.location.href = "login.html";
-}
+  const form = document.getElementById("profileForm");
 
-/* =========================================================
-   LOAD USER
-   ========================================================= */
+  const message = document.getElementById("profileMessage");
 
-const savedUser = localStorage.getItem("eveBeautyUser");
+  /* =======================================================
+     GET CURRENT USER
+  ======================================================= */
 
-if (savedUser) {
-  try {
-    const user = JSON.parse(savedUser);
+  function getUser() {
+    try {
+      const raw = localStorage.getItem(CURRENT_USER_KEY);
 
-    /* Name */
+      const user = raw ? JSON.parse(raw) : null;
 
-    profilePageName.textContent = user.name || "Beauty User";
-
-    profilePageNameInput.value = user.name || "";
-
-    /* Email */
-
-    profilePageEmail.textContent = user.email || "";
-
-    profilePageEmailInput.value = user.email || "";
-  } catch (error) {
-    console.error("Could not load user.");
+      return user && typeof user === "object" ? user : null;
+    } catch {
+      return null;
+    }
   }
-}
 
-/* =========================================================
-   LOAD PROFILE IMAGE
-   ========================================================= */
+  /* =======================================================
+     DEFAULT AVATAR
+  ======================================================= */
 
-const savedProfileImage = localStorage.getItem("eveBeautyProfileImage");
+  function defaultAvatar(name) {
+    const letter =
+      String(name || "U")
+        .trim()
+        .charAt(0)
+        .toUpperCase() || "U";
 
-if (savedProfileImage) {
-  profilePageImage.src = savedProfileImage;
-} else {
-  /*
-    Default image only if
-    user has not selected one.
-  */
+    const svg = `
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="240"
+        height="240"
+        viewBox="0 0 240 240"
+      >
+        <rect
+          width="240"
+          height="240"
+          rx="120"
+          fill="#ead1d5"
+        />
 
-  profilePageImage.src = "images/default-profile.png";
-}
+        <text
+          x="120"
+          y="151"
+          text-anchor="middle"
+          font-family="Arial,sans-serif"
+          font-size="92"
+          font-weight="600"
+          fill="#7f2639"
+        >
+          ${letter}
+        </text>
+      </svg>
+    `;
 
-/* =========================================================
-   CHANGE PROFILE PHOTO
-   ========================================================= */
+    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+  }
 
-if (profileImageInput) {
-  profileImageInput.addEventListener("change", function () {
-    const file = profileImageInput.files[0];
+  /* =======================================================
+     MESSAGE
+  ======================================================= */
+
+  function showMessage(text, type = "") {
+    if (!message) {
+      return;
+    }
+
+    message.textContent = text;
+
+    message.className = type;
+  }
+
+  /* =======================================================
+     RENDER USER
+  ======================================================= */
+
+  function render(user) {
+    const name = user.name || user.fullName || user.username || "Beauty User";
+
+    const email = user.email || "";
+
+    const savedImage = localStorage.getItem(PROFILE_IMAGE_KEY);
+
+    if (nameTitle) {
+      nameTitle.textContent = name;
+    }
+
+    if (emailTitle) {
+      emailTitle.textContent = email;
+    }
+
+    if (nameInput) {
+      nameInput.value = name;
+    }
+
+    if (emailInput) {
+      emailInput.value = email;
+    }
+
+    if (image) {
+      image.src = savedImage || defaultAvatar(name);
+
+      image.alt = `${name}'s profile`;
+    }
+  }
+
+  /* =======================================================
+     CHECK LOGIN
+  ======================================================= */
+
+  const user = getUser();
+
+  if (!user) {
+    window.location.replace("login.html");
+
+    return;
+  }
+
+  /* =======================================================
+     INITIAL RENDER
+  ======================================================= */
+
+  render(user);
+
+  /* =======================================================
+     PROFILE PHOTO
+  ======================================================= */
+
+  imageInput?.addEventListener("change", () => {
+    const file = imageInput.files?.[0];
 
     if (!file) {
       return;
     }
 
-    /* Only images */
-
     if (!file.type.startsWith("image/")) {
-      profileMessage.textContent = "Please select an image.";
+      showMessage("Please select an image.", "error");
+
+      imageInput.value = "";
 
       return;
     }
 
     const reader = new FileReader();
 
-    reader.onload = function (event) {
-      const imageData = event.target.result;
+    reader.onload = (event) => {
+      const result = event.target?.result;
 
-      /*
-          Save image to localStorage.
-        */
+      if (typeof result !== "string") {
+        return;
+      }
 
-      localStorage.setItem("eveBeautyProfileImage", imageData);
+      localStorage.setItem(PROFILE_IMAGE_KEY, result);
 
-      /*
-          Show immediately.
-        */
+      if (image) {
+        image.src = result;
+      }
 
-      profilePageImage.src = imageData;
+      showMessage("Profile photo updated successfully.", "success");
 
-      profileMessage.textContent = "Profile photo updated successfully.";
+      window.dispatchEvent(new Event("eveBeautyUserChanged"));
     };
 
     reader.readAsDataURL(file);
   });
-}
 
-/* =========================================================
-   SAVE PROFILE
-   ========================================================= */
+  /* =======================================================
+     SAVE PROFILE
+  ======================================================= */
 
-if (profileForm) {
-  profileForm.addEventListener("submit", function (event) {
+  form?.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const name = profilePageNameInput.value.trim();
+    const name = nameInput?.value.trim() || "";
 
-    const email = profilePageEmailInput.value.trim().toLowerCase();
+    const email = emailInput?.value.trim().toLowerCase() || "";
+
+    /* VALIDATION */
 
     if (!name || !email) {
-      profileMessage.textContent = "Please fill in all fields.";
+      showMessage("Please fill in all fields.", "error");
 
       return;
     }
 
-    /* Get old account */
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage("Please enter a valid email address.", "error");
 
-    const savedAccount = localStorage.getItem("eveBeautyAccount");
-
-    let account = {};
-
-    if (savedAccount) {
-      try {
-        account = JSON.parse(savedAccount);
-      } catch (error) {
-        account = {};
-      }
+      return;
     }
 
-    /*
-        Update account
-      */
+    /* GET CURRENT USER */
 
-    account.name = name;
+    const current = getUser();
 
-    account.email = email;
+    if (!current) {
+      window.location.replace("login.html");
 
-    /*
-        Save account
-      */
+      return;
+    }
 
-    localStorage.setItem("eveBeautyAccount", JSON.stringify(account));
+    /* UPDATE USER */
 
-    /*
-        Update current user
-      */
+    const updatedUser = {
+      ...current,
 
-    const user = {
-      name: name,
+      name,
 
-      email: email,
+      email,
+
+      updatedAt: new Date().toISOString(),
     };
 
-    localStorage.setItem("eveBeautyUser", JSON.stringify(user));
+    /* SAVE CURRENT USER */
 
-    /*
-        Update page
-      */
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(updatedUser));
 
-    profilePageName.textContent = name;
+    /* =====================================================
+         UPDATE USERS DATABASE
+      ===================================================== */
 
-    profilePageEmail.textContent = email;
+    try {
+      const users = JSON.parse(localStorage.getItem("eveBeautyUsers") || "[]");
 
-    profileMessage.textContent = "Profile saved successfully.";
+      if (Array.isArray(users) && current.id) {
+        const index = users.findIndex((item) => item?.id === current.id);
+
+        if (index !== -1) {
+          users[index] = {
+            ...users[index],
+
+            name,
+
+            email,
+
+            updatedAt: updatedUser.updatedAt,
+          };
+
+          localStorage.setItem("eveBeautyUsers", JSON.stringify(users));
+        }
+      }
+    } catch (error) {
+      console.warn("Could not update users database:", error);
+    }
+
+    /* UPDATE PAGE */
+
+    render(updatedUser);
+
+    showMessage("Profile saved successfully.", "success");
+
+    window.dispatchEvent(new Event("eveBeautyUserChanged"));
   });
-}
+})();

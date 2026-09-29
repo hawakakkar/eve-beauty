@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>EVE BEAUTY — Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+
+  <body>
+    <header class="dashboard-header">
+      <div class="dashboard-brand">
+        <a href="index.html">
+          <span class="brand-symbol">♧</span>
+          <span class="brand-name">EVE BEAUTY</span>
+        </a>
+      </div>
+
+      <div class="dashboard-search">
+        <i data-lucide="search"></i>
+        <input
+          id="dashboardSearch"
+          type="search"
+          placeholder="Search products..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="dashboard-header-actions">
+        <button
+          class="header-icon-button"
+          data-page="wishlist"
+          aria-label="Wishlist"
+        >
+          <i data-lucide="heart"></i>
+          <span id="headerWishlistCount" class="header-badge">0</span>
+        </button>
+
+        <button class="header-icon-button" data-page="cart" aria-label="Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span id="headerCartCount" class="header-badge">0</span>
+        </button>
+
+        <button
+          id="notificationButton"
+          class="header-icon-button"
+          type="button"
+          aria-label="Notifications"
+        >
+          <i data-lucide="bell"></i>
+          <span class="header-badge">2</span>
+        </button>
+
+        <button id="profileHeaderButton" class="header-profile" type="button">
+          <span id="headerProfileInitial" class="header-profile-initial"
+            >U</span
+          >
+          <img id="headerProfileImage" src="" alt="Profile" />
+          <i data-lucide="chevron-down"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+
+      <aside class="dashboard-sidebar">
+        <nav class="dashboard-sidebar-nav">
+          <button class="sidebar-link active" data-page="dashboard">
+            <span class="sidebar-icon">
+              <i data-lucide="house"></i>
+            </span>
+            <span>Dashboard</span>
+          </button>
+
+          <button class="sidebar-link" data-page="orders">
+            <span class="sidebar-icon">
+              <i data-lucide="package"></i>
+            </span>
+            <span>My Orders</span>
+          </button>
+
+          <button class="sidebar-link" data-page="wishlist">
+            <span class="sidebar-icon">
+              <i data-lucide="heart"></i>
+            </span>
+            <span>Wishlist</span>
+          </button>
+
+          <button class="sidebar-link" data-page="addresses">
+            <span class="sidebar-icon">
+              <i data-lucide="map-pin"></i>
+            </span>
+            <span>Addresses</span>
+          </button>
+
+          <button class="sidebar-link" data-page="settings">
+            <span class="sidebar-icon">
+              <i data-lucide="settings"></i>
+            </span>
+            <span>Account Settings</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <button
+            id="logoutButton"
+            class="sidebar-link sidebar-logout"
+            type="button"
+          >
+            <span class="sidebar-icon">
+              <i data-lucide="log-out"></i>
+            </span>
+            <span>Logout</span>
+          </button>
+
+          <div class="sidebar-decoration">
+            <div>
+              Beauty<br />
+              in Every<br />
+              You
+            </div>
+            <span>♡</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+
+      <main id="dashboardContent" class="dashboard-content">
+        <!-- DASHBOARD HOME -->
+
+        <section id="page-dashboard" class="dashboard-page active-page">
+          <section class="dashboard-top">
+            <div class="welcome-section">
+              <span class="welcome-small">WELCOME BACK,</span>
+
+              <div class="welcome-title-row">
+                <h1 id="welcomeUserName">Beauty User</h1>
+                <span class="welcome-heart">♡</span>
+              </div>
+
+              <p>Here's what's happening with your account.</p>
+            </div>
+
+            <button class="dashboard-promo" data-page="shop" type="button">
+              <div class="promo-content">
+                <span>
+                  Discover<br />
+                  your true beauty
+                </span>
+
+                <small>With EVE BEAUTY</small>
+              </div>
+
+              <span class="promo-arrow">→</span>
+            </button>
+
+            <section class="dashboard-profile-card">
+              <div class="dashboard-profile-image-wrapper">
+                <span
+                  id="dashboardProfileInitial"
+                  class="dashboard-profile-initial"
+                  >U</span
+                >
+
+                <img id="dashboardProfileImage" src="" alt="Profile" />
+
+                <button
+                  class="profile-edit-small"
+                  data-page="settings"
+                  aria-label="Edit profile"
+                  type="button"
+                >
+                  <i data-lucide="pencil"></i>
+                </button>
+              </div>
+
+              <h2 id="dashboardProfileName">Beauty User</h2>
+
+              <p id="dashboardProfileEmail">beauty@example.com</p>
+
+              <button
+                class="edit-profile-button"
+                data-page="settings"
+                type="button"
+              >
+                <i data-lucide="pencil"></i>
+                Edit Profile
+              </button>
+            </section>
+          </section>
+
+          <!-- STATISTICS -->
+
+          <section class="dashboard-stat-grid">
+            <article class="stat-card">
+              <div class="stat-icon">
+                <i data-lucide="package"></i>
+              </div>
+
+              <span class="stat-label">Total Orders</span>
+
+              <strong id="totalOrders" class="stat-number">0</strong>
+
+              <button data-page="orders">View Orders <span>→</span></button>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">
+                <i data-lucide="heart"></i>
+              </div>
+
+              <span class="stat-label">Wishlist Items</span>
+
+              <strong id="wishlistItems" class="stat-number">0</strong>
+
+              <button data-page="wishlist">View Wishlist <span>→</span></button>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">
+                <i data-lucide="shopping-cart"></i>
+              </div>
+
+              <span class="stat-label">Cart Items</span>
+
+              <strong id="cartItems" class="stat-number">0</strong>
+
+              <button data-page="cart">View Cart <span>→</span></button>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-icon">
+                <i data-lucide="map-pin"></i>
+              </div>
+
+              <span class="stat-label">Saved Addresses</span>
+
+              <strong id="savedAddresses" class="stat-number">0</strong>
+
+              <button data-page="addresses">Manage <span>→</span></button>
+            </article>
+          </section>
+
+          <!-- LOWER -->
+
+          <section class="dashboard-lower-grid">
+            <div class="dashboard-left-column">
+              <section class="dashboard-card">
+                <div class="card-header">
+                  <h2>Recent Orders</h2>
+
+                  <button data-page="orders">
+                    View All Orders <span>→</span>
+                  </button>
+                </div>
+
+                <div id="recentOrders" class="recent-orders-list"></div>
+
+                <div id="ordersEmpty" class="orders-empty" hidden>
+                  <i data-lucide="package-open"></i>
+
+                  <h3>No orders yet</h3>
+
+                  <p>Your recent purchases will appear here.</p>
+
+                  <button data-page="shop">Start Shopping</button>
+                </div>
+              </section>
+
+              <section class="dashboard-card recently-viewed-card">
+                <div class="card-header">
+                  <h2>Recently Viewed</h2>
+
+                  <button data-page="shop">View All <span>→</span></button>
+                </div>
+
+                <div id="recentlyViewed" class="recently-viewed-grid"></div>
+
+                <div id="recentlyViewedEmpty" class="recently-empty">
+                  Products you view will appear here.
+                </div>
+              </section>
+            </div>
+
+            <aside class="dashboard-right-column">
+              <section class="dashboard-card quick-actions-card">
+                <div class="card-header">
+                  <h2>Quick Actions</h2>
+                </div>
+
+                <div class="quick-actions-list">
+                  <button class="quick-action" data-page="shop">
+                    <span class="quick-action-icon">
+                      <i data-lucide="shopping-bag"></i>
+                    </span>
+                    <span>Shop Now</span>
+                    <i data-lucide="chevron-right"></i>
+                  </button>
+
+                  <button class="quick-action" data-page="wishlist">
+                    <span class="quick-action-icon">
+                      <i data-lucide="heart"></i>
+                    </span>
+                    <span>View Wishlist</span>
+                    <i data-lucide="chevron-right"></i>
+                  </button>
+
+                  <button class="quick-action" data-page="addresses">
+                    <span class="quick-action-icon">
+                      <i data-lucide="map-pin"></i>
+                    </span>
+                    <span>Manage Addresses</span>
+                    <i data-lucide="chevron-right"></i>
+                  </button>
+
+                  <button class="quick-action" data-page="settings">
+                    <span class="quick-action-icon">
+                      <i data-lucide="settings"></i>
+                    </span>
+                    <span>Account Settings</span>
+                    <i data-lucide="chevron-right"></i>
+                  </button>
+                </div>
+              </section>
+
+              <button class="special-offer-card" data-page="shop">
+                <div class="special-offer-content">
+                  <span>
+                    Special offers<br />
+                    just for you
+                  </span>
+
+                  <p>Exclusive deals, beauty tips and more.</p>
+
+                  <strong> Explore Now <span>→</span> </strong>
+                </div>
+
+                <div class="special-offer-products">
+                  <div class="offer-bottle bottle-one"></div>
+                  <div class="offer-bottle bottle-two"></div>
+                  <div class="offer-bottle bottle-three"></div>
+                </div>
+              </button>
+            </aside>
+          </section>
+        </section>
+
+        <!-- ORDERS -->
+
+        <section id="page-orders" class="dashboard-page">
+          <div class="inner-page-header">
+            <div>
+              <span class="welcome-small">ACCOUNT</span>
+              <h1>My Orders</h1>
+              <p>View and manage your recent purchases.</p>
+            </div>
+
+            <button class="outline-button" data-page="shop">
+              <i data-lucide="shopping-bag"></i>
+              Shop Now
+            </button>
+          </div>
+
+          <div id="ordersPageList" class="orders-page-list"></div>
+
+          <div id="ordersPageEmpty" class="empty-page" hidden>
+            <i data-lucide="package-open"></i>
+            <h2>No orders yet</h2>
+            <p>Your purchases will appear here.</p>
+            <button class="primary-button" data-page="shop">
+              Start Shopping
+            </button>
+          </div>
+        </section>
+
+        <!-- WISHLIST -->
+
+        <section id="page-wishlist" class="dashboard-page">
+          <div class="inner-page-header">
+            <div>
+              <span class="welcome-small">MY BEAUTY</span>
+              <h1>Wishlist</h1>
+              <p>Products you've saved for later.</p>
+            </div>
+
+            <button class="outline-button" data-page="shop">
+              <i data-lucide="shopping-bag"></i>
+              Continue Shopping
+            </button>
+          </div>
+
+          <div id="wishlistGrid" class="wishlist-grid"></div>
+
+          <div id="wishlistEmpty" class="empty-page">
+            <i data-lucide="heart"></i>
+            <h2>Your wishlist is empty</h2>
+            <p>Save your favorite beauty products here.</p>
+            <button class="primary-button" data-page="shop">
+              Discover Products
+            </button>
+          </div>
+        </section>
+
+        <!-- ADDRESSES -->
+
+        <section id="page-addresses" class="dashboard-page">
+          <div class="inner-page-header">
+            <div>
+              <span class="welcome-small">DELIVERY</span>
+              <h1>My Addresses</h1>
+              <p>Manage your saved delivery addresses.</p>
+            </div>
+
+            <button id="addAddressButton" class="primary-button">
+              <i data-lucide="plus"></i>
+              Add Address
+            </button>
+          </div>
+
+          <div id="addressesGrid" class="addresses-grid"></div>
+
+          <div id="addressesEmpty" class="empty-page">
+            <i data-lucide="map-pin"></i>
+            <h2>No saved addresses</h2>
+            <p>Add an address for faster checkout.</p>
+            <button class="primary-button" id="emptyAddAddress">
+              Add Address
+            </button>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+
+        <section id="page-settings" class="dashboard-page">
+          <div class="inner-page-header">
+            <div>
+              <span class="welcome-small">ACCOUNT</span>
+              <h1>Account Settings</h1>
+              <p>Update your personal information.</p>
+            </div>
+          </div>
+
+          <div class="settings-layout">
+            <section class="settings-card">
+              <div class="settings-card-header">
+                <i data-lucide="user"></i>
+                <div>
+                  <h2>Personal Information</h2>
+                  <p>Keep your profile information up to date.</p>
+                </div>
+              </div>
+
+              <form id="profileForm" class="settings-form">
+                <div class="form-group">
+                  <label for="settingsName">Full Name</label>
+                  <input id="settingsName" type="text" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="settingsEmail">Email</label>
+                  <input id="settingsEmail" type="email" required />
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="primary-button">
+                    <i data-lucide="save"></i>
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            <section class="settings-card">
+              <div class="settings-card-header">
+                <i data-lucide="image"></i>
+                <div>
+                  <h2>Profile Photo</h2>
+                  <p>Choose a profile image from your device.</p>
+                </div>
+              </div>
+
+              <div class="profile-photo-settings">
+                <div id="settingsPhotoPreview" class="settings-photo-preview">
+                  U
+                </div>
+
+                <label class="upload-button">
+                  <i data-lucide="upload"></i>
+                  Choose Image
+                  <input
+                    id="profileImageInput"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                  />
+                </label>
+
+                <button
+                  id="removeProfileImage"
+                  class="text-button"
+                  type="button"
+                >
+                  Remove Photo
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- CART -->
+
+        <section id="page-cart" class="dashboard-page">
+          <div class="inner-page-header">
+            <div>
+              <span class="welcome-small">SHOPPING</span>
+              <h1>Shopping Cart</h1>
+              <p>Products ready for checkout.</p>
+            </div>
+
+            <button class="outline-button" data-page="shop">
+              <i data-lucide="arrow-left"></i>
+              Continue Shopping
+            </button>
+          </div>
+
+          <div id="cartPageList" class="cart-page-list"></div>
+
+          <div id="cartEmpty" class="empty-page">
+            <i data-lucide="shopping-cart"></i>
+            <h2>Your cart is empty</h2>
+            <p>Add some products before checking out.</p>
+            <button class="primary-button" data-page="shop">
+              Shop Products
+            </button>
+          </div>
+        </section>
+
+        <!-- SHOP -->
+
+        <section id="page-shop" class="dashboard-page">
+          <div class="inner-page-header">
+            <div>
+              <span class="welcome-small">EVE BEAUTY</span>
+              <h1>Shop</h1>
+              <p>Discover products from your beauty collection.</p>
+            </div>
+
+            <button class="outline-button" data-page="dashboard">
+              <i data-lucide="arrow-left"></i>
+              Dashboard
+            </button>
+          </div>
+
+          <div id="shopProducts" class="shop-products"></div>
+        </section>
+
+        <!-- NOTIFICATIONS -->
+
+        <div id="notificationPanel" class="notification-panel">
+          <div class="notification-panel-header">
+            <strong>Notifications</strong>
+            <button id="closeNotifications">×</button>
+          </div>
+
+          <div class="notification-item">
+            <i data-lucide="sparkles"></i>
+            <div>
+              <strong>Welcome to EVE BEAUTY</strong>
+              <p>Discover your favorite beauty products.</p>
+            </div>
+          </div>
+
+          <div class="notification-item">
+            <i data-lucide="heart"></i>
+            <div>
+              <strong>Wishlist ready</strong>
+              <p>Your saved products are waiting for you.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- ADDRESS MODAL -->
+
+    <div id="addressModal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <div>
+            <span class="welcome-small">DELIVERY</span>
+            <h2 id="addressModalTitle">Add Address</h2>
+          </div>
+
+          <button id="closeAddressModal" class="modal-close">×</button>
+        </div>
+
+        <form id="addressForm">
+          <input id="addressId" type="hidden" />
+
+          <div class="form-group">
+            <label>Full Name</label>
+            <input id="addressName" type="text" required />
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input id="addressPhone" type="tel" required />
+          </div>
+
+          <div class="form-group">
+            <label>City</label>
+            <input id="addressCity" type="text" required />
+          </div>
+
+          <div class="form-group">
+            <label>Address</label>
+            <textarea id="addressText" rows="3" required></textarea>
+          </div>
+
+          <label class="checkbox-row">
+            <input id="addressDefault" type="checkbox" />
+            <span>Make this my default address</span>
+          </label>
+
+          <div class="modal-actions">
+            <button type="button" id="cancelAddress" class="outline-button">
+              Cancel
+            </button>
+
+            <button type="submit" class="primary-button">Save Address</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

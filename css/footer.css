@@ -1,0 +1,203 @@
+/* =========================================================
+   EVE BEAUTY — FOOTER CSS
+   Shared Footer Styles
+========================================================= */
+
+.footer-sec .container {
+  width: min(92%, 1380px);
+  margin: 0 auto;
+}
+.footer-sec {
+  background: #f8eeee;
+  padding: 35px 0 15px;
+}
+
+.footer-grid {
+  display: grid;
+
+  grid-template-columns:
+    1.5fr
+    repeat(4, 1fr)
+    1.2fr;
+
+  gap: 25px;
+}
+
+.brand-logo {
+  display: flex;
+
+  flex-direction: column;
+
+  width: fit-content;
+
+  line-height: 1;
+}
+
+.brand-logo span {
+  font-family: var(--serif);
+
+  font-size: 34px;
+
+  letter-spacing: 4px;
+}
+
+.brand-logo small {
+  font-size: 12px;
+
+  letter-spacing: 3px;
+
+  text-align: center;
+
+  margin-top: 4px;
+}
+
+.brand-part p {
+  margin-top: 12px;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.social-url {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+.social-url a {
+  width: 25px;
+  height: 25px;
+
+  border: 1px solid #d7c4c6;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.social-url svg {
+  width: 15px;
+  height: 15px;
+}
+
+.footer-column h3,
+.payment-column h3 {
+  font-size: 14px;
+
+  margin-bottom: 12px;
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column li {
+  margin-bottom: 8px;
+
+  font-size: 12px;
+}
+
+.footer-column a:hover {
+  color: var(--burgundy);
+}
+
+.contact-column li {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+.contact-column svg {
+  width: 15px;
+  height: 15px;
+
+  color: var(--burgundy);
+}
+
+.payment-system {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.payment-system i {
+  font-size: 28px;
+
+  color: #5b4b4e;
+}
+
+.footer-bottom {
+  border-top: 1px solid #e4d7d8;
+
+  margin-top: 30px;
+
+  padding-top: 14px;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+.footer-bottom p {
+  font-size: 11px;
+}
+
+.footer-bottom-url {
+  position: absolute;
+
+  right: 0;
+
+  display: flex;
+
+  gap: 15px;
+}
+
+.footer-bottom-url a {
+  font-size: 11px;
+}
+
+/* Footer Dark Mode */
+
+body.dark-mode .footer-sec {
+  background: #21191c;
+
+  color: #f5e9ea;
+}
+
+body.dark-mode .brand-part p,
+body.dark-mode .footer-column li {
+  color: #bca9ac;
+}
+
+body.dark-mode .social-url a {
+  border-color: #4a383b;
+}
+
+body.dark-mode .contact-column svg {
+  color: var(--burgundy);
+}
+
+body.dark-mode .payment-system span {
+  background: #2b2023;
+
+  border-color: #49383b;
+
+  color: #eee0e2;
+}
+
+body.dark-mode .footer-bottom {
+  border-top-color: #403033;
+}

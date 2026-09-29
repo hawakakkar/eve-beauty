@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>EVE Beauty | Beauty Quiz</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- =========================================
+       SHARED EVE BEAUTY STYLES
+  ========================================== -->
+
+    <link rel="stylesheet" href="css/navbar.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+
+    <!-- =========================================
+       QUIZ PAGE STYLE
+  ========================================== -->
+
+    <link rel="stylesheet" href="css/beauty-test.css" />
+  </head>
+  <body class="beauty-test-page">
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <div id="navbar-container"></div>
+
+    <!-- =====================================================
+         BEAUTY TEST APP
+    ====================================================== -->
+
+    <main class="beauty-test-app">
+      <!-- ===================================================
+           LANDING
+      ==================================================== -->
+
+      <section
+        class="beauty-test-screen beauty-test-landing active"
+        id="landingScreen"
+      >
+        <div class="beauty-test-hero">
+          <div class="beauty-test-hero-content">
+            <span class="beauty-eyebrow"> EVE BEAUTY </span>
+
+            <h1>
+              Find Your
+              <br />
+              <em>Beauty Profile</em>
+            </h1>
+
+            <p>
+              Answer a few simple questions and discover what works best for
+              your skin, hair and makeup routine.
+            </p>
+
+            <button
+              type="button"
+              class="beauty-primary-button"
+              id="startAllTest"
+            >
+              Start Your Beauty Test
+
+              <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="beauty-test-hero-image">
+            <img src="assets/images/shop-hero.jpg" alt="EVE Beauty" />
+
+            <div class="hero-image-decoration hero-circle-one"></div>
+
+            <div class="hero-image-decoration hero-circle-two"></div>
+          </div>
+        </div>
+
+        <!-- THREE FEATURES -->
+
+        <div class="beauty-test-features">
+          <article class="beauty-feature">
+            <div class="beauty-feature-icon">
+              <i data-lucide="sparkles"></i>
+            </div>
+
+            <h3>Makeup</h3>
+
+            <p>Discover your perfect makeup style and finish.</p>
+          </article>
+
+          <article class="beauty-feature">
+            <div class="beauty-feature-icon">
+              <i data-lucide="droplets"></i>
+            </div>
+
+            <h3>Skincare</h3>
+
+            <p>Understand your skin type and everyday needs.</p>
+          </article>
+
+          <article class="beauty-feature">
+            <div class="beauty-feature-icon">
+              <i data-lucide="waves"></i>
+            </div>
+
+            <h3>Haircare</h3>
+
+            <p>Understand your hair type and ideal routine.</p>
+          </article>
+        </div>
+
+        <!-- CATEGORY START CARDS -->
+
+        <div class="beauty-category-section">
+          <div class="beauty-section-heading">
+            <span> PERSONALIZED BEAUTY </span>
+
+            <h2>Choose where to begin</h2>
+
+            <p>You can take one section or complete the full beauty profile.</p>
+          </div>
+
+          <div class="beauty-category-grid">
+            <!-- MAKEUP -->
+
+            <article class="beauty-category-card" data-category-start="makeup">
+              <div class="category-image">
+                <img src="assets/images/product-1.jpg" alt="Makeup" />
+              </div>
+
+              <div class="category-card-body">
+                <span class="category-number"> 01 </span>
+
+                <h3>Makeup</h3>
+
+                <p>Find the makeup style, finish and products that suit you.</p>
+
+                <button
+                  type="button"
+                  class="category-start-button"
+                  data-start-section="makeup"
+                >
+                  Start Makeup Quiz
+
+                  <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </article>
+
+            <!-- SKINCARE -->
+
+            <article
+              class="beauty-category-card"
+              data-category-start="skincare"
+            >
+              <div class="category-image">
+                <img src="assets/images/product-11.jpg" alt="Skincare" />
+              </div>
+
+              <div class="category-card-body">
+                <span class="category-number"> 02 </span>
+
+                <h3>Skincare</h3>
+
+                <p>Discover your skin type and build a better routine.</p>
+
+                <button
+                  type="button"
+                  class="category-start-button"
+                  data-start-section="skincare"
+                >
+                  Start Skincare Quiz
+
+                  <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </article>
+
+            <!-- HAIRCARE -->
+
+            <article
+              class="beauty-category-card"
+              data-category-start="haircare"
+            >
+              <div class="category-image">
+                <img src="assets/images/product-21.jpg" alt="Haircare" />
+              </div>
+
+              <div class="category-card-body">
+                <span class="category-number"> 03 </span>
+
+                <h3>Haircare</h3>
+
+                <p>Learn your hair type and find products for your routine.</p>
+
+                <button
+                  type="button"
+                  class="category-start-button"
+                  data-start-section="haircare"
+                >
+                  Start Haircare Quiz
+
+                  <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- TRUST BAR -->
+
+        <div class="beauty-trust-bar">
+          <div>
+            <i data-lucide="truck"></i>
+
+            <span>
+              Free Shipping
+              <small>On orders over $50</small>
+            </span>
+          </div>
+
+          <div>
+            <i data-lucide="shield-check"></i>
+
+            <span>
+              Secure Payment
+              <small>100% secure checkout</small>
+            </span>
+          </div>
+
+          <div>
+            <i data-lucide="refresh-cw"></i>
+
+            <span>
+              Easy Returns
+              <small>15 days return policy</small>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================
+           QUIZ
+      ==================================================== -->
+
+      <section class="beauty-test-screen beauty-quiz-screen" id="quizScreen">
+        <div class="quiz-container">
+          <button type="button" class="outline-button" id="resultHomeButton">
+            Back to Home
+          </button>
+          <!-- TOP STEPS -->
+
+          <div class="quiz-steps">
+            <div class="quiz-step active" data-step-indicator="makeup">
+              <span class="step-circle">
+                <i data-lucide="sparkles"></i>
+              </span>
+
+              <span>Makeup</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="quiz-step" data-step-indicator="skincare">
+              <span class="step-circle">
+                <i data-lucide="droplets"></i>
+              </span>
+
+              <span>Skincare</span>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="quiz-step" data-step-indicator="haircare">
+              <span class="step-circle">
+                <i data-lucide="waves"></i>
+              </span>
+
+              <span>Haircare</span>
+            </div>
+          </div>
+
+          <!-- QUIZ HEADER -->
+
+          <div class="quiz-header">
+            <div>
+              <span class="quiz-category-label" id="quizCategoryLabel">
+                Makeup
+              </span>
+
+              <span class="quiz-divider"> • </span>
+
+              <span id="quizQuestionNumber"> Question 1 of 8 </span>
+            </div>
+
+            <strong id="quizProgressText"> 12% </strong>
+          </div>
+
+          <!-- PROGRESS -->
+
+          <div class="quiz-progress">
+            <div class="quiz-progress-bar" id="quizProgressBar"></div>
+          </div>
+
+          <!-- QUESTION -->
+
+          <div class="quiz-question-wrapper" id="quizQuestionWrapper">
+            <div class="quiz-question-image-wrap">
+              <img
+                id="quizQuestionImage"
+                src="assets/images/product-1.jpg"
+                alt="Beauty question"
+              />
+            </div>
+
+            <div class="quiz-question-content">
+              <span class="question-mini-label"> YOUR BEAUTY PROFILE </span>
+
+              <h2 id="quizQuestion">
+                What kind of makeup finish do you usually prefer?
+              </h2>
+
+              <div class="quiz-options" id="quizOptions"></div>
+            </div>
+          </div>
+
+          <!-- QUIZ ACTIONS -->
+
+          <div class="quiz-actions">
+            <button type="button" class="quiz-back-button" id="quizBackButton">
+              <i data-lucide="arrow-left"></i>
+
+              Back
+            </button>
+
+            <button
+              type="button"
+              class="beauty-primary-button quiz-next-button"
+              id="quizNextButton"
+            >
+              Next
+
+              <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================
+           RESULTS
+      ==================================================== -->
+
+      <section
+        class="beauty-test-screen beauty-results-screen"
+        id="resultsScreen"
+      >
+        <div class="results-container">
+          <!-- RESULT HERO -->
+
+          <div class="results-hero">
+            <span class="beauty-eyebrow"> YOUR PERSONALIZED PROFILE </span>
+
+            <h1>Your Beauty Profile</h1>
+
+            <p>
+              Based on your answers, here's your personalized beauty profile and
+              product recommendations.
+            </p>
+          </div>
+
+          <!-- PROFILE CARDS -->
+
+          <div class="profile-results-grid">
+            <article class="profile-result-card">
+              <div class="profile-result-icon">
+                <i data-lucide="sparkles"></i>
+              </div>
+
+              <span> MAKEUP PROFILE </span>
+
+              <h2 id="resultMakeup">Natural Glow</h2>
+
+              <p id="resultMakeupDescription">
+                Your answers show a preference for fresh and natural makeup.
+              </p>
+            </article>
+
+            <article class="profile-result-card">
+              <div class="profile-result-icon">
+                <i data-lucide="droplets"></i>
+              </div>
+
+              <span> SKIN PROFILE </span>
+
+              <h2 id="resultSkin">Combination Skin</h2>
+
+              <p id="resultSkinDescription">
+                Your skin benefits from balance, hydration and lightweight care.
+              </p>
+            </article>
+
+            <article class="profile-result-card">
+              <div class="profile-result-icon">
+                <i data-lucide="waves"></i>
+              </div>
+
+              <span> HAIR PROFILE </span>
+
+              <h2 id="resultHair">Wavy Hair</h2>
+
+              <p id="resultHairDescription">
+                Your hair benefits from moisture, definition and frizz control.
+              </p>
+            </article>
+          </div>
+
+          <!-- RECOMMENDATION INTRO -->
+
+          <div class="recommendation-heading">
+            <div>
+              <span> CURATED FOR YOU </span>
+
+              <h2>Products selected for your profile</h2>
+
+              <p>These recommendations are based on the answers you gave us.</p>
+            </div>
+
+            <button type="button" class="outline-button" id="retakeQuizButton">
+              <i data-lucide="rotate-ccw"></i>
+
+              Retake Quiz
+            </button>
+          </div>
+
+          <!-- MAKEUP PRODUCTS -->
+
+          <section class="recommendation-section">
+            <div class="recommendation-section-title">
+              <div>
+                <span>MAKEUP</span>
+
+                <h3>Recommended Makeup For You</h3>
+              </div>
+
+              <button
+                type="button"
+                class="view-all-button"
+                data-view-category="Makeup"
+              >
+                View All Makeup
+
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="recommendation-grid" id="makeupRecommendations"></div>
+          </section>
+
+          <!-- SKINCARE PRODUCTS -->
+
+          <section class="recommendation-section">
+            <div class="recommendation-section-title">
+              <div>
+                <span>SKINCARE</span>
+
+                <h3>Recommended Skincare For You</h3>
+              </div>
+
+              <button
+                type="button"
+                class="view-all-button"
+                data-view-category="Skincare"
+              >
+                View All Skincare
+
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="recommendation-grid" id="skincareRecommendations"></div>
+          </section>
+
+          <!-- HAIRCARE PRODUCTS -->
+
+          <section class="recommendation-section">
+            <div class="recommendation-section-title">
+              <div>
+                <span>HAIRCARE</span>
+
+                <h3>Recommended Haircare For You</h3>
+              </div>
+
+              <button
+                type="button"
+                class="view-all-button"
+                data-view-category="Haircare"
+              >
+                View All Haircare
+
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="recommendation-grid" id="haircareRecommendations"></div>
+          </section>
+
+          <!-- RESULT ACTIONS -->
+
+          <div class="result-bottom-actions">
+            <button
+              type="button"
+              class="beauty-primary-button"
+              id="shopRecommendedButton"
+            >
+              Shop My Recommendations
+
+              <i data-lucide="shopping-bag"></i>
+            </button>
+
+            <button type="button" class="outline-button" id="resultHomeButton">
+              Back to Home
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <div id="footer-container"></div>
+
+    <!-- =====================================================
+         EXISTING COMPONENTS
+    ====================================================== -->
+
+    <script src="js/components.js"></script>
+
+    <!-- =====================================================
+         BEAUTY TEST
+    ====================================================== -->
+
+    <script src="js/beauty-test.js"></script>
+  </body>
+</html>

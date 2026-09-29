@@ -1,0 +1,1664 @@
+/* =========================================================
+   EVE BEAUTY — PREMIUM NAVBAR
+========================================================= */
+
+.top-bar {
+  min-height: 38px;
+  background: var(--burgundy);
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(50px, 9vw, 150px);
+  padding: 0 30px;
+
+  font-size: 11px;
+  letter-spacing: 0.2px;
+
+  position: relative;
+  z-index: 10000;
+}
+
+.top-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  white-space: nowrap;
+  opacity: 0.96;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.top-item:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.top-item svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.7;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+  height: 78px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border-bottom: 1px solid rgba(80, 50, 55, 0.08);
+
+  position: relative;
+  z-index: 9000;
+
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.navbar-container {
+  width: min(94%, 1450px);
+  height: 100%;
+
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.my-logo {
+  width: 145px;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  flex-shrink: 0;
+
+  text-decoration: none;
+
+  margin-right: 22px;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.my-logo:hover {
+  transform: translateY(-1px);
+  opacity: 0.88;
+}
+
+.site-logo-image {
+  width: 112px;
+  max-height: 58px;
+
+  object-fit: contain;
+  object-position: center;
+
+  display: block;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+
+  gap: 25px;
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.main-navbar-menu {
+  margin-left: 10px;
+}
+
+.navbar-link {
+  position: relative;
+
+  border: 0;
+  background: transparent;
+
+  color: var(--black);
+
+  font-size: 15px;
+  font-weight: 400;
+
+  letter-spacing: 0.1px;
+
+  padding: 29px 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  white-space: nowrap;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  transition:
+    color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+  color: var(--burgundy);
+}
+
+.navbar-link.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: 17px;
+
+  height: 1.5px;
+
+  background: var(--burgundy);
+
+  transform-origin: center;
+}
+
+@keyframes navLine {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.navbar-link svg {
+  width: 13px;
+  height: 13px;
+
+  stroke-width: 1.7;
+
+  transition: transform 0.25s ease;
+}
+
+/* =========================================================
+   DROPDOWN
+========================================================= */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+
+  top: calc(100% - 8px);
+  left: 50%;
+
+  width: 205px;
+
+  padding: 9px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(75, 35, 45, 0.08);
+
+  border-radius: 4px;
+
+  box-shadow:
+    0 22px 55px rgba(55, 20, 30, 0.13),
+    0 5px 15px rgba(55, 20, 30, 0.05);
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transform: translate(-50%, 10px);
+
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0.22s ease;
+
+  z-index: 50000;
+}
+
+.dropdown.open > .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transform: translate(-50%, 0);
+}
+
+.dropdown-menu a {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 40px;
+
+  padding: 10px 13px;
+
+  color: var(--black);
+
+  font-size: 13px;
+
+  text-decoration: none;
+
+  border-radius: 3px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+  background: var(--pink-bg);
+
+  color: var(--burgundy);
+
+  padding-left: 17px;
+}
+
+/* =========================================================
+   SHOP
+========================================================= */
+
+.shop-nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.shop-main-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.shop-dropdown-button {
+  width: 22px;
+  height: 32px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: inherit;
+}
+
+.shop-dropdown-button svg {
+  width: 12px;
+  height: 12px;
+
+  transition: transform 0.25s ease;
+}
+
+.shop-dropdown.open .shop-dropdown-button svg {
+  transform: rotate(180deg);
+}
+
+/* =========================================================
+   RIGHT NAVBAR
+========================================================= */
+
+.right-navbar {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  height: 100%;
+}
+
+.right-navbar > * {
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
+
+.icon-button,
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+
+  background: transparent;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--black);
+
+  position: relative;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.icon-button:hover,
+.theme-toggle:hover {
+  color: var(--burgundy);
+
+  background: rgba(130, 36, 55, 0.055);
+
+  transform: translateY(-1px);
+}
+
+.icon-button svg,
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+
+  stroke-width: 1.6;
+}
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+.navbar-account {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.account-button {
+  overflow: hidden;
+}
+
+.profile-avatar {
+  width: 29px !important;
+  height: 29px !important;
+
+  min-width: 29px !important;
+  min-height: 29px !important;
+
+  max-width: 29px !important;
+  max-height: 29px !important;
+
+  display: none;
+
+  border-radius: 50% !important;
+
+  object-fit: cover !important;
+
+  object-position: center !important;
+
+  flex-shrink: 0 !important;
+
+  border: 1.5px solid var(--burgundy);
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================================
+   ACCOUNT DROPDOWN — COMPACT PREMIUM
+========================================================= */
+
+.account-dropdown {
+  width: 285px;
+
+  left: auto;
+  right: -5px;
+
+  top: calc(100% - 3px);
+
+  padding: 0;
+
+  border-radius: 11px;
+
+  background: #fffafa;
+
+  border: 1px solid rgba(90, 40, 50, 0.08);
+
+  box-shadow:
+    0 18px 45px rgba(65, 25, 35, 0.13),
+    0 5px 16px rgba(65, 25, 35, 0.06);
+
+  overflow: hidden;
+
+  transform: translateY(9px);
+
+  transform-origin: top right;
+}
+
+.dropdown.open > .account-dropdown {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   ACCOUNT PROFILE HEADER
+========================================================= */
+
+.account-profile-header {
+  min-height: 76px;
+
+  padding: 14px 15px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  border-bottom: 1px solid rgba(80, 40, 50, 0.07);
+
+  background: linear-gradient(135deg, rgba(255, 247, 248, 0.98), #fffdfd);
+}
+
+.account-profile-avatar {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #f3dfe2;
+
+  color: var(--burgundy);
+
+  border: 1px solid rgba(130, 36, 55, 0.11);
+}
+
+.account-profile-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: none;
+}
+
+.account-profile-avatar svg {
+  width: 20px;
+  height: 20px;
+
+  stroke-width: 1.5;
+}
+
+.account-profile-text {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+  flex: 1;
+}
+
+.account-profile-text strong {
+  color: var(--black);
+
+  font-family: var(--serif);
+
+  font-size: 15px;
+
+  font-weight: 500;
+
+  line-height: 1.25;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.account-profile-text a {
+  width: fit-content;
+
+  color: rgba(40, 30, 32, 0.52);
+
+  font-size: 10px;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.account-profile-text a:hover {
+  color: var(--burgundy);
+}
+
+/* =========================================================
+   HEADER ARROW
+========================================================= */
+
+.account-header-arrow {
+  width: 25px;
+  height: 25px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: rgba(60, 35, 40, 0.45);
+
+  border-radius: 50%;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.account-header-arrow:hover {
+  color: var(--burgundy);
+
+  background: rgba(130, 36, 55, 0.055);
+}
+
+.account-header-arrow svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* =========================================================
+   ACCOUNT MENU
+========================================================= */
+
+.account-menu-list {
+  padding: 6px 7px;
+}
+
+.account-menu-item {
+  min-height: 43px;
+
+  padding: 0 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--black);
+
+  text-decoration: none;
+
+  border-radius: 7px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.account-menu-item:hover {
+  background: rgba(130, 36, 55, 0.055);
+
+  color: var(--burgundy);
+
+  transform: translateX(1px);
+}
+
+/* =========================================================
+   MENU ICON
+========================================================= */
+
+.account-menu-icon {
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: currentColor;
+}
+
+.account-menu-icon svg {
+  width: 17px;
+  height: 17px;
+
+  stroke-width: 1.5;
+}
+
+/* =========================================================
+   MENU LABEL
+========================================================= */
+
+.account-menu-label {
+  flex: 1;
+
+  font-size: 12px;
+
+  font-weight: 400;
+
+  line-height: 1;
+}
+
+/* =========================================================
+   MENU ARROW
+========================================================= */
+
+.account-menu-arrow {
+  width: 13px;
+  height: 13px;
+
+  opacity: 0.38;
+
+  flex-shrink: 0;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.account-menu-item:hover .account-menu-arrow {
+  opacity: 0.75;
+
+  transform: translateX(2px);
+}
+
+/* =========================================================
+   ORDER BADGE
+========================================================= */
+
+.account-order-badge {
+  min-width: 17px;
+  height: 17px;
+
+  padding: 0 4px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #b36a79;
+
+  color: #ffffff;
+
+  font-size: 8px;
+
+  font-weight: 600;
+
+  line-height: 17px;
+}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.account-logout-wrapper {
+  margin-top: 2px;
+
+  padding: 6px 7px 7px;
+
+  border-top: 1px solid rgba(80, 40, 50, 0.075);
+}
+
+.account-logout-button {
+  width: 100%;
+
+  min-height: 42px;
+
+  padding: 0 9px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--black);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  border-radius: 7px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.account-logout-button:hover {
+  background: rgba(150, 35, 55, 0.06);
+
+  color: var(--burgundy);
+}
+
+/* =========================================================
+   LOGGED OUT
+========================================================= */
+
+.logged-in-account-menu {
+  display: block;
+}
+
+.logged-out-account-menu {
+  display: none;
+
+  padding: 7px;
+}
+
+.logged-out-account-menu a {
+  min-height: 42px;
+
+  padding: 0 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--black);
+
+  text-decoration: none;
+
+  border-radius: 7px;
+
+  font-size: 12px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.logged-out-account-menu a:hover {
+  background: rgba(130, 36, 55, 0.055);
+
+  color: var(--burgundy);
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+body.dark-mode .account-dropdown {
+  background: #21191c;
+
+  border-color: #443336;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.42),
+    0 5px 18px rgba(0, 0, 0, 0.22);
+}
+
+body.dark-mode .account-profile-header {
+  background: linear-gradient(135deg, #2a1d20, #21191c);
+
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .account-profile-avatar {
+  background: #38262b;
+
+  color: #e4a9b5;
+}
+
+body.dark-mode .account-profile-text strong {
+  color: #f5e8e9;
+}
+
+body.dark-mode .account-profile-text a {
+  color: rgba(245, 232, 233, 0.5);
+}
+
+body.dark-mode .account-profile-text a:hover {
+  color: #e4a9b5;
+}
+
+body.dark-mode .account-header-arrow {
+  color: rgba(245, 232, 233, 0.5);
+}
+
+body.dark-mode .account-menu-item,
+body.dark-mode .account-logout-button {
+  color: #f5e8e9;
+}
+
+body.dark-mode .account-menu-item:hover,
+body.dark-mode .account-logout-button:hover {
+  background: rgba(255, 255, 255, 0.055);
+
+  color: #e4a9b5;
+}
+
+body.dark-mode .account-logout-wrapper {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .logged-out-account-menu a {
+  color: #f5e8e9;
+}
+
+body.dark-mode .logged-out-account-menu a:hover {
+  background: rgba(255, 255, 255, 0.05);
+
+  color: #e4a9b5;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .account-dropdown {
+    width: min(285px, calc(100vw - 24px));
+
+    right: -4px;
+
+    border-radius: 10px;
+  }
+
+  .account-profile-header {
+    min-height: 72px;
+
+    padding: 13px 14px;
+  }
+
+  .account-profile-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .account-menu-item {
+    min-height: 42px;
+  }
+}
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+.notification-button small {
+  position: absolute;
+
+  top: 1px;
+  right: -1px;
+
+  min-width: 15px;
+  height: 15px;
+
+  padding: 0 3px;
+
+  border-radius: 50%;
+
+  background: var(--burgundy);
+
+  color: #ffffff;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  line-height: 15px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1.5px solid #ffffff;
+}
+
+/* =========================================================
+   THEME
+========================================================= */
+
+.moon-icon {
+  display: none;
+}
+
+body.dark-mode .sun-icon {
+  display: none;
+}
+
+body.dark-mode .moon-icon {
+  display: block;
+}
+
+/* =========================================================
+   MOBILE BUTTON
+========================================================= */
+
+.mobile-menu-button {
+  display: none;
+
+  width: 38px;
+  height: 38px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--black);
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  border-radius: 50%;
+
+  font-family: inherit;
+}
+
+.mobile-menu-button svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-menu {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 100000;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(150, 50, 75, 0.08),
+      transparent 35%
+    ),
+    #fffafa;
+
+  color: var(--text);
+
+  padding: 80px 35px 45px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 22px;
+
+  overflow-y: auto;
+
+  transform: translateX(100%);
+
+  transition: transform 0.38s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+}
+
+.mobile-menu-brand {
+  margin-bottom: 20px;
+}
+
+.mobile-menu-brand img {
+  width: 105px;
+
+  height: auto;
+
+  object-fit: contain;
+}
+
+.mobile-menu .navbar-menu {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 4px;
+
+  margin: 0;
+}
+
+.mobile-menu .navbar-link {
+  font-family: var(--serif);
+
+  font-size: 27px;
+
+  padding: 10px 0;
+}
+
+.mobile-menu .navbar-link.active::after {
+  display: none;
+}
+
+.mobile-close {
+  position: absolute;
+
+  top: 25px;
+  right: 25px;
+
+  width: 40px;
+  height: 40px;
+
+  border: 0;
+
+  background: rgba(130, 36, 55, 0.06);
+
+  border-radius: 50%;
+
+  color: var(--text);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.mobile-close svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* =========================================================
+   MOBILE DROPDOWN
+========================================================= */
+
+.mobile-menu .dropdown-menu {
+  position: static;
+
+  width: 100%;
+
+  margin: 3px 0 10px;
+
+  padding: 5px;
+
+  box-shadow: none;
+
+  border: 1px solid rgba(80, 40, 50, 0.08);
+
+  transform: none;
+
+  display: none;
+}
+
+.mobile-menu .dropdown.open > .dropdown-menu {
+  display: block;
+
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  transform: none;
+}
+
+.mobile-menu .dropdown-menu a {
+  font-family: inherit;
+
+  font-size: 14px;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 110000;
+
+  background: rgba(30, 10, 15, 0.64);
+
+  backdrop-filter: blur(7px);
+
+  -webkit-backdrop-filter: blur(7px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.28s ease,
+    visibility 0.28s ease;
+}
+
+.search-overlay.active {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+.search-box {
+  width: min(650px, 90%);
+
+  background: linear-gradient(145deg, #ffffff, #fffafa);
+
+  padding: 48px;
+
+  border-radius: 8px;
+
+  position: relative;
+
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
+
+  transform: translateY(15px) scale(0.98);
+
+  transition: transform 0.3s ease;
+}
+
+.search-overlay.active .search-box {
+  transform: translateY(0) scale(1);
+}
+
+.close-search {
+  position: absolute;
+
+  right: 18px;
+  top: 18px;
+
+  width: 36px;
+  height: 36px;
+
+  border: 0;
+
+  background: rgba(100, 30, 45, 0.06);
+
+  border-radius: 50%;
+
+  color: var(--black);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.close-search svg {
+  width: 18px;
+  height: 18px;
+}
+
+.search-heading span {
+  display: block;
+
+  font-size: 10px;
+
+  letter-spacing: 3px;
+
+  color: var(--burgundy);
+
+  margin-bottom: 9px;
+}
+
+.search-box h2 {
+  font-family: var(--serif);
+
+  font-size: 35px;
+
+  font-weight: 400;
+
+  margin: 0 0 25px;
+
+  color: var(--black);
+}
+
+.search-input-wrapper {
+  display: flex;
+
+  border: 1px solid rgba(70, 35, 40, 0.15);
+
+  background: #ffffff;
+
+  overflow: hidden;
+}
+
+.search-input-wrapper input {
+  flex: 1;
+
+  height: 50px;
+
+  border: 0;
+
+  padding: 0 15px;
+
+  outline: none;
+
+  background: transparent;
+
+  color: var(--black);
+
+  font-family: inherit;
+
+  font-size: 13px;
+}
+
+.search-input-wrapper button {
+  min-width: 125px;
+
+  border: 0;
+
+  background: var(--burgundy);
+
+  color: white;
+
+  padding: 0 20px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  font-size: 12px;
+}
+
+.search-input-wrapper button:hover {
+  background: #641d2c;
+}
+
+.search-input-wrapper svg {
+  width: 15px;
+  height: 15px;
+}
+
+#searchMessage {
+  margin-top: 12px;
+
+  min-height: 15px;
+
+  font-size: 11px;
+
+  color: var(--burgundy);
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+body.dark-mode .top-bar {
+  background: var(--burgundy);
+  color: #fff5f6;
+}
+
+body.dark-mode .navbar {
+  background: rgba(33, 25, 28, 0.98);
+  border-color: #38282b;
+}
+
+body.dark-mode .navbar-link,
+body.dark-mode .icon-button,
+body.dark-mode .theme-toggle,
+body.dark-mode .mobile-menu-button {
+  color: #f5e8e9;
+}
+
+body.dark-mode .navbar-link:hover,
+body.dark-mode .navbar-link.active,
+body.dark-mode .icon-button:hover,
+body.dark-mode .theme-toggle:hover,
+body.dark-mode .mobile-menu-button:hover {
+  color: #e4a9b5;
+}
+
+body.dark-mode .navbar-link.active::after {
+  background: #e4a9b5;
+}
+
+body.dark-mode .icon-button:hover,
+body.dark-mode .theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .dropdown-menu {
+  background: #21191c;
+
+  border-color: #443336;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .dropdown-menu a {
+  color: #f5e8e9;
+}
+
+body.dark-mode .dropdown-menu a:hover {
+  background: #302126;
+  color: #e4a9b5;
+}
+
+body.dark-mode .account-dropdown {
+  background: #21191c;
+  border-color: #443336;
+}
+
+body.dark-mode .account-profile-header {
+  background: linear-gradient(135deg, #2a1d20, #21191c);
+
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .account-profile-avatar {
+  background: #38262b;
+  color: #e4a9b5;
+}
+
+body.dark-mode .account-profile-text strong {
+  color: #f5e8e9;
+}
+
+body.dark-mode .account-profile-text a {
+  color: rgba(245, 232, 233, 0.5);
+}
+
+body.dark-mode .account-profile-text a:hover {
+  color: #e4a9b5;
+}
+
+body.dark-mode .account-header-arrow {
+  color: rgba(245, 232, 233, 0.55);
+}
+
+body.dark-mode .account-menu-item,
+body.dark-mode .account-logout-button {
+  color: #f5e8e9;
+}
+
+body.dark-mode .account-menu-item:hover,
+body.dark-mode .account-logout-button:hover {
+  background: rgba(255, 255, 255, 0.055);
+  color: #e4a9b5;
+}
+
+body.dark-mode .account-logout-wrapper {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .logged-out-account-menu a {
+  color: #f5e8e9;
+}
+
+body.dark-mode .logged-out-account-menu a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e4a9b5;
+}
+
+body.dark-mode .mobile-menu {
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(150, 50, 75, 0.12),
+      transparent 35%
+    ),
+    #171315;
+
+  color: #f8edef;
+}
+
+body.dark-mode .mobile-close {
+  color: #f8edef;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .search-overlay {
+  background: rgba(0, 0, 0, 0.76);
+}
+
+body.dark-mode .search-box {
+  background: #21191c;
+  color: #f5e9ea;
+}
+
+body.dark-mode .search-heading span,
+body.dark-mode .search-box h2 {
+  color: #f8edef;
+}
+
+body.dark-mode .close-search {
+  color: #f5e9ea;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .search-input-wrapper {
+  border-color: #443336;
+  background: #171315;
+}
+
+body.dark-mode .search-input-wrapper input {
+  color: #ffffff;
+}
+
+body.dark-mode .search-input-wrapper input::placeholder {
+  color: #97878a;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1180px) {
+  .navbar-menu {
+    gap: 18px;
+  }
+
+  .right-navbar {
+    gap: 13px;
+  }
+
+  .navbar-link {
+    font-size: 14px;
+  }
+
+  .my-logo {
+    width: 125px;
+  }
+}
+
+@media (max-width: 980px) {
+  .main-navbar-menu {
+    display: none;
+  }
+
+  .right-navbar {
+    margin-left: auto;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+
+    margin-left: 10px;
+  }
+
+  .navbar-container {
+    width: 92%;
+  }
+}
+
+@media (max-width: 650px) {
+  .top-bar {
+    gap: 0;
+
+    justify-content: center;
+
+    padding: 0 15px;
+  }
+
+  .top-item {
+    display: none;
+  }
+
+  .top-item:first-child {
+    display: flex;
+  }
+
+  .top-item:first-child span {
+    font-size: 10px;
+  }
+
+  .navbar {
+    height: 70px;
+  }
+
+  .my-logo {
+    width: 110px;
+
+    margin-right: 0;
+  }
+
+  .site-logo-image {
+    width: 95px;
+  }
+
+  .right-navbar {
+    gap: 5px;
+  }
+
+  .right-navbar .search-button {
+    display: none;
+  }
+
+  .icon-button,
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .icon-button svg,
+  .theme-toggle svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .mobile-menu-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .account-dropdown {
+    width: min(345px, calc(100vw - 30px));
+    right: -5px;
+  }
+
+  .search-box {
+    padding: 35px 22px;
+  }
+
+  .search-box h2 {
+    font-size: 29px;
+  }
+
+  .search-input-wrapper {
+    flex-direction: column;
+
+    border: 0;
+
+    gap: 9px;
+  }
+
+  .search-input-wrapper input {
+    border: 1px solid rgba(70, 35, 40, 0.15);
+  }
+
+  .search-input-wrapper button {
+    height: 46px;
+  }
+}
+
+@media (max-width: 420px) {
+  .right-navbar {
+    gap: 1px;
+  }
+
+  .notification-button small {
+    right: -1px;
+  }
+
+  .profile-avatar {
+    width: 27px !important;
+    height: 27px !important;
+
+    min-width: 27px !important;
+    min-height: 27px !important;
+  }
+}

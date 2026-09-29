@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Trending | EVE BEAUTY</title>
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- =====================================================
+         ICONS
+    ====================================================== -->
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- =====================================================
+         SHARED CSS
+    ====================================================== -->
+
+    <link rel="stylesheet" href="css/navbar.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+
+    <!-- =====================================================
+         PAGE CSS
+    ====================================================== -->
+
+    <link rel="stylesheet" href="css/trending.css" />
+  </head>
+
+  <body class="trending-page">
+
+    <!-- =====================================================
+         SHARED NAVBAR
+    ====================================================== -->
+
+    <div id="navbar-container"></div>
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main>
+
+      <!-- ===================================================
+           HERO
+      ==================================================== -->
+
+      <section class="trending-hero">
+
+        <div class="trending-hero-content">
+
+          <span class="trending-eyebrow">
+            EVE BEAUTY COLLECTION
+          </span>
+
+          <h1>
+            Trending
+          </h1>
+
+          <p class="trending-hero-tagline">
+            What’s hot right now.
+          </p>
+
+          <p class="trending-hero-description">
+            Stay ahead with the latest beauty obsessions.
+            From viral products to emerging favorites,
+            see what's trending in the beauty world.
+          </p>
+
+          <button
+            type="button"
+            class="trending-primary-btn"
+            data-open-trending
+          >
+            Explore Trending
+            <span>→</span>
+          </button>
+
+        </div>
+
+        <div class="trending-hero-image">
+
+          <img
+            src="assets/images/trending-hero.jpg"
+            alt="EVE Beauty Trending Collection"
+          />
+
+          <div class="trending-hero-script">
+            Trending<br />
+            <em>Now.</em>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================================
+           CATEGORY NAV
+      ==================================================== -->
+
+      <section class="trending-categories">
+
+        <button
+          type="button"
+          class="trending-category"
+          data-category="skincare"
+        >
+          <span class="category-icon">
+            <i data-lucide="droplets"></i>
+          </span>
+
+          <strong>Skincare</strong>
+        </button>
+
+        <button
+          type="button"
+          class="trending-category"
+          data-category="makeup"
+        >
+          <span class="category-icon">
+            <i data-lucide="brush"></i>
+          </span>
+
+          <strong>Makeup</strong>
+        </button>
+
+        <button
+          type="button"
+          class="trending-category"
+          data-category="haircare"
+        >
+          <span class="category-icon">
+            <i data-lucide="waves"></i>
+          </span>
+
+          <strong>Haircare</strong>
+        </button>
+
+        <button
+          type="button"
+          class="trending-category"
+          data-category="fragrance"
+        >
+          <span class="category-icon">
+            <i data-lucide="flower-2"></i>
+          </span>
+
+          <strong>Fragrance</strong>
+        </button>
+
+        <button
+          type="button"
+          class="trending-category"
+          data-category="sets"
+        >
+          <span class="category-icon">
+            <i data-lucide="gift"></i>
+          </span>
+
+          <strong>Sets</strong>
+        </button>
+
+      </section>
+
+
+      <!-- ===================================================
+           MOST TALKED ABOUT
+      ==================================================== -->
+
+      <section class="trending-products-area">
+
+        <div class="talked-about">
+
+          <div class="talked-about-content">
+
+            <h2>
+              Most Talked About
+            </h2>
+
+            <p>
+              The products everyone is
+              raving about.
+            </p>
+
+            <button
+              type="button"
+              class="talked-about-btn"
+              data-scroll-skincare
+            >
+              Shop Now
+              <span>→</span>
+            </button>
+
+          </div>
+
+          <div class="talked-about-image">
+
+            <img
+              src="assets/images/trending-talked-about.jpg"
+              alt="Most talked about beauty products"
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SKINCARE
+        ================================================== -->
+
+        <section
+          id="trending-skincare"
+          class="trending-product-section"
+        >
+
+          <div class="trending-section-heading">
+
+            <h2>
+              Trending Skincare
+            </h2>
+
+            <button
+              type="button"
+              class="trending-view-all"
+              data-view-all="skincare"
+            >
+              View All
+              <span>→</span>
+            </button>
+
+          </div>
+
+
+          <div
+            class="trending-product-grid"
+            id="skincare-products"
+          ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             MAKEUP
+        ================================================== -->
+
+        <section
+          id="trending-makeup"
+          class="trending-product-section"
+        >
+
+          <div class="trending-section-heading">
+
+            <h2>
+              Trending Makeup
+            </h2>
+
+            <button
+              type="button"
+              class="trending-view-all"
+              data-view-all="makeup"
+            >
+              View All
+              <span>→</span>
+            </button>
+
+          </div>
+
+
+          <div
+            class="trending-product-grid"
+            id="makeup-products"
+          ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             FAVORITES BANNER
+        ================================================== -->
+
+        <section class="trending-favorites-banner">
+
+          <div class="trending-favorites-content">
+
+            <h2>
+              What Everyone Is Loving
+            </h2>
+
+            <p>
+              Top-rated. Highly reviewed. Totally worth it.
+            </p>
+
+            <button
+              type="button"
+              class="trending-small-btn"
+              data-open-trending
+            >
+              See All Trending
+              <span>→</span>
+            </button>
+
+          </div>
+
+          <div class="trending-favorites-image">
+
+            <img
+              src="assets/images/trending-favorites.jpg"
+              alt="Trending beauty favorites"
+            />
+
+            <div class="favorites-script">
+              Trending<br />
+              <em>Now.</em>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             BOTTOM FEATURES
+        ================================================== -->
+
+        <section class="trending-bottom-features">
+
+          <div class="bottom-feature">
+
+            <span>
+              <i data-lucide="sparkles"></i>
+            </span>
+
+            <div>
+              <strong>New Arrivals</strong>
+              <small>Be the first to know</small>
+            </div>
+
+          </div>
+
+
+          <div class="bottom-feature">
+
+            <span>
+              <i data-lucide="heart"></i>
+            </span>
+
+            <div>
+              <strong>Beauty Tips</strong>
+              <small>Expert advice</small>
+            </div>
+
+          </div>
+
+
+          <div class="bottom-feature">
+
+            <span>
+              <i data-lucide="users"></i>
+            </span>
+
+            <div>
+              <strong>Join Our Community</strong>
+              <small>#evebeauty</small>
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="bottom-next"
+            data-open-trending
+            aria-label="See all trending products"
+          >
+            →
+          </button>
+
+        </section>
+
+      </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         SHARED FOOTER
+    ====================================================== -->
+
+    <div id="footer-container"></div>
+
+
+    <!-- =====================================================
+         TRENDING MODAL
+    ====================================================== -->
+
+    <div
+      class="trending-modal"
+      id="trendingModal"
+      hidden
+      aria-hidden="true"
+    >
+
+      <div
+        class="trending-modal-overlay"
+        data-close-modal
+      ></div>
+
+
+      <div
+        class="trending-modal-box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="trendingModalTitle"
+      >
+
+        <button
+          type="button"
+          class="trending-modal-close"
+          data-close-modal
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+
+        <span class="trending-modal-eyebrow">
+          EVE BEAUTY
+        </span>
+
+        <h2 id="trendingModalTitle">
+          Trending Now
+        </h2>
+
+        <p class="trending-modal-description">
+          Discover the beauty products everyone is
+          talking about right now.
+        </p>
+
+
+        <div
+          class="trending-modal-filter"
+          id="trendingModalFilter"
+        >
+
+          <button
+            type="button"
+            class="modal-filter-btn active"
+            data-modal-filter="all"
+          >
+            All
+          </button>
+
+          <button
+            type="button"
+            class="modal-filter-btn"
+            data-modal-filter="skincare"
+          >
+            Skincare
+          </button>
+
+          <button
+            type="button"
+            class="modal-filter-btn"
+            data-modal-filter="makeup"
+          >
+            Makeup
+          </button>
+
+          <button
+            type="button"
+            class="modal-filter-btn"
+            data-modal-filter="haircare"
+          >
+            Haircare
+          </button>
+
+          <button
+            type="button"
+            class="modal-filter-btn"
+            data-modal-filter="fragrance"
+          >
+            Fragrance
+          </button>
+
+        </div>
+
+
+        <div
+          class="trending-modal-products"
+          id="trendingModalProducts"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         CART TOAST
+    ====================================================== -->
+
+    <div
+      class="trending-cart-toast"
+      id="trendingCartToast"
+    ></div>
+
+
+    <!-- =====================================================
+         SCRIPTS
+    ====================================================== -->
+
+    <script src="js/components.js"></script>
+    <script src="js/trending.js"></script>
+
+  </body>
+</html>

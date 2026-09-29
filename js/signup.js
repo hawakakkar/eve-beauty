@@ -1,211 +1,287 @@
 /* =========================================================
-   EVE BEAUTY - SIGN UP
-   ========================================================= */
+   EVE BEAUTY
+   SIGN UP - LOCAL STORAGE DATABASE
+========================================================= */
 
+document.addEventListener("DOMContentLoaded", () => {
+  /* =======================================================
+     ELEMENTS
+  ======================================================= */
 
-/* =========================================================
-   THEME
-   ========================================================= */
+  const createAccountForm = document.getElementById("createAccountForm");
 
-const lightModeBtn = document.getElementById("lightModeBtn");
-const darkModeBtn = document.getElementById("darkModeBtn");
+  const signupName = document.getElementById("signupName");
 
-function setTheme(theme) {
-  if (theme === "dark") {
-    document.body.classList.add("dark-mode");
+  const signupEmail = document.getElementById("signupEmail");
 
-    if (darkModeBtn) {
-      darkModeBtn.classList.add("active");
+  const signupPassword = document.getElementById("signupPassword");
+
+  const signupPasswordToggle = document.getElementById("signupPasswordToggle");
+
+  const signupMessage = document.getElementById("signupMessage");
+
+  const lightModeBtn = document.getElementById("lightModeBtn");
+
+  const darkModeBtn = document.getElementById("darkModeBtn");
+
+  /* =======================================================
+     STORAGE
+  ======================================================= */
+
+  const USERS_KEY = "eveBeautyUsers";
+  const CURRENT_USER_KEY = "eveBeautyCurrentUser";
+  const THEME_KEY = "eveBeautyTheme";
+
+  /* =======================================================
+     USERS DATABASE
+  ======================================================= */
+
+  function getUsers() {
+    try {
+      const stored = localStorage.getItem(USERS_KEY);
+
+      if (!stored) {
+        return [];
+      }
+
+      const users = JSON.parse(stored);
+
+      return Array.isArray(users) ? users : [];
+    } catch (error) {
+      console.error("Could not read users:", error);
+
+      return [];
     }
-
-    if (lightModeBtn) {
-      lightModeBtn.classList.remove("active");
-    }
-
-    localStorage.setItem("eve-login-theme", "dark");
-  } else {
-    document.body.classList.remove("dark-mode");
-
-    if (lightModeBtn) {
-      lightModeBtn.classList.add("active");
-    }
-
-    if (darkModeBtn) {
-      darkModeBtn.classList.remove("active");
-    }
-
-    localStorage.setItem("eve-login-theme", "light");
   }
-}
 
+  function saveUsers(users) {
+    try {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
 
-if (lightModeBtn) {
-  lightModeBtn.addEventListener("click", function () {
-    setTheme("light");
-  });
-}
+      return true;
+    } catch (error) {
+      console.error("Could not save users:", error);
 
-
-if (darkModeBtn) {
-  darkModeBtn.addEventListener("click", function () {
-    setTheme("dark");
-  });
-}
-
-
-/* Load saved theme */
-
-const savedTheme = localStorage.getItem("eve-login-theme");
-
-if (savedTheme === "dark") {
-  setTheme("dark");
-} else {
-  setTheme("light");
-}
-
-
-/* =========================================================
-   PASSWORD SHOW / HIDE
-   ========================================================= */
-
-const signupPassword = document.getElementById("signupPassword");
-const signupPasswordToggle = document.getElementById(
-  "signupPasswordToggle"
-);
-
-if (signupPassword && signupPasswordToggle) {
-  signupPasswordToggle.addEventListener("click", function () {
-
-    if (signupPassword.type === "password") {
-      signupPassword.type = "text";
-
-      signupPasswordToggle.setAttribute(
-        "aria-label",
-        "Hide password"
-      );
-    } else {
-      signupPassword.type = "password";
-
-      signupPasswordToggle.setAttribute(
-        "aria-label",
-        "Show password"
-      );
+      return false;
     }
+  }
 
-  });
-}
+  /* =======================================================
+     HELPERS
+  ======================================================= */
 
+  function normalizeEmail(email) {
+    return String(email || "")
+      .trim()
+      .toLowerCase();
+  }
 
-/* =========================================================
-   SIGN UP
-   ========================================================= */
+  function validEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
 
-const createAccountForm =
-  document.getElementById("createAccountForm");
+  function showMessage(message, type = "error") {
+    if (!signupMessage) return;
 
-const signupName =
-  document.getElementById("signupName");
+    signupMessage.textContent = message;
 
-const signupEmail =
-  document.getElementById("signupEmail");
+    signupMessage.classList.remove("success", "error");
 
-const signupMessage =
-  document.getElementById("signupMessage");
+    signupMessage.classList.add(type);
+  }
 
-
-if (createAccountForm) {
-
-  createAccountForm.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-
-
-    const name = signupName.value.trim();
-    const email = signupEmail.value.trim().toLowerCase();
-    const password = signupPassword.value;
-
-
-    /* Clear old message */
+  function clearMessage() {
+    if (!signupMessage) return;
 
     signupMessage.textContent = "";
 
+    signupMessage.classList.remove("success", "error");
+  }
 
-    /* Validation */
+  /* =======================================================
+     THEME
+  ======================================================= */
 
-    if (!name || !email || !password) {
+  function setTheme(theme) {
+    const isDark = theme === "dark";
 
-      signupMessage.textContent =
-        "Please fill in all fields.";
+    document.body.classList.toggle("dark-mode", isDark);
 
-      return;
-    }
+    lightModeBtn?.classList.toggle("active", !isDark);
 
+    darkModeBtn?.classList.toggle("active", isDark);
 
-    if (password.length < 6) {
+    localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+  }
 
-      signupMessage.textContent =
-        "Password must be at least 6 characters.";
+  function loadTheme() {
+    const savedTheme = localStorage.getItem(THEME_KEY);
 
-      return;
-    }
+    setTheme(savedTheme === "dark" ? "dark" : "light");
+  }
 
+  lightModeBtn?.addEventListener("click", () => setTheme("light"));
 
-    /* =====================================================
-       CREATE ACCOUNT OBJECT
-       ===================================================== */
+  darkModeBtn?.addEventListener("click", () => setTheme("dark"));
 
-    const account = {
-      name: name,
-      email: email,
-      password: password
-    };
+  /* =======================================================
+     PASSWORD SHOW / HIDE
+  ======================================================= */
 
+  signupPasswordToggle?.addEventListener("click", () => {
+    if (!signupPassword) return;
 
-    /* =====================================================
-       SAVE ACCOUNT
-       ===================================================== */
+    const isPassword = signupPassword.type === "password";
 
-    localStorage.setItem(
-      "eveBeautyAccount",
-      JSON.stringify(account)
+    signupPassword.type = isPassword ? "text" : "password";
+
+    signupPasswordToggle.setAttribute(
+      "aria-label",
+      isPassword ? "Hide password" : "Show password",
     );
-
-
-    /* Save user's basic profile information too */
-
-    localStorage.setItem(
-      "eveBeautyUser",
-      JSON.stringify({
-        name: name,
-        email: email
-      })
-    );
-
-
-    /* User is NOT logged in yet */
-
-    localStorage.setItem(
-      "eveBeautyLoggedIn",
-      "false"
-    );
-
-
-    /* Success message */
-
-    signupMessage.textContent =
-      "Account created successfully!";
-
-
-    /* =====================================================
-       GO TO LOGIN PAGE
-       ===================================================== */
-
-    setTimeout(function () {
-
-      window.location.href = "login.html";
-
-    }, 800);
-
   });
 
-}
+  /* =======================================================
+     SIGN UP
+  ======================================================= */
+
+  createAccountForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    clearMessage();
+
+    const name = signupName?.value.trim() || "";
+
+    const email = normalizeEmail(signupEmail?.value);
+
+    const password = signupPassword?.value || "";
+
+    /* ---------------------------------------------------
+         VALIDATION
+      --------------------------------------------------- */
+
+    if (!name) {
+      showMessage("Please enter your full name.");
+
+      signupName?.focus();
+
+      return;
+    }
+
+    if (!email) {
+      showMessage("Please enter your email address.");
+
+      signupEmail?.focus();
+
+      return;
+    }
+
+    if (!validEmail(email)) {
+      showMessage("Please enter a valid email address.");
+
+      signupEmail?.focus();
+
+      return;
+    }
+
+    if (!password) {
+      showMessage("Please create a password.");
+
+      signupPassword?.focus();
+
+      return;
+    }
+
+    if (password.length < 6) {
+      showMessage("Password must be at least 6 characters.");
+
+      signupPassword?.focus();
+
+      return;
+    }
+
+    /* ---------------------------------------------------
+         GET DATABASE
+      --------------------------------------------------- */
+
+    const users = getUsers();
+
+    /* ---------------------------------------------------
+         CHECK DUPLICATE EMAIL
+      --------------------------------------------------- */
+
+    const existingUser = users.find(
+      (user) => normalizeEmail(user.email) === email,
+    );
+
+    if (existingUser) {
+      showMessage("An account with this email already exists.");
+
+      return;
+    }
+
+    /* ---------------------------------------------------
+         CREATE USER
+      --------------------------------------------------- */
+
+    const account = {
+      id: "user_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8),
+
+      name,
+
+      email,
+
+      password,
+
+      provider: "local",
+
+      createdAt: new Date().toISOString(),
+
+      updatedAt: new Date().toISOString(),
+    };
+
+    /* ---------------------------------------------------
+         SAVE USER
+      --------------------------------------------------- */
+
+    users.push(account);
+
+    const saved = saveUsers(users);
+
+    if (!saved) {
+      showMessage("Could not create your account. Please try again.");
+
+      return;
+    }
+
+    /* ---------------------------------------------------
+         REMOVE OLD / INCONSISTENT STORAGE
+      --------------------------------------------------- */
+
+    localStorage.removeItem("eveBeautyAccount");
+
+    localStorage.removeItem("eveBeautyUser");
+
+    localStorage.removeItem("eveBeautyLoggedIn");
+
+    /* ---------------------------------------------------
+         SUCCESS
+      --------------------------------------------------- */
+
+    showMessage("Account created successfully! Redirecting...", "success");
+
+    /* ---------------------------------------------------
+         REDIRECT TO LOGIN
+      --------------------------------------------------- */
+
+    setTimeout(() => {
+      window.location.href = "login.html?registered=1";
+    }, 800);
+  });
+
+  /* =======================================================
+     INITIALIZATION
+  ======================================================= */
+
+  loadTheme();
+});

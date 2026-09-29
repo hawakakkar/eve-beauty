@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Exclusive | EVE BEAUTY</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="css/navbar.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="css/exclusive.css" />
+  </head>
+
+  <body class="exclusive-page">
+    <!-- =========================
+       SHARED NAVBAR
+  ========================== -->
+    <div id="navbar-container"></div>
+
+    <main>
+      <!-- =========================
+         HERO
+    ========================== -->
+
+      <section class="exclusive-hero">
+        <div class="exclusive-hero-content">
+          <span class="exclusive-eyebrow"> COLLECTIONS </span>
+
+          <h1>Exclusive</h1>
+
+          <p class="exclusive-hero-tagline">Limited. Special. Just for you.</p>
+
+          <p class="exclusive-hero-description">
+            Our exclusive collection features limited edition products, special
+            gift sets and members-only offers. Because you deserve something
+            extraordinary.
+          </p>
+
+          <button
+            class="exclusive-primary-btn"
+            type="button"
+            data-exclusive-explore
+          >
+            Explore Exclusive
+            <span>→</span>
+          </button>
+        </div>
+
+        <div class="exclusive-hero-image">
+          <img
+            src="assets/images/exclusive-hero.jpg"
+            alt="EVE Beauty Exclusive Collection"
+            onerror="this.style.display = 'none'"
+          />
+
+          <div class="exclusive-hero-script">
+            Limited<br />
+            Edition
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+         FEATURES
+    ========================== -->
+
+      <section class="exclusive-features">
+        <div class="exclusive-feature">
+          <span class="exclusive-feature-icon">
+            <i class="fa-regular fa-gem"></i>
+          </span>
+
+          <div>
+            <strong>Limited Edition</strong>
+            <small>Collections</small>
+          </div>
+        </div>
+
+        <div class="exclusive-feature">
+          <span class="exclusive-feature-icon">
+            <i class="fa-solid fa-gift"></i>
+          </span>
+
+          <div>
+            <strong>Exclusive Sets</strong>
+            <small>& Bundles</small>
+          </div>
+        </div>
+
+        <div class="exclusive-feature">
+          <span class="exclusive-feature-icon">
+            <i class="fa-regular fa-user"></i>
+          </span>
+
+          <div>
+            <strong>Members Only</strong>
+            <small>Access</small>
+          </div>
+        </div>
+
+        <div class="exclusive-feature">
+          <span class="exclusive-feature-icon">
+            <i class="fa-regular fa-star"></i>
+          </span>
+
+          <div>
+            <strong>Early Access</strong>
+            <small>New Arrivals</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+         EXCLUSIVE COLLECTION
+    ========================== -->
+
+      <section class="exclusive-container">
+        <div class="exclusive-section-heading">
+          <h2>Exclusive Collection</h2>
+
+          <button
+            class="exclusive-view-all"
+            type="button"
+            data-exclusive-view-all
+          >
+            View All →
+          </button>
+        </div>
+
+        <div class="exclusive-collection-feature">
+          <div class="exclusive-collection-image">
+            <img
+              src="assets/images/exclusive-collection.jpg"
+              alt="Rose Éclat Collection"
+              onerror="this.style.display = 'none'"
+            />
+          </div>
+
+          <div class="exclusive-collection-content">
+            <span> LIMITED EDITION </span>
+
+            <h2>Rose Éclat Collection</h2>
+
+            <p>
+              A limited edition collection inspired by the beauty of roses,
+              crafted for those who appreciate the extraordinary.
+            </p>
+
+            <button
+              class="exclusive-small-btn"
+              type="button"
+              data-shop-collection
+            >
+              Shop Collection
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =========================
+           BEAUTY SETS
+      ========================== -->
+
+        <div
+          class="exclusive-section-heading exclusive-products-heading"
+          id="exclusive-products"
+        >
+          <h2>Exclusive Beauty Sets</h2>
+
+          <button
+            class="exclusive-view-all"
+            type="button"
+            data-exclusive-view-all
+          >
+            View All →
+          </button>
+        </div>
+
+        <div class="exclusive-products-grid" data-products-grid>
+          <!-- PRODUCT 1 -->
+
+          <article
+            class="exclusive-product-card"
+            data-product-id="luxe-skincare-set"
+            data-product-name="Luxe Skincare Set"
+            data-product-price="96"
+            data-product-image="assets/images/luxe-skincare-set.jpg"
+          >
+            <div class="exclusive-product-image">
+              <span class="exclusive-product-badge"> LIMITED </span>
+
+              <button
+                class="exclusive-wishlist"
+                type="button"
+                aria-label="Add to wishlist"
+              >
+                ♡
+              </button>
+
+              <img
+                src="assets/images/luxe-skincare-set.jpg"
+                alt="Luxe Skincare Set"
+              />
+            </div>
+
+            <div class="exclusive-product-info">
+              <span class="exclusive-product-brand"> EVE BEAUTY </span>
+
+              <h3>Luxe Skincare Set</h3>
+
+              <div class="exclusive-rating">
+                ★★★★★
+                <span>(46)</span>
+              </div>
+
+              <div class="exclusive-product-bottom">
+                <strong> $96.00 </strong>
+
+                <button class="exclusive-cart-btn" type="button" data-add-cart>
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <span>Add to Cart</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 2 -->
+
+          <article
+            class="exclusive-product-card"
+            data-product-id="signature-fragrance-set"
+            data-product-name="Signature Fragrance Set"
+            data-product-price="120"
+            data-product-image="assets/images/signature-fragrance-set.jpg"
+          >
+            <div class="exclusive-product-image">
+              <span class="exclusive-product-badge"> EXCLUSIVE </span>
+
+              <button class="exclusive-wishlist" type="button">♡</button>
+
+              <img
+                src="assets/images/signature-fragrance-set.jpg"
+                alt="Signature Fragrance Set"
+              />
+            </div>
+
+            <div class="exclusive-product-info">
+              <span class="exclusive-product-brand"> DIOR </span>
+
+              <h3>Signature Fragrance Set</h3>
+
+              <div class="exclusive-rating">
+                ★★★★★
+                <span>(51)</span>
+              </div>
+
+              <div class="exclusive-product-bottom">
+                <strong> $120.00 </strong>
+
+                <button class="exclusive-cart-btn" type="button" data-add-cart>
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <span>Add to Cart</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 3 -->
+
+          <article
+            class="exclusive-product-card"
+            data-product-id="haircare-premium-set"
+            data-product-name="Haircare Premium Set"
+            data-product-price="110"
+            data-product-image="assets/images/haircare-premium-set.jpg"
+          >
+            <div class="exclusive-product-image">
+              <span class="exclusive-product-badge"> PREMIUM </span>
+
+              <button class="exclusive-wishlist" type="button">♡</button>
+
+              <img
+                src="assets/images/haircare-premium-set.jpg"
+                alt="Haircare Premium Set"
+              />
+            </div>
+
+            <div class="exclusive-product-info">
+              <span class="exclusive-product-brand"> EVE BEAUTY </span>
+
+              <h3>Haircare Premium Set</h3>
+
+              <div class="exclusive-rating">
+                ★★★★★
+                <span>(37)</span>
+              </div>
+
+              <div class="exclusive-product-bottom">
+                <strong> $110.00 </strong>
+
+                <button class="exclusive-cart-btn" type="button" data-add-cart>
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <span>Add to Cart</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- PRODUCT 4 -->
+
+          <article
+            class="exclusive-product-card"
+            data-product-id="makeup-essentials-set"
+            data-product-name="Makeup Essentials Set"
+            data-product-price="94"
+            data-product-image="assets/images/makeup-essentials-set.jpg"
+          >
+            <div class="exclusive-product-image">
+              <span class="exclusive-product-badge"> FAVORITE </span>
+
+              <button class="exclusive-wishlist" type="button">♡</button>
+
+              <img
+                src="assets/images/makeup-essentials-set.jpg"
+                alt="Makeup Essentials Set"
+              />
+            </div>
+
+            <div class="exclusive-product-info">
+              <span class="exclusive-product-brand"> EVE BEAUTY </span>
+
+              <h3>Makeup Essentials Set</h3>
+
+              <div class="exclusive-rating">
+                ★★★★★
+                <span>(48)</span>
+              </div>
+
+              <div class="exclusive-product-bottom">
+                <strong> $94.00 </strong>
+
+                <button class="exclusive-cart-btn" type="button" data-add-cart>
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <span>Add to Cart</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- =========================
+           MEMBERS BANNER
+      ========================== -->
+
+        <section class="exclusive-members-banner">
+          <div class="exclusive-members-content">
+            <h2>Members Only</h2>
+
+            <p>Exclusive access to special offers, early launches and more.</p>
+
+            <button
+              class="exclusive-small-btn dark"
+              type="button"
+              data-join-now
+            >
+              Join Now
+              <span>→</span>
+            </button>
+          </div>
+
+          <div class="exclusive-members-image">
+            <img
+              src="assets/images/members-exclusive.jpg"
+              alt="EVE Beauty Members"
+              onerror="this.style.display = 'none'"
+            />
+          </div>
+        </section>
+
+        <!-- =========================
+           EARLY ACCESS
+      ========================== -->
+
+        <section class="exclusive-early-access">
+          <div class="exclusive-early-content">
+            <h2>Early Access</h2>
+
+            <p>Be the first to shop new arrivals and limited editions.</p>
+
+            <button class="exclusive-small-btn" type="button" data-early-access>
+              Get Early Access
+              <span>→</span>
+            </button>
+          </div>
+
+          <div class="exclusive-early-image">
+            <img
+              src="assets/images/exclusive-early-access.jpg"
+              alt="Early Access"
+              onerror="this.style.display = 'none'"
+            />
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- =========================
+       CART TOAST
+  ========================== -->
+
+    <div
+      class="exclusive-toast"
+      id="exclusiveToast"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <!-- =========================
+       MODAL
+  ========================== -->
+
+    <div class="exclusive-modal" id="exclusiveModal" hidden>
+      <div class="exclusive-modal-overlay" data-modal-close></div>
+
+      <div
+        class="exclusive-modal-box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="exclusiveModalTitle"
+      >
+        <button
+          class="exclusive-modal-close"
+          type="button"
+          data-modal-close
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+        <span class="exclusive-modal-eyebrow" id="exclusiveModalEyebrow">
+          EVE BEAUTY
+        </span>
+
+        <h2 id="exclusiveModalTitle">Exclusive</h2>
+
+        <p id="exclusiveModalText">Discover something extraordinary.</p>
+
+        <div class="exclusive-modal-content" id="exclusiveModalContent"></div>
+      </div>
+    </div>
+
+    <!-- =========================
+       SHARED FOOTER
+  ========================== -->
+
+    <div id="footer-container"></div>
+
+    <!-- =========================
+       SCRIPTS
+  ========================== -->
+
+    <script src="js/components.js"></script>
+    <script src="js/exclusive.js"></script>
+  </body>
+</html>

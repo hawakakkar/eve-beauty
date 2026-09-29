@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Eve Beauty | Shop</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="css/navbar.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+
+    <!-- Shop CSS -->
+    <link rel="stylesheet" href="css/shop.css" />
+  </head>
+
+  <body class="shop-page">
+    <!-- =====================================================
+         NAVBAR COMPONENT
+    ====================================================== -->
+
+    <div id="navbar-container"></div>
+
+    <!-- =====================================================
+         SHOP HERO
+    ====================================================== -->
+
+    <section class="shop-hero">
+      <div class="shop-hero-content">
+        <span class="shop-eyebrow"> SHOP </span>
+
+        <h1>
+          Premium Beauty<br />
+          Products
+        </h1>
+
+        <p>
+          Discover our handpicked collection of makeup, skincare, haircare and
+          fragrance — made for your natural beauty.
+        </p>
+
+        <a href="#products" class="shop-hero-button" id="shopNowButton">
+          Shop Now
+          <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="shop-hero-image">
+        <img
+          src="assets/images/shop-hero.jpg"
+          alt="EVE Beauty Premium Products"
+        />
+
+        <div class="shop-hero-script">
+          Beauty<br />
+          For Every You
+          <span>♡</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         SHOP PRODUCTS AREA
+    ====================================================== -->
+
+    <main class="shop-main" id="products">
+      <div class="shop-layout">
+        <!-- =================================================
+             FILTER SIDEBAR
+        ================================================== -->
+
+        <aside class="shop-sidebar" id="shopSidebar">
+          <div class="filter-heading">
+            <h2>
+              <i data-lucide="sliders-horizontal"></i>
+              Filter Products
+            </h2>
+
+            <button
+              type="button"
+              class="filter-mobile-close"
+              id="filterMobileClose"
+              aria-label="Close filters"
+            >
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+
+          <!-- CATEGORIES -->
+
+          <div class="filter-group">
+            <button type="button" class="filter-group-title" data-filter-toggle>
+              <span>Categories</span>
+              <i data-lucide="chevron-up"></i>
+            </button>
+
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" class="category-filter" value="Makeup" />
+                <span>Makeup</span>
+                <small>(10)</small>
+              </label>
+
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  class="category-filter"
+                  value="Skincare"
+                />
+                <span>Skincare</span>
+                <small>(10)</small>
+              </label>
+
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  class="category-filter"
+                  value="Haircare"
+                />
+                <span>Haircare</span>
+                <small>(10)</small>
+              </label>
+
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  class="category-filter"
+                  value="Fragrance"
+                />
+                <span>Fragrance</span>
+                <small>(10)</small>
+              </label>
+            </div>
+          </div>
+
+          <!-- BRAND -->
+
+          <div class="filter-group">
+            <button type="button" class="filter-group-title" data-filter-toggle>
+              <span>Brand</span>
+              <i data-lucide="chevron-up"></i>
+            </button>
+
+            <div class="filter-options">
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  class="brand-filter"
+                  value="EVE Beauty"
+                />
+                <span>EVE Beauty</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="brand-filter" value="L'Oréal" />
+                <span>L'Oréal</span>
+              </label>
+
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  class="brand-filter"
+                  value="Maybelline"
+                />
+                <span>Maybelline</span>
+              </label>
+
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  class="brand-filter"
+                  value="Estée Lauder"
+                />
+                <span>Estée Lauder</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- PRICE -->
+
+          <div class="filter-group">
+            <button type="button" class="filter-group-title" data-filter-toggle>
+              <span>Price Range</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+
+            <div class="filter-options price-options">
+              <label class="filter-option">
+                <input type="checkbox" class="price-filter" value="under20" />
+                <span>Under $20</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="price-filter" value="20to30" />
+                <span>$20 – $30</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="price-filter" value="over30" />
+                <span>Over $30</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- SKIN TYPE -->
+
+          <div class="filter-group">
+            <button type="button" class="filter-group-title" data-filter-toggle>
+              <span>Skin Type</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" class="skin-filter" value="Normal" />
+                <span>Normal</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="skin-filter" value="Dry" />
+                <span>Dry</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="skin-filter" value="Oily" />
+                <span>Oily</span>
+              </label>
+
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  class="skin-filter"
+                  value="Combination"
+                />
+                <span>Combination</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- PRODUCT TYPE -->
+
+          <div class="filter-group">
+            <button type="button" class="filter-group-title" data-filter-toggle>
+              <span>Product Type</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" class="type-filter" value="Face" />
+                <span>Face</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="type-filter" value="Eyes" />
+                <span>Eyes</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="type-filter" value="Lips" />
+                <span>Lips</span>
+              </label>
+
+              <label class="filter-option">
+                <input type="checkbox" class="type-filter" value="Body" />
+                <span>Body</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- CLEAR -->
+
+          <button type="button" class="clear-filters" id="clearFilters">
+            Clear Filters
+            <i data-lucide="rotate-ccw"></i>
+          </button>
+        </aside>
+
+        <!-- =================================================
+             PRODUCTS
+        ================================================== -->
+
+        <section class="shop-products-area">
+          <!-- TOOLBAR -->
+
+          <div class="shop-toolbar">
+            <button
+              type="button"
+              class="mobile-filter-button"
+              id="mobileFilterButton"
+            >
+              <i data-lucide="sliders-horizontal"></i>
+              Filter
+            </button>
+
+            <div class="products-count" id="productsCount">
+              Showing 1–12 of 40 products
+            </div>
+
+            <div class="shop-toolbar-right">
+              <label class="sort-label">
+                <span>Sort by:</span>
+
+                <select id="sortSelect">
+                  <option value="featured">Featured</option>
+                  <option value="low-high">Price: Low to High</option>
+                  <option value="high-low">Price: High to Low</option>
+                  <option value="rating">Customer Rating</option>
+                  <option value="newest">Newest</option>
+                </select>
+              </label>
+
+              <div class="view-buttons">
+                <button
+                  type="button"
+                  class="view-button active"
+                  id="gridView"
+                  aria-label="Grid view"
+                >
+                  <i data-lucide="grid-2x2"></i>
+                </button>
+
+                <button
+                  type="button"
+                  class="view-button"
+                  id="listView"
+                  aria-label="List view"
+                >
+                  <i data-lucide="list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACTIVE FILTERS -->
+
+          <div class="active-filters" id="activeFilters"></div>
+
+          <!-- PRODUCTS GRID -->
+
+          <div class="products-grid" id="productsGrid"></div>
+
+          <!-- PAGINATION -->
+
+          <div class="shop-pagination" id="shopPagination"></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- =====================================================
+         FOOTER COMPONENT
+    ====================================================== -->
+
+    <div id="footer-container"></div>
+
+    <script src="js/components.js"></script>
+    <script src="js/shop.js"></script>
+  </body>
+</html>

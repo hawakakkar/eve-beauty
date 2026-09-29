@@ -1,0 +1,467 @@
+<!-- =========================================================
+     EVE BEAUTY — TOP BAR
+========================================================= -->
+
+<div class="top-bar">
+  <div class="top-item">
+    <i data-lucide="truck"></i>
+    <span>Free shipping on orders over $50</span>
+  </div>
+
+  <div class="top-item">
+    <i data-lucide="gift"></i>
+    <span>Exclusive offers for members</span>
+  </div>
+
+  <div class="top-item">
+    <i data-lucide="rotate-ccw"></i>
+    <span>Easy returns within 15 days</span>
+  </div>
+</div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="eve-header">
+  <nav class="navbar">
+    <div class="navbar-container">
+      <!-- LOGO -->
+
+      <a href="index.html" class="my-logo" aria-label="EVE Beauty Home">
+        <img
+          src="images/eve-logo.png"
+          alt="EVE Beauty"
+          class="site-logo-image"
+        />
+      </a>
+
+      <!-- =====================================================
+           MAIN NAVIGATION
+      ====================================================== -->
+
+      <ul class="navbar-menu main-navbar-menu">
+        <li>
+          <a href="index.html" class="navbar-link"> Home </a>
+        </li>
+
+        <li>
+          <a href="about.html" class="navbar-link"> About Us </a>
+        </li>
+
+        <!-- SHOP -->
+
+        <li class="dropdown shop-dropdown">
+          <div class="shop-nav-wrapper">
+            <a href="shop.html" class="navbar-link shop-main-link"> Shop </a>
+
+            <button
+              type="button"
+              class="navbar-link dropdown-toggle shop-dropdown-button"
+              aria-label="Open Shop menu"
+              aria-expanded="false"
+            >
+              <i data-lucide="chevron-down"></i>
+            </button>
+          </div>
+
+          <div class="dropdown-menu shop-menu">
+            <a href="shop.html?category=Makeup"> Makeup </a>
+
+            <a href="shop.html?category=Skincare"> Skincare </a>
+
+            <a href="shop.html?category=Haircare"> Haircare </a>
+
+            <a href="shop.html?category=Fragrance"> Fragrance </a>
+          </div>
+        </li>
+
+        <li>
+          <a href="new-arrivals.html" class="navbar-link"> New Arrivals </a>
+        </li>
+
+        <li>
+          <a href="brands.html" class="navbar-link"> Brands </a>
+        </li>
+
+        <!-- COLLECTIONS -->
+
+        <li class="dropdown">
+          <button
+            type="button"
+            class="navbar-link dropdown-toggle"
+            aria-expanded="false"
+          >
+            <span>Collections</span>
+
+            <i data-lucide="chevron-down"></i>
+          </button>
+
+          <div class="dropdown-menu">
+            <a href="best-sellers.html"> Best Sellers </a>
+
+            <a href="trending.html"> Trending </a>
+
+            <a href="exclusive.html"> Exclusive </a>
+          </div>
+        </li>
+        <li>
+          <a href="beauty-test.html" class="navbar-link"> Beauty Test </a>
+        </li>
+
+        <li>
+          <a href="contact.html" class="navbar-link"> Contact </a>
+        </li>
+      </ul>
+
+      <!-- =====================================================
+           RIGHT NAVIGATION
+      ====================================================== -->
+
+      <div class="right-navbar">
+        <!-- SEARCH -->
+
+        <button
+          class="icon-button search-button"
+          id="searchButton"
+          aria-label="Search"
+          type="button"
+        >
+          <i data-lucide="search"></i>
+        </button>
+
+        <!-- =================================================
+             ACCOUNT
+        ================================================== -->
+
+        <div class="navbar-account dropdown">
+          <button
+            class="icon-button account-button dropdown-toggle"
+            id="accountButton"
+            aria-label="Account"
+            aria-expanded="false"
+            type="button"
+          >
+            <i data-lucide="user-round" id="accountUserIcon"></i>
+
+            <img
+              id="profileAvatar"
+              class="profile-avatar"
+              src=""
+              alt="Profile"
+            />
+          </button>
+
+          <div class="dropdown-menu account-dropdown" id="accountDropdown">
+            <!-- LOGGED IN -->
+
+            <div id="loggedInAccountMenu" class="logged-in-account-menu">
+              <!-- ACCOUNT HEADER -->
+
+              <div class="account-profile-header">
+                <div class="account-profile-avatar">
+                  <i
+                    data-lucide="user-round"
+                    id="accountDropdownDefaultIcon"
+                  ></i>
+
+                  <img id="accountDropdownAvatar" src="" alt="Profile" />
+                </div>
+
+                <div class="account-profile-text">
+                  <strong>
+                    Hello,
+                    <span id="accountGreetingName"> Beauty User </span>
+                  </strong>
+
+                  <a href="profile.html"> View your account </a>
+                </div>
+
+                <a
+                  href="profile.html"
+                  class="account-header-arrow"
+                  aria-label="View account"
+                >
+                  <i data-lucide="chevron-right"></i>
+                </a>
+              </div>
+
+              <!-- ACCOUNT LINKS -->
+
+              <div class="account-menu-list">
+                <a href="profile.html" class="account-menu-item">
+                  <span class="account-menu-icon">
+                    <i data-lucide="house"></i>
+                  </span>
+
+                  <span class="account-menu-label"> Dashboard </span>
+
+                  <i data-lucide="chevron-right" class="account-menu-arrow"></i>
+                </a>
+
+                <a href="orders.html" class="account-menu-item">
+                  <span class="account-menu-icon">
+                    <i data-lucide="package"></i>
+                  </span>
+
+                  <span class="account-menu-label"> Orders </span>
+
+                  <small id="accountOrderCount" class="account-order-badge">
+                    0
+                  </small>
+                </a>
+
+                <a href="wishlist.html" class="account-menu-item">
+                  <span class="account-menu-icon">
+                    <i data-lucide="heart"></i>
+                  </span>
+
+                  <span class="account-menu-label"> Wishlist </span>
+
+                  <i data-lucide="chevron-right" class="account-menu-arrow"></i>
+                </a>
+
+                <a href="addresses.html" class="account-menu-item">
+                  <span class="account-menu-icon">
+                    <i data-lucide="map-pin"></i>
+                  </span>
+
+                  <span class="account-menu-label"> Addresses </span>
+
+                  <i data-lucide="chevron-right" class="account-menu-arrow"></i>
+                </a>
+
+                <a href="settings.html" class="account-menu-item">
+                  <span class="account-menu-icon">
+                    <i data-lucide="settings"></i>
+                  </span>
+
+                  <span class="account-menu-label"> Settings </span>
+
+                  <i data-lucide="chevron-right" class="account-menu-arrow"></i>
+                </a>
+              </div>
+
+              <!-- LOGOUT -->
+
+              <div class="account-logout-wrapper">
+                <button
+                  type="button"
+                  id="logoutButton"
+                  class="account-logout-button"
+                >
+                  <span class="account-menu-icon">
+                    <i data-lucide="log-out"></i>
+                  </span>
+
+                  <span> Log Out </span>
+                </button>
+              </div>
+            </div>
+
+            <!-- LOGGED OUT -->
+
+            <div id="loggedOutAccountMenu" class="logged-out-account-menu">
+              <a href="signup.html">
+                <span class="account-menu-icon">
+                  <i data-lucide="user-plus"></i>
+                </span>
+
+                <span> Sign up </span>
+              </a>
+
+              <a href="login.html">
+                <span class="account-menu-icon">
+                  <i data-lucide="log-in"></i>
+                </span>
+
+                <span> Login </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- WISHLIST -->
+
+        <button
+          class="icon-button notification-button"
+          id="favoritelistButton"
+          aria-label="Wishlist"
+          type="button"
+        >
+          <i data-lucide="heart"></i>
+
+          <small id="favoritelistCount"> 0 </small>
+        </button>
+
+        <!-- CART -->
+
+        <button
+          class="icon-button notification-button"
+          id="cartButton"
+          aria-label="Cart"
+          type="button"
+        >
+          <i data-lucide="shopping-bag"></i>
+
+          <small id="cartCount"> 0 </small>
+        </button>
+
+        <!-- THEME -->
+
+        <button
+          id="themeToggle"
+          class="theme-toggle"
+          aria-label="Toggle theme"
+          type="button"
+        >
+          <i data-lucide="sun" class="sun-icon"></i>
+
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+      </div>
+
+      <!-- MOBILE BUTTON -->
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        aria-label="Open menu"
+        aria-expanded="false"
+        type="button"
+      >
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- =========================================================
+     SEARCH OVERLAY
+========================================================= -->
+
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <button
+      class="close-search"
+      id="closeSearch"
+      aria-label="Close search"
+      type="button"
+    >
+      <i data-lucide="x"></i>
+    </button>
+
+    <div class="search-heading">
+      <span> DISCOVER </span>
+
+      <h2>Search Beauty Products</h2>
+    </div>
+
+    <div class="search-input-wrapper">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search for products..."
+        autocomplete="off"
+      />
+
+      <button id="searchSubmit" type="button">
+        Search
+
+        <i data-lucide="arrow-right"></i>
+      </button>
+    </div>
+
+    <p id="searchMessage"></p>
+  </div>
+</div>
+
+<!-- =========================================================
+     MOBILE MENU
+========================================================= -->
+
+<div class="mobile-menu" id="mobileMenu">
+  <button
+    class="mobile-close"
+    id="mobileClose"
+    aria-label="Close menu"
+    type="button"
+  >
+    <i data-lucide="x"></i>
+  </button>
+
+  <div class="mobile-menu-brand">
+    <img src="images/eve-logo.png" alt="EVE Beauty" />
+  </div>
+
+  <ul class="navbar-menu">
+    <li>
+      <a href="index.html" class="navbar-link"> Home </a>
+    </li>
+
+    <li>
+      <a href="about.html" class="navbar-link"> About Us </a>
+    </li>
+
+    <!-- MOBILE SHOP -->
+
+    <li class="dropdown shop-dropdown">
+      <div class="shop-nav-wrapper">
+        <a href="shop.html" class="navbar-link shop-main-link"> Shop </a>
+
+        <button
+          type="button"
+          class="navbar-link dropdown-toggle shop-dropdown-button"
+          aria-expanded="false"
+          aria-label="Open Shop menu"
+        >
+          <i data-lucide="chevron-down"></i>
+        </button>
+      </div>
+
+      <div class="dropdown-menu">
+        <a href="shop.html?category=Makeup"> Makeup </a>
+
+        <a href="shop.html?category=Skincare"> Skincare </a>
+
+        <a href="shop.html?category=Haircare"> Haircare </a>
+
+        <a href="shop.html?category=Fragrance"> Fragrance </a>
+      </div>
+    </li>
+
+    <li>
+      <a href="new-arrivals.html" class="navbar-link"> New Arrivals </a>
+    </li>
+
+    <li>
+      <a href="brands.html" class="navbar-link"> Brands </a>
+    </li>
+
+    <!-- MOBILE COLLECTIONS -->
+
+    <li class="dropdown">
+      <button
+        type="button"
+        class="navbar-link dropdown-toggle"
+        aria-expanded="false"
+      >
+        <span> Collections </span>
+
+        <i data-lucide="chevron-down"></i>
+      </button>
+
+      <div class="dropdown-menu">
+        <a href="best-sellers.html"> Best Sellers </a>
+
+        <a href="trending.html"> Trending </a>
+
+        <a href="exclusive.html"> Exclusive </a>
+      </div>
+    </li>
+
+    <li>
+      <a href="contact.html" class="navbar-link"> Contact </a>
+    </li>
+  </ul>
+</div>
