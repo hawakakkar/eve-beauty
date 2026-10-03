@@ -1,6 +1,6 @@
 /*EVE BEAUTY STYLE CSS*/
 
-/*Root of Site*/
+/*ROOT OF SITE*/
 
 :root {
   --burgundy: #aa8386;
@@ -19,7 +19,7 @@
   --transition: 0.25s ease;
 }
 
-/*Style*/
+/*STYLE*/
 
 * {
   margin: 0;
@@ -64,7 +64,7 @@ a {
   text-decoration: none;
 }
 
-/*Icons Style*/
+/*ICONS STYLE*/
 
 svg {
   width: 18px;
@@ -77,7 +77,7 @@ a svg {
   flex-shrink: 0;
 }
 
-/*Hero Section*/
+/*HERO SECTION*/
 .hero-section {
   position: relative;
   width: 100%;
@@ -273,6 +273,7 @@ a svg {
 }
 
 /*CATEGORIES SECTION*/
+
 .categories-section {
   padding-top: 15px;
 }
@@ -282,19 +283,25 @@ a svg {
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 3px 15px rgba(50, 20, 30, 0.05);
+
   display: grid;
-  grid-template-columns: repeat(8, 1fr) 1.25fr;
+  grid-template-columns: repeat(7, 1fr);
   align-items: center;
-  padding: 8px 15px;
+  justify-items: center;
+
+  padding: 8px 35px;
+
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease;
 }
 
 .category-item {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   font-size: 12px;
   text-align: center;
@@ -323,6 +330,7 @@ a svg {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 3px;
   font-size: 12px;
 }
@@ -400,15 +408,15 @@ a svg {
   height: 16px;
 }
 
-/*Collection Section Styles*/
+/* COLLECTIONS SECTION STYLES */
 
 .collection-section {
-  padding: 55px 0 30px;
+  padding: 55px 50px 50px;
 }
 
 .collection-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 15px;
 }
 
@@ -426,7 +434,6 @@ a svg {
   width: 100%;
   height: 100%;
   object-fit: cover;
-
   z-index: 0;
 }
 
@@ -455,20 +462,22 @@ a svg {
   font-size: 12px;
   color: var(--burgundy-dark);
   font-weight: bold;
+  text-decoration: none;
 }
 
 .collection-details a:hover {
   color: white;
 }
+
 .collection-details svg {
   width: 13px;
   height: 13px;
 }
 
-/*Products Section Styles*/
+/*PRODUCTS SECTION STYLES*/
 
 .products-section {
-  padding: 35px 0;
+  padding: 50px 50px;
 }
 
 .view-all {
@@ -530,29 +539,86 @@ a svg {
   object-fit: cover;
 }
 
-.favoritelist {
+/* =========================================================
+   WISHLIST BUTTON
+========================================================= */
+
+.wishlist-button {
   position: absolute;
-  right: 9px;
-  top: 9px;
+  top: 8px;
+  right: 8px;
   z-index: 5;
-  width: 27px;
-  height: 27px;
+
+  width: 30px;
+  height: 30px;
+
   border: 0;
-  background: rgba(255, 255, 255, 0.85);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--burgundy);
+
+  background: rgba(255, 255, 255, 0.9);
+
+  color: #9d7276;
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.favoritelist svg {
-  width: 15px;
-  height: 15px;
+.wishlist-button:hover {
+  transform: scale(1.05);
 }
 
-.favoritelist.active svg {
-  fill: var(--burgundy);
+.wishlist-button svg {
+  width: 16px;
+  height: 16px;
+
+  fill: none !important;
+  stroke: currentColor;
+
+  transition:
+    fill 0.25s ease,
+    stroke 0.25s ease;
+}
+
+/* =========================================================
+  THE PRODUCT ICON STATES
+========================================================= */
+
+/* WISHLIST - NOT CLICKED */
+
+.product-card .wishlist-button svg {
+  fill: none !important;
+  stroke: #9d7276 !important;
+  color: #9d7276 !important;
+}
+
+/* WISHLIST - CLICKED */
+
+.product-card .wishlist-button.active svg {
+  fill: #aa8386 !important;
+  stroke: #aa8386 !important;
+  color: #aa8386 !important;
+}
+
+/* CART - NOT CLICKED */
+
+.product-card .add-cart-button svg {
+  fill: none !important;
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* CART - CLICKED */
+
+.product-card .add-cart-button.in-cart svg {
+  fill: none !important;
+  stroke: #aa8386 !important;
+  color: #aa8386 !important;
 }
 
 .product-badge,
@@ -600,14 +666,6 @@ a svg {
   font-size: 10px;
 }
 
-.rating small {
-  color: #85797b;
-
-  font-size: 8px;
-
-  margin-left: 4px;
-}
-
 .product-bottom {
   margin-top: 10px;
   display: flex;
@@ -625,25 +683,45 @@ a svg {
   margin-left: 4px;
 }
 
-.add-cart {
+/* Cart Button */
+
+.add-cart-button {
   width: 27px;
   height: 27px;
+
   border: 0;
   border-radius: 6px;
-  background: var(--burgundy);
-  color: white;
+
+  background: #aa8386;
+
+  color: #fff;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
-.add-cart:hover {
-  background: var(--burgundy-dark);
+.add-cart-button:hover {
+  background: #916d70;
 }
 
-.add-cart svg {
-  width: 14px;
-  height: 14px;
+.add-cart-button svg {
+  width: 13px;
+  height: 13px;
+}
+
+.add-cart-button.in-cart {
+  background: #aa8386;
+}
+
+.add-cart-button.in-cart:hover {
+  background: #916d70;
 }
 
 .product-arrow {
@@ -659,7 +737,7 @@ a svg {
   right: -15px;
 }
 
-/* Benefits Section Styles */
+/* THE BENFITS SECTION STYLES */
 
 .benefits-sec {
   padding: 25px 0;
@@ -710,7 +788,7 @@ a svg {
   line-height: 1.5;
 }
 
-/*NewsLetter Section Styles*/
+/*NEWSLETTER SECTION STYLES*/
 
 .newsletter-sec {
   padding: 20px 0 35px;
@@ -822,7 +900,7 @@ a svg {
 }
 
 /* =========================================================
-   1. SPECIAL OCCASIONS DISCOUNT
+   THE SPECIAL OCCASIONS DISCOUNT SECTION STYLES
 ========================================================= */
 
 .special-occasions-section {
@@ -846,7 +924,7 @@ a svg {
     color 0.3s ease;
 }
 
-/* Decorative circles */
+/* THE DECORATIVE CIRCLES */
 
 .special-occasions-section::before {
   content: "";
@@ -884,7 +962,7 @@ a svg {
   pointer-events: none;
 }
 
-/* Main container */
+/* THE MAIN CONTAINER */
 
 .special-occasions-container {
   position: relative;
@@ -905,7 +983,7 @@ a svg {
   gap: clamp(35px, 5vw, 75px);
 }
 
-/* Left content */
+/* THE LEFT CONTENT */
 
 .special-occasions-content {
   position: relative;
@@ -980,59 +1058,6 @@ a svg {
   font-size: 14px;
 
   line-height: 1.8;
-}
-
-/* Main button */
-
-.special-occasions-main-btn {
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 10px;
-
-  min-width: 210px;
-
-  padding: 13px 22px;
-
-  border-radius: 30px;
-
-  background: var(--burgundy);
-
-  color: #ffffff;
-
-  text-decoration: none;
-
-  font-size: 12px;
-
-  font-weight: 600;
-
-  box-shadow: 0 10px 25px rgba(120, 70, 78, 0.18);
-
-  transition:
-    transform var(--transition),
-    background var(--transition),
-    box-shadow var(--transition);
-}
-
-.special-occasions-main-btn svg {
-  width: 16px;
-  height: 16px;
-
-  transition: transform var(--transition);
-}
-
-.special-occasions-main-btn:hover {
-  transform: translateY(-3px);
-
-  background: var(--burgundy-dark);
-
-  box-shadow: 0 15px 30px rgba(120, 70, 78, 0.25);
-}
-
-.special-occasions-main-btn:hover svg {
-  transform: translateX(4px);
 }
 
 /* Features */
@@ -1271,7 +1296,7 @@ a svg {
   box-shadow: 0 18px 35px rgba(70, 30, 40, 0.12);
 }
 
-/* Occasion image */
+/* OCCASION IMAGES */
 
 .occasion-image {
   position: relative;
@@ -1308,7 +1333,7 @@ a svg {
   transform: scale(1.06);
 }
 
-/* Discount */
+/* DISCOUNT */
 
 .occasion-discount {
   position: absolute;
@@ -1347,7 +1372,7 @@ a svg {
   line-height: 1;
 }
 
-/* Card information */
+/* THE CARD INFORMATIONS STYLES */
 
 .occasion-info {
   text-align: center;
@@ -1391,7 +1416,7 @@ a svg {
   font-weight: 600;
 }
 
-/* Bottom button */
+/* BOTTOM BUTTON */
 
 .special-occasions-bottom {
   width: min(90%, 900px);
@@ -1462,7 +1487,7 @@ a svg {
 }
 
 /* =========================================================
-   2. ABOUT EVE BEAUTY
+   THE ABOUT EVE BEAUTY SECTION STYLES
 ========================================================= */
 
 .about-eve-section {
@@ -1594,7 +1619,7 @@ a svg {
   margin-bottom: 13px;
 }
 
-/* Button */
+/* BUTTON */
 
 .about-eve-button {
   display: inline-flex;
@@ -1638,7 +1663,7 @@ a svg {
 }
 
 /* =========================================================
-   3. WHY CHOOSE US
+  WHY CHOOSE US SECTION STYLES
 ========================================================= */
 
 .why-choose-section {
@@ -1695,7 +1720,7 @@ a svg {
   line-height: 1.8;
 }
 
-/* List */
+/* LIST */
 
 .why-choose-list {
   width: min(92%, 1200px);
@@ -1758,7 +1783,7 @@ a svg {
   box-shadow: 0 18px 35px rgba(70, 30, 40, 0.1);
 }
 
-/* Icon */
+/* ICON */
 
 .why-choose-icon {
   width: 54px;
@@ -1787,7 +1812,7 @@ a svg {
   height: 22px;
 }
 
-/* Text */
+/* TEXT */
 
 .why-choose-item h3 {
   margin-bottom: 9px;
@@ -1812,11 +1837,11 @@ a svg {
 }
 
 /* =========================================================
-   4. BEAUTY JOURNAL
+THE BEAUTY JOURNAL SECTION STYLES
 ========================================================= */
 
 .beauty-journal-section {
-  padding: 95px 0;
+  padding: 95px 80px;
 
   background: linear-gradient(180deg, var(--pink-bg) 0%, var(--cream) 100%);
 
@@ -1827,7 +1852,7 @@ a svg {
     color 0.3s ease;
 }
 
-/* Heading */
+/* HEADING */
 
 .beauty-journal-heading {
   width: min(92%, 1200px);
@@ -1868,7 +1893,7 @@ a svg {
   color: var(--text);
 }
 
-/* View all */
+/* VIEW ALL */
 
 .journal-view-all {
   display: inline-flex;
@@ -1907,7 +1932,7 @@ a svg {
   height: 14px;
 }
 
-/* Grid */
+/* GRID */
 
 .beauty-journal-grid {
   width: min(92%, 1200px);
@@ -1921,7 +1946,7 @@ a svg {
   gap: 22px;
 }
 
-/* Card */
+/* CARD */
 
 .beauty-journal-card {
   overflow: hidden;
@@ -1948,7 +1973,7 @@ a svg {
   box-shadow: 0 18px 38px rgba(70, 30, 40, 0.11);
 }
 
-/* Image */
+/* IMAGE */
 
 .beauty-journal-image {
   position: relative;
@@ -2054,7 +2079,7 @@ a svg {
   height: 13px;
 }
 
-/*Cart Alerts*/
+/*CART ALERTS*/
 .cart-alert {
   position: fixed;
   right: 25px;
@@ -2105,6 +2130,405 @@ a svg {
   margin-top: 3px;
 }
 
+/* =========================================
+   THE BEAUTY JOURNAL SECTION STYLES
+   ========================================= */
+
+.beauty-journal-section {
+  width: 100%;
+  position: relative;
+}
+
+.beauty-journal-section .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.beauty-journal-heading {
+  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin-bottom: 38px;
+}
+
+.beauty-journal-heading > div {
+  width: 100%;
+  text-align: center !important;
+}
+
+.beauty-journal-heading > div > span {
+  display: block;
+  text-align: center;
+}
+
+.beauty-journal-heading h2 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.beauty-journal-grid {
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0 auto;
+}
+
+.beauty-journal-card {
+  width: 100%;
+  min-width: 0;
+}
+.beauty-journal-heading .journal-view-all {
+  display: none !important;
+}
+
+/* =========================
+   THE BEAUTY JOURNAL MODAL SECTION STYLES
+========================= */
+
+#beautyJournalModal {
+  position: fixed !important;
+  inset: 0 !important;
+
+  width: 100vw !important;
+  height: 100vh !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 20px !important;
+  box-sizing: border-box !important;
+
+  background: rgba(42, 31, 34, 0.68) !important;
+
+  z-index: 9999999 !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+
+  overflow: auto !important;
+}
+
+/* =========================
+   DESKTOP MODAL BOX
+========================= */
+
+#beautyJournalModal .beauty-journal-modal-box {
+  position: relative !important;
+
+  display: block !important;
+
+  width: 520px !important;
+  max-width: 520px !important;
+
+  height: auto !important;
+  min-height: 200px !important;
+
+  max-height: calc(100vh - 40px) !important;
+
+  flex: 0 0 auto !important;
+
+  margin: auto !important;
+  padding: 0 !important;
+
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  box-sizing: border-box !important;
+
+  background: #fffaf6 !important;
+
+  border-radius: 18px !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  transform: none !important;
+
+  z-index: 10000000 !important;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+#beautyJournalModal .beauty-journal-modal-image {
+  display: block !important;
+
+  width: 100% !important;
+  height: 450px !important;
+
+  min-height: 280px !important;
+
+  overflow: hidden !important;
+}
+
+#beautyJournalModal .beauty-journal-modal-image img {
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  min-width: 100% !important;
+  min-height: 100% !important;
+
+  object-fit: cover !important;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+#beautyJournalModal .beauty-journal-modal-content {
+  display: block !important;
+
+  width: 100% !important;
+  height: auto !important;
+  min-height: 150px !important;
+
+  box-sizing: border-box !important;
+
+  padding: 25px 28px 28px !important;
+
+  background: #fffaf6 !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+#beautyJournalModal .beauty-journal-modal-category {
+  display: block !important;
+
+  margin: 0 0 10px !important;
+
+  color: #a17a7d !important;
+
+  font-size: 12px !important;
+  font-weight: 700 !important;
+
+  letter-spacing: 1.5px !important;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+#beautyJournalModal h3 {
+  display: block !important;
+
+  width: 100% !important;
+  height: auto !important;
+
+  margin: 0 0 15px !important;
+
+  color: #3d3032 !important;
+
+  font-size: 26px !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
+
+/* =========================
+   TEXT
+========================= */
+
+#beautyJournalModal .beauty-journal-modal-text {
+  display: block !important;
+
+  width: 100% !important;
+  height: auto !important;
+
+  color: #66575a !important;
+
+  font-size: 15px !important;
+  line-height: 1.8 !important;
+}
+
+#beautyJournalModal .beauty-journal-modal-text p {
+  display: block !important;
+
+  margin: 0 0 15px !important;
+
+  color: #66575a !important;
+}
+
+/* =========================
+   CLOSE
+========================= */
+
+#beautyJournalModal .beauty-journal-modal-close {
+  position: absolute !important;
+
+  top: 12px !important;
+  right: 12px !important;
+
+  width: 38px !important;
+  height: 38px !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 0 !important;
+
+  border: none !important;
+  border-radius: 50% !important;
+
+  background: #ffffff !important;
+
+  color: #3d3032 !important;
+
+  cursor: pointer !important;
+
+  z-index: 100 !important;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  #beautyJournalModal {
+    padding: 12px !important;
+  }
+
+  #beautyJournalModal .beauty-journal-modal-box {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    min-height: 200px !important;
+
+    max-height: calc(100vh - 24px) !important;
+
+    margin: auto !important;
+  }
+
+  #beautyJournalModal .beauty-journal-modal-image {
+    height: 220px !important;
+    min-height: 220px !important;
+  }
+
+  #beautyJournalModal .beauty-journal-modal-content {
+    padding: 20px !important;
+  }
+
+  #beautyJournalModal h3 {
+    font-size: 22px !important;
+  }
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+  .beauty-journal-modal {
+    padding: 15px !important;
+  }
+
+  .beauty-journal-modal-box {
+    width: 100% !important;
+
+    max-width: 420px !important;
+
+    max-height: calc(100vh - 30px) !important;
+
+    border-radius: 15px !important;
+  }
+
+  .beauty-journal-modal-image {
+    height: 190px !important;
+  }
+
+  .beauty-journal-modal-content {
+    padding: 19px 20px 21px !important;
+  }
+
+  .beauty-journal-modal-category {
+    font-size: 9px !important;
+
+    letter-spacing: 1.8px !important;
+  }
+
+  .beauty-journal-modal-content h3 {
+    font-size: 26px !important;
+
+    margin-bottom: 10px !important;
+  }
+
+  .beauty-journal-modal-content p {
+    font-size: 11px !important;
+
+    line-height: 1.55 !important;
+  }
+
+  .beauty-journal-modal-close {
+    top: 9px !important;
+    right: 9px !important;
+
+    width: 31px !important;
+    height: 31px !important;
+  }
+}
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 800px) {
+  .beauty-journal-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .beauty-journal-heading {
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .beauty-journal-modal {
+    padding: 15px !important;
+  }
+
+  .beauty-journal-modal-box {
+    width: calc(100vw - 30px) !important;
+    max-height: calc(100vh - 30px) !important;
+    border-radius: 14px !important;
+  }
+
+  .beauty-journal-modal-image {
+    height: 165px !important;
+  }
+
+  .beauty-journal-modal-content {
+    padding: 17px 20px 19px !important;
+  }
+
+  .beauty-journal-modal-content h3 {
+    font-size: 25px !important;
+  }
+
+  .beauty-journal-modal-content p {
+    font-size: 10.5px !important;
+    line-height: 1.5 !important;
+  }
+}
 /*Dark Mode CSS*/
 
 body.dark-mode {
@@ -2250,10 +2674,6 @@ body.dark-mode .product-information h3 {
 
 body.dark-mode .product-size {
   color: #ae9c9f;
-}
-
-body.dark-mode .rating small {
-  color: #aa9a9d;
 }
 
 body.dark-mode .product-bottom strong {
@@ -2575,8 +2995,7 @@ body.dark-mode .journal-view-all {
 }
 
 /* =========================================================
-   EVE BEAUTY — COMPLETE RESPONSIVE SYSTEM
-   فقط Responsive است — کدهای قبلی دست‌نخورده بمانند
+   EVE BEAUTY RESPONSIVE SYSTEM
 ========================================================= */
 
 /* =========================================================
@@ -3406,11 +3825,6 @@ body.dark-mode .journal-view-all {
     margin-bottom: 22px;
   }
 
-  .special-occasions-main-btn {
-    min-width: 190px;
-    padding: 12px 18px;
-  }
-
   .special-occasions-features {
     width: 100%;
     flex-direction: column;
@@ -3981,11 +4395,6 @@ body.dark-mode .journal-view-all {
     font-size: 11px;
   }
 
-  .special-occasions-main-btn {
-    width: 100%;
-    max-width: 240px;
-  }
-
   .special-occasions-visual {
     min-height: 300px;
   }
@@ -4422,7 +4831,6 @@ body.dark-mode .journal-view-all {
   }
 
   .btn,
-  .special-occasions-main-btn,
   .about-eve-button,
   .special-occasions-bottom a {
     min-height: 42px;

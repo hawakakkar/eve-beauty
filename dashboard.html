@@ -17,19 +17,91 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <link rel="stylesheet" href="css/dashboard.css" />
+
+    <style>
+      /* =====================================================
+         CARD PAYMENT
+      ====================================================== */
+
+      .card-payment-fields {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #e7e2df;
+        border-radius: 14px;
+        background: #faf8f7;
+      }
+
+      .card-payment-fields[hidden] {
+        display: none;
+      }
+
+      .card-payment-fields .form-group {
+        margin-bottom: 15px;
+      }
+
+      .card-payment-fields .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .card-payment-fields input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .card-payment-message {
+        margin: 12px 0 0;
+        font-size: 14px;
+        min-height: 20px;
+      }
+
+      .card-payment-message.error {
+        color: #b42318;
+      }
+
+      .card-payment-success {
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #edf9f0;
+        color: #16753b;
+        font-weight: 600;
+      }
+
+      .card-payment-success[hidden] {
+        display: none;
+      }
+
+      #payByCardBtn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      #placeOrderBtn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      @media (max-width: 600px) {
+        .card-payment-fields .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
 
   <body>
     <header class="dashboard-header">
       <div class="dashboard-brand">
-        <a href="index.html">
-          <span class="brand-symbol">♧</span>
-          <span class="brand-name">EVE BEAUTY</span>
+        <a href="dashboard.html" class="brand">
+          <img src="assets/images/eve-logo.png" alt="EVE BEAUTY Logo" />
         </a>
       </div>
 
       <div class="dashboard-search">
         <i data-lucide="search"></i>
+
         <input
           id="dashboardSearch"
           type="search"
@@ -43,13 +115,19 @@
           class="header-icon-button"
           data-page="wishlist"
           aria-label="Wishlist"
+          type="button"
         >
           <i data-lucide="heart"></i>
           <span id="headerWishlistCount" class="header-badge">0</span>
         </button>
 
-        <button class="header-icon-button" data-page="cart" aria-label="Cart">
-          <i data-lucide="shopping-cart"></i>
+        <button
+          class="header-icon-button"
+          data-page="cart"
+          aria-label="Cart"
+          type="button"
+        >
+          <i data-lucide="shopping-bag"></i>
           <span id="headerCartCount" class="header-badge">0</span>
         </button>
 
@@ -64,57 +142,82 @@
         </button>
 
         <button id="profileHeaderButton" class="header-profile" type="button">
-          <span id="headerProfileInitial" class="header-profile-initial"
-            >U</span
-          >
+          <span id="headerProfileInitial" class="header-profile-initial">
+            U
+          </span>
+
           <img id="headerProfileImage" src="" alt="Profile" />
+
           <i data-lucide="chevron-down"></i>
         </button>
       </div>
     </header>
 
     <div class="dashboard-layout">
-      <!-- SIDEBAR -->
-
       <aside class="dashboard-sidebar">
         <nav class="dashboard-sidebar-nav">
-          <button class="sidebar-link active" data-page="dashboard">
+          <button
+            class="sidebar-link active"
+            data-page="dashboard"
+            type="button"
+          >
             <span class="sidebar-icon">
               <i data-lucide="house"></i>
             </span>
+
             <span>Dashboard</span>
           </button>
 
-          <button class="sidebar-link" data-page="orders">
+          <button class="sidebar-link" data-page="orders" type="button">
             <span class="sidebar-icon">
               <i data-lucide="package"></i>
             </span>
+
             <span>My Orders</span>
           </button>
 
-          <button class="sidebar-link" data-page="wishlist">
+          <button class="sidebar-link" data-page="wishlist" type="button">
             <span class="sidebar-icon">
               <i data-lucide="heart"></i>
             </span>
+
             <span>Wishlist</span>
           </button>
 
-          <button class="sidebar-link" data-page="addresses">
+          <button class="sidebar-link" data-page="cart" type="button">
+            <span class="sidebar-icon">
+              <i data-lucide="shopping-bag"></i>
+            </span>
+
+            <span>Shopping Cart</span>
+          </button>
+
+          <button class="sidebar-link" data-page="addresses" type="button">
             <span class="sidebar-icon">
               <i data-lucide="map-pin"></i>
             </span>
+
             <span>Addresses</span>
           </button>
 
-          <button class="sidebar-link" data-page="settings">
+          <button class="sidebar-link" data-page="settings" type="button">
             <span class="sidebar-icon">
               <i data-lucide="settings"></i>
             </span>
+
             <span>Account Settings</span>
           </button>
         </nav>
 
         <div class="sidebar-bottom">
+          <a href="index.html" class="sidebar-link sidebar-home-link">
+            <span class="sidebar-icon">
+              <i data-lucide="arrow-left"></i>
+            </span>
+
+            <span>Back to Home</span>
+          </a>
+
           <button
             id="logoutButton"
             class="sidebar-link sidebar-logout"
@@ -123,6 +226,7 @@
             <span class="sidebar-icon">
               <i data-lucide="log-out"></i>
             </span>
+
             <span>Logout</span>
           </button>
 
@@ -132,49 +236,50 @@
               in Every<br />
               You
             </div>
+
             <span>♡</span>
           </div>
         </div>
       </aside>
 
-      <!-- MAIN -->
-
       <main id="dashboardContent" class="dashboard-content">
-        <!-- DASHBOARD HOME -->
+        <!-- DASHBOARD -->
 
         <section id="page-dashboard" class="dashboard-page active-page">
           <section class="dashboard-top">
             <div class="welcome-section">
-              <span class="welcome-small">WELCOME BACK,</span>
+              <span class="welcome-small"> WELCOME BACK, </span>
 
               <div class="welcome-title-row">
                 <h1 id="welcomeUserName">Beauty User</h1>
-                <span class="welcome-heart">♡</span>
+
+                <span class="welcome-heart"> ♡ </span>
               </div>
 
               <p>Here's what's happening with your account.</p>
             </div>
 
-            <button class="dashboard-promo" data-page="shop" type="button">
+            <a href="shop.html" class="dashboard-promo">
               <div class="promo-content">
                 <span>
                   Discover<br />
                   your true beauty
                 </span>
 
-                <small>With EVE BEAUTY</small>
+                <small> With EVE BEAUTY </small>
               </div>
 
-              <span class="promo-arrow">→</span>
-            </button>
+              <span class="promo-arrow"> → </span>
+            </a>
 
             <section class="dashboard-profile-card">
               <div class="dashboard-profile-image-wrapper">
                 <span
                   id="dashboardProfileInitial"
                   class="dashboard-profile-initial"
-                  >U</span
                 >
+                  U
+                </span>
 
                 <img id="dashboardProfileImage" src="" alt="Profile" />
 
@@ -203,19 +308,19 @@
             </section>
           </section>
 
-          <!-- STATISTICS -->
-
           <section class="dashboard-stat-grid">
             <article class="stat-card">
               <div class="stat-icon">
                 <i data-lucide="package"></i>
               </div>
 
-              <span class="stat-label">Total Orders</span>
+              <span class="stat-label"> Total Orders </span>
 
-              <strong id="totalOrders" class="stat-number">0</strong>
+              <strong id="totalOrders" class="stat-number"> 0 </strong>
 
-              <button data-page="orders">View Orders <span>→</span></button>
+              <button data-page="orders" type="button">
+                View Orders <span>→</span>
+              </button>
             </article>
 
             <article class="stat-card">
@@ -223,23 +328,27 @@
                 <i data-lucide="heart"></i>
               </div>
 
-              <span class="stat-label">Wishlist Items</span>
+              <span class="stat-label"> Wishlist Items </span>
 
-              <strong id="wishlistItems" class="stat-number">0</strong>
+              <strong id="wishlistItems" class="stat-number"> 0 </strong>
 
-              <button data-page="wishlist">View Wishlist <span>→</span></button>
+              <button data-page="wishlist" type="button">
+                View Wishlist <span>→</span>
+              </button>
             </article>
 
             <article class="stat-card">
               <div class="stat-icon">
-                <i data-lucide="shopping-cart"></i>
+                <i data-lucide="shopping-bag"></i>
               </div>
 
-              <span class="stat-label">Cart Items</span>
+              <span class="stat-label"> Cart Items </span>
 
-              <strong id="cartItems" class="stat-number">0</strong>
+              <strong id="cartItems" class="stat-number"> 0 </strong>
 
-              <button data-page="cart">View Cart <span>→</span></button>
+              <button data-page="cart" type="button">
+                View Cart <span>→</span>
+              </button>
             </article>
 
             <article class="stat-card">
@@ -247,15 +356,15 @@
                 <i data-lucide="map-pin"></i>
               </div>
 
-              <span class="stat-label">Saved Addresses</span>
+              <span class="stat-label"> Saved Addresses </span>
 
-              <strong id="savedAddresses" class="stat-number">0</strong>
+              <strong id="savedAddresses" class="stat-number"> 0 </strong>
 
-              <button data-page="addresses">Manage <span>→</span></button>
+              <button data-page="addresses" type="button">
+                Manage <span>→</span>
+              </button>
             </article>
           </section>
-
-          <!-- LOWER -->
 
           <section class="dashboard-lower-grid">
             <div class="dashboard-left-column">
@@ -263,7 +372,7 @@
                 <div class="card-header">
                   <h2>Recent Orders</h2>
 
-                  <button data-page="orders">
+                  <button data-page="orders" type="button">
                     View All Orders <span>→</span>
                   </button>
                 </div>
@@ -277,7 +386,9 @@
 
                   <p>Your recent purchases will appear here.</p>
 
-                  <button data-page="shop">Start Shopping</button>
+                  <a href="shop.html" class="primary-button">
+                    Start Shopping
+                  </a>
                 </div>
               </section>
 
@@ -285,7 +396,9 @@
                 <div class="card-header">
                   <h2>Recently Viewed</h2>
 
-                  <button data-page="shop">View All <span>→</span></button>
+                  <a href="shop.html" class="card-link">
+                    View All <span>→</span>
+                  </a>
                 </div>
 
                 <div id="recentlyViewed" class="recently-viewed-grid"></div>
@@ -303,41 +416,71 @@
                 </div>
 
                 <div class="quick-actions-list">
-                  <button class="quick-action" data-page="shop">
+                  <a href="shop.html" class="quick-action">
                     <span class="quick-action-icon">
                       <i data-lucide="shopping-bag"></i>
                     </span>
-                    <span>Shop Now</span>
+
+                    <span> Shop Now </span>
+
+                    <i data-lucide="chevron-right"></i>
+                  </a>
+
+                  <button class="quick-action" data-page="cart" type="button">
+                    <span class="quick-action-icon">
+                      <i data-lucide="shopping-bag"></i>
+                    </span>
+
+                    <span> Shopping Cart </span>
+
                     <i data-lucide="chevron-right"></i>
                   </button>
 
-                  <button class="quick-action" data-page="wishlist">
+                  <button
+                    class="quick-action"
+                    data-page="wishlist"
+                    type="button"
+                  >
                     <span class="quick-action-icon">
                       <i data-lucide="heart"></i>
                     </span>
-                    <span>View Wishlist</span>
+
+                    <span> View Wishlist </span>
+
                     <i data-lucide="chevron-right"></i>
                   </button>
 
-                  <button class="quick-action" data-page="addresses">
+                  <button
+                    class="quick-action"
+                    data-page="addresses"
+                    type="button"
+                  >
                     <span class="quick-action-icon">
                       <i data-lucide="map-pin"></i>
                     </span>
-                    <span>Manage Addresses</span>
+
+                    <span> Manage Addresses </span>
+
                     <i data-lucide="chevron-right"></i>
                   </button>
 
-                  <button class="quick-action" data-page="settings">
+                  <button
+                    class="quick-action"
+                    data-page="settings"
+                    type="button"
+                  >
                     <span class="quick-action-icon">
                       <i data-lucide="settings"></i>
                     </span>
-                    <span>Account Settings</span>
+
+                    <span> Account Settings </span>
+
                     <i data-lucide="chevron-right"></i>
                   </button>
                 </div>
               </section>
 
-              <button class="special-offer-card" data-page="shop">
+              <a href="shop.html" class="special-offer-card">
                 <div class="special-offer-content">
                   <span>
                     Special offers<br />
@@ -346,7 +489,10 @@
 
                   <p>Exclusive deals, beauty tips and more.</p>
 
-                  <strong> Explore Now <span>→</span> </strong>
+                  <strong>
+                    Explore Now
+                    <span>→</span>
+                  </strong>
                 </div>
 
                 <div class="special-offer-products">
@@ -354,7 +500,7 @@
                   <div class="offer-bottle bottle-two"></div>
                   <div class="offer-bottle bottle-three"></div>
                 </div>
-              </button>
+              </a>
             </aside>
           </section>
         </section>
@@ -364,26 +510,29 @@
         <section id="page-orders" class="dashboard-page">
           <div class="inner-page-header">
             <div>
-              <span class="welcome-small">ACCOUNT</span>
+              <span class="welcome-small"> ACCOUNT </span>
+
               <h1>My Orders</h1>
+
               <p>View and manage your recent purchases.</p>
             </div>
 
-            <button class="outline-button" data-page="shop">
+            <a href="shop.html" class="outline-button">
               <i data-lucide="shopping-bag"></i>
               Shop Now
-            </button>
+            </a>
           </div>
 
           <div id="ordersPageList" class="orders-page-list"></div>
 
           <div id="ordersPageEmpty" class="empty-page" hidden>
             <i data-lucide="package-open"></i>
+
             <h2>No orders yet</h2>
+
             <p>Your purchases will appear here.</p>
-            <button class="primary-button" data-page="shop">
-              Start Shopping
-            </button>
+
+            <a href="shop.html" class="primary-button"> Start Shopping </a>
           </div>
         </section>
 
@@ -392,26 +541,29 @@
         <section id="page-wishlist" class="dashboard-page">
           <div class="inner-page-header">
             <div>
-              <span class="welcome-small">MY BEAUTY</span>
+              <span class="welcome-small"> MY BEAUTY </span>
+
               <h1>Wishlist</h1>
+
               <p>Products you've saved for later.</p>
             </div>
 
-            <button class="outline-button" data-page="shop">
+            <a href="shop.html" class="outline-button">
               <i data-lucide="shopping-bag"></i>
               Continue Shopping
-            </button>
+            </a>
           </div>
 
           <div id="wishlistGrid" class="wishlist-grid"></div>
 
           <div id="wishlistEmpty" class="empty-page">
             <i data-lucide="heart"></i>
+
             <h2>Your wishlist is empty</h2>
+
             <p>Save your favorite beauty products here.</p>
-            <button class="primary-button" data-page="shop">
-              Discover Products
-            </button>
+
+            <a href="shop.html" class="primary-button"> Discover Products </a>
           </div>
         </section>
 
@@ -420,12 +572,14 @@
         <section id="page-addresses" class="dashboard-page">
           <div class="inner-page-header">
             <div>
-              <span class="welcome-small">DELIVERY</span>
+              <span class="welcome-small"> DELIVERY </span>
+
               <h1>My Addresses</h1>
+
               <p>Manage your saved delivery addresses.</p>
             </div>
 
-            <button id="addAddressButton" class="primary-button">
+            <button id="addAddressButton" class="primary-button" type="button">
               <i data-lucide="plus"></i>
               Add Address
             </button>
@@ -435,9 +589,12 @@
 
           <div id="addressesEmpty" class="empty-page">
             <i data-lucide="map-pin"></i>
+
             <h2>No saved addresses</h2>
+
             <p>Add an address for faster checkout.</p>
-            <button class="primary-button" id="emptyAddAddress">
+
+            <button class="primary-button" id="emptyAddAddress" type="button">
               Add Address
             </button>
           </div>
@@ -448,8 +605,10 @@
         <section id="page-settings" class="dashboard-page">
           <div class="inner-page-header">
             <div>
-              <span class="welcome-small">ACCOUNT</span>
+              <span class="welcome-small"> ACCOUNT </span>
+
               <h1>Account Settings</h1>
+
               <p>Update your personal information.</p>
             </div>
           </div>
@@ -458,20 +617,24 @@
             <section class="settings-card">
               <div class="settings-card-header">
                 <i data-lucide="user"></i>
+
                 <div>
                   <h2>Personal Information</h2>
+
                   <p>Keep your profile information up to date.</p>
                 </div>
               </div>
 
               <form id="profileForm" class="settings-form">
                 <div class="form-group">
-                  <label for="settingsName">Full Name</label>
+                  <label for="settingsName"> Full Name </label>
+
                   <input id="settingsName" type="text" required />
                 </div>
 
                 <div class="form-group">
-                  <label for="settingsEmail">Email</label>
+                  <label for="settingsEmail"> Email </label>
+
                   <input id="settingsEmail" type="email" required />
                 </div>
 
@@ -487,8 +650,10 @@
             <section class="settings-card">
               <div class="settings-card-header">
                 <i data-lucide="image"></i>
+
                 <div>
                   <h2>Profile Photo</h2>
+
                   <p>Choose a profile image from your device.</p>
                 </div>
               </div>
@@ -500,7 +665,9 @@
 
                 <label class="upload-button">
                   <i data-lucide="upload"></i>
+
                   Choose Image
+
                   <input
                     id="profileImageInput"
                     type="file"
@@ -526,46 +693,370 @@
         <section id="page-cart" class="dashboard-page">
           <div class="inner-page-header">
             <div>
-              <span class="welcome-small">SHOPPING</span>
+              <span class="welcome-small"> SHOPPING </span>
+
               <h1>Shopping Cart</h1>
-              <p>Products ready for checkout.</p>
+
+              <p>Review your products before checkout.</p>
             </div>
 
-            <button class="outline-button" data-page="shop">
+            <a href="shop.html" class="outline-button">
               <i data-lucide="arrow-left"></i>
               Continue Shopping
-            </button>
+            </a>
           </div>
 
           <div id="cartPageList" class="cart-page-list"></div>
 
-          <div id="cartEmpty" class="empty-page">
-            <i data-lucide="shopping-cart"></i>
+          <div id="cartEmpty" class="empty-page" hidden>
+            <i data-lucide="shopping-bag"></i>
+
             <h2>Your cart is empty</h2>
+
             <p>Add some products before checking out.</p>
-            <button class="primary-button" data-page="shop">
-              Shop Products
+
+            <a href="shop.html" class="primary-button"> Shop Products </a>
+          </div>
+
+          <div id="cartPageSummary" class="cart-page-summary" hidden>
+            <div class="cart-summary-row">
+              <span> Subtotal </span>
+
+              <strong id="cartSubtotal">$0.00</strong>
+            </div>
+
+            <div class="cart-summary-row">
+              <span> Shipping </span>
+
+              <strong id="cartShipping">$0.00</strong>
+            </div>
+
+            <div class="cart-summary-total">
+              <span> Total </span>
+
+              <strong id="cartTotal">$0.00</strong>
+            </div>
+
+            <button
+              id="proceedToCheckoutBtn"
+              class="primary-button"
+              type="button"
+            >
+              Proceed to Checkout
+              <i data-lucide="arrow-right"></i>
             </button>
           </div>
         </section>
 
-        <!-- SHOP -->
+        <!-- CHECKOUT -->
 
-        <section id="page-shop" class="dashboard-page">
+        <section id="page-checkout" class="dashboard-page">
           <div class="inner-page-header">
             <div>
-              <span class="welcome-small">EVE BEAUTY</span>
-              <h1>Shop</h1>
-              <p>Discover products from your beauty collection.</p>
+              <span class="welcome-small"> CHECKOUT </span>
+
+              <h1>Checkout</h1>
+
+              <p>Complete your order and delivery information.</p>
             </div>
 
-            <button class="outline-button" data-page="dashboard">
+            <button class="outline-button" data-page="cart" type="button">
               <i data-lucide="arrow-left"></i>
-              Dashboard
+              Back to Cart
             </button>
           </div>
 
-          <div id="shopProducts" class="shop-products"></div>
+          <div class="checkout-layout">
+            <section class="checkout-form-card">
+              <div class="checkout-card-header">
+                <i data-lucide="truck"></i>
+
+                <div>
+                  <h2>Shipping Information</h2>
+
+                  <p>Where should we deliver your order?</p>
+                </div>
+              </div>
+
+              <form id="checkoutForm" class="checkout-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="checkoutFirstName">First Name</label>
+
+                    <input
+                      id="checkoutFirstName"
+                      name="firstName"
+                      type="text"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="checkoutLastName">Last Name</label>
+
+                    <input
+                      id="checkoutLastName"
+                      name="lastName"
+                      type="text"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="checkoutEmail">Email Address</label>
+
+                  <input
+                    id="checkoutEmail"
+                    name="email"
+                    type="email"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="checkoutPhone">Phone Number</label>
+
+                  <input id="checkoutPhone" name="phone" type="tel" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="checkoutAddress">Delivery Address</label>
+
+                  <textarea
+                    id="checkoutAddress"
+                    name="address"
+                    rows="3"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="checkoutCity">City</label>
+
+                    <input id="checkoutCity" name="city" type="text" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="checkoutCountry">Country</label>
+
+                    <input
+                      id="checkoutCountry"
+                      name="country"
+                      type="text"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- PAYMENT METHOD -->
+
+                <div class="checkout-payment-section">
+                  <div class="checkout-card-header">
+                    <i data-lucide="credit-card"></i>
+
+                    <div>
+                      <h2>Payment Method</h2>
+
+                      <p>Choose how you want to pay.</p>
+                    </div>
+                  </div>
+
+                  <div class="payment-method-options">
+                    <!-- COD -->
+
+                    <label class="payment-method-option">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="cod"
+                        required
+                      />
+
+                      <span class="payment-method-content">
+                        <span class="payment-method-icon">
+                          <i data-lucide="banknote"></i>
+                        </span>
+
+                        <span>
+                          <strong>Cash on Delivery</strong>
+                          <small> Pay when your order arrives. </small>
+                        </span>
+                      </span>
+                    </label>
+
+                    <!-- CARD -->
+
+                    <label class="payment-method-option">
+                      <input type="radio" name="paymentMethod" value="card" />
+
+                      <span class="payment-method-content">
+                        <span class="payment-method-icon">
+                          <i data-lucide="credit-card"></i>
+                        </span>
+
+                        <span>
+                          <strong>Card Payment</strong>
+                          <small> Enter your card information securely. </small>
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <!-- CARD DETAILS -->
+
+                  <div
+                    id="cardPaymentFields"
+                    class="card-payment-fields"
+                    hidden
+                  >
+                    <div class="form-group">
+                      <label for="cardholderName"> Cardholder Name </label>
+
+                      <input
+                        id="cardholderName"
+                        name="cardholderName"
+                        type="text"
+                        autocomplete="cc-name"
+                        placeholder="Name on card"
+                        disabled
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="cardNumber"> Card Number </label>
+
+                      <input
+                        id="cardNumber"
+                        name="cardNumber"
+                        type="text"
+                        inputmode="numeric"
+                        autocomplete="cc-number"
+                        maxlength="19"
+                        placeholder="1234 5678 9012 3456"
+                        disabled
+                      />
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label for="cardExpiry"> Expiry Date </label>
+
+                        <input
+                          id="cardExpiry"
+                          name="cardExpiry"
+                          type="text"
+                          inputmode="numeric"
+                          autocomplete="cc-exp"
+                          maxlength="5"
+                          placeholder="MM/YY"
+                          disabled
+                        />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="cardCvv"> CVV </label>
+
+                        <input
+                          id="cardCvv"
+                          name="cardCvv"
+                          type="password"
+                          inputmode="numeric"
+                          autocomplete="cc-csc"
+                          maxlength="4"
+                          placeholder="123"
+                          disabled
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      id="payByCardBtn"
+                      type="button"
+                      class="primary-button"
+                    >
+                      <i data-lucide="credit-card"></i>
+                      Pay by Card
+                    </button>
+
+                    <div
+                      id="cardPaymentSuccess"
+                      class="card-payment-success"
+                      hidden
+                    >
+                      Payment Successful
+                    </div>
+
+                    <p
+                      id="cardPaymentMessage"
+                      class="card-payment-message"
+                      aria-live="polite"
+                    ></p>
+                  </div>
+
+                  <p class="payment-note">
+                    Card payment is currently a frontend demo. Your full card
+                    number and CVV are never saved in localStorage. Only the
+                    payment status and last four card digits are saved with the
+                    order.
+                  </p>
+                </div>
+
+                <div class="checkout-form-actions">
+                  <button type="button" class="outline-button" data-page="cart">
+                    <i data-lucide="arrow-left"></i>
+                    Back to Cart
+                  </button>
+
+                  <button
+                    id="placeOrderBtn"
+                    type="submit"
+                    class="primary-button"
+                  >
+                    <i data-lucide="check-circle"></i>
+                    Place Order
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            <!-- ORDER SUMMARY -->
+
+            <aside class="checkout-summary-card">
+              <div class="checkout-card-header">
+                <i data-lucide="receipt"></i>
+
+                <div>
+                  <h2>Order Summary</h2>
+
+                  <p>Review your items before ordering.</p>
+                </div>
+              </div>
+
+              <div id="checkoutOrderItems" class="checkout-order-items"></div>
+
+              <div class="checkout-summary-divider"></div>
+
+              <div class="checkout-summary-row">
+                <span>Subtotal</span>
+
+                <strong id="checkoutSubtotal">$0.00</strong>
+              </div>
+
+              <div class="checkout-summary-row">
+                <span>Shipping</span>
+
+                <strong id="checkoutShipping">$0.00</strong>
+              </div>
+
+              <div class="checkout-summary-total">
+                <span>Total</span>
+
+                <strong id="checkoutTotal">$0.00</strong>
+              </div>
+            </aside>
+          </div>
         </section>
 
         <!-- NOTIFICATIONS -->
@@ -573,21 +1064,26 @@
         <div id="notificationPanel" class="notification-panel">
           <div class="notification-panel-header">
             <strong>Notifications</strong>
-            <button id="closeNotifications">×</button>
+
+            <button id="closeNotifications" type="button">×</button>
           </div>
 
           <div class="notification-item">
             <i data-lucide="sparkles"></i>
+
             <div>
               <strong>Welcome to EVE BEAUTY</strong>
+
               <p>Discover your favorite beauty products.</p>
             </div>
           </div>
 
           <div class="notification-item">
             <i data-lucide="heart"></i>
+
             <div>
               <strong>Wishlist ready</strong>
+
               <p>Your saved products are waiting for you.</p>
             </div>
           </div>
@@ -601,38 +1097,46 @@
       <div class="modal">
         <div class="modal-header">
           <div>
-            <span class="welcome-small">DELIVERY</span>
+            <span class="welcome-small"> DELIVERY </span>
+
             <h2 id="addressModalTitle">Add Address</h2>
           </div>
 
-          <button id="closeAddressModal" class="modal-close">×</button>
+          <button id="closeAddressModal" class="modal-close" type="button">
+            ×
+          </button>
         </div>
 
         <form id="addressForm">
           <input id="addressId" type="hidden" />
 
           <div class="form-group">
-            <label>Full Name</label>
+            <label for="addressName">Full Name</label>
+
             <input id="addressName" type="text" required />
           </div>
 
           <div class="form-group">
-            <label>Phone</label>
+            <label for="addressPhone">Phone</label>
+
             <input id="addressPhone" type="tel" required />
           </div>
 
           <div class="form-group">
-            <label>City</label>
+            <label for="addressCity">City</label>
+
             <input id="addressCity" type="text" required />
           </div>
 
           <div class="form-group">
-            <label>Address</label>
+            <label for="addressText">Address</label>
+
             <textarea id="addressText" rows="3" required></textarea>
           </div>
 
           <label class="checkbox-row">
             <input id="addressDefault" type="checkbox" />
+
             <span>Make this my default address</span>
           </label>
 

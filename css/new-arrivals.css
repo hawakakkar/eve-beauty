@@ -100,25 +100,55 @@ body.dark-mode {
 ========================================================= */
 
 .new-arrivals-hero {
+  position: relative;
+
   min-height: 440px;
 
-  display: grid;
-  grid-template-columns: 42% 58%;
-
-  background: #f7e9e7;
+  display: block;
 
   overflow: hidden;
+
+  background: #f7e9e7;
 }
 
+.new-arrivals-hero-visual {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 0;
+}
+
+.new-arrivals-hero-visual img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+}
 .new-arrivals-hero-content {
   position: relative;
   z-index: 2;
+
+  min-height: 440px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   padding: 55px 30px 55px max(7vw, 50px);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 250, 250, 0.92) 0%,
+    rgba(255, 250, 250, 0.78) 32%,
+    rgba(255, 250, 250, 0.25) 58%,
+    rgba(255, 250, 250, 0) 78%
+  );
 }
 
 .section-eyebrow {
@@ -205,31 +235,20 @@ body.dark-mode {
   height: 16px;
 }
 
-.new-arrivals-hero-visual {
-  position: relative;
-
-  min-height: 440px;
-}
-
-.new-arrivals-hero-visual img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
 .hero-handwritten {
   position: absolute;
 
-  top: 55px;
-  right: 8%;
+  top: 150px;
+  right: 2%;
 
-  color: #a7656b;
+  z-index: 3;
 
-  font-family: "Cormorant Garamond", serif;
+  color: #ece8e8;
+
+  font-family: "Brush Script MT";
 
   font-size: 28px;
-  font-style: italic;
+  font-style: normal;
 
   line-height: 1.05;
   text-align: center;
@@ -926,7 +945,7 @@ body.dark-mode {
 .arrival-newsletter {
   position: relative;
 
-  min-height: 150px;
+  min-height: 250px;
 
   display: flex;
   align-items: center;
@@ -944,42 +963,37 @@ body.dark-mode {
 .newsletter-content {
   position: relative;
   z-index: 2;
-
   min-width: 230px;
 }
 
 .newsletter-content > span {
-  color: var(--burgundy);
-
-  font-size: 9px;
+  color: white;
+  font-family: "Brush Script MT";
+  font-size: 16px;
   letter-spacing: 2px;
 }
 
 .newsletter-content h2 {
-  margin-top: 2px;
-
-  font-family: var(--serif);
-
-  font-size: 31px;
+  margin-top: 8px;
+  font-family: "Brush Script MT";
+  font-size: 20px;
   font-weight: 500;
-
   line-height: 0.9;
-}
-
-.newsletter-content h2 em {
-  display: block;
-
-  color: var(--burgundy);
-
-  font-size: 25px;
+  margin-left: 50px;
   font-style: italic;
 }
 
 .arrival-newsletter-form {
-  position: relative;
-  z-index: 2;
+  position: absolute;
 
-  width: min(430px, 100%);
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 5;
+
+  width: min(430px, 90%);
 
   display: flex;
 
@@ -987,7 +1001,7 @@ body.dark-mode {
 
   border-radius: 30px;
 
-  background: white;
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .arrival-newsletter-form input {
@@ -1030,13 +1044,14 @@ body.dark-mode {
 .newsletter-model {
   position: absolute;
 
-  right: 0;
-  bottom: 0;
+  inset: 0;
 
-  width: 35%;
+  width: 100%;
   height: 100%;
 
-  opacity: 0.9;
+  z-index: 0;
+
+  opacity: 1;
 }
 
 .newsletter-model img {
@@ -1044,7 +1059,7 @@ body.dark-mode {
   height: 100%;
 
   object-fit: cover;
-  object-position: left center;
+  object-position: center;
 }
 
 /* =========================================================
@@ -1092,18 +1107,22 @@ body.dark-mode {
 
 @media (max-width: 850px) {
   .new-arrivals-hero {
-    min-height: auto;
-
-    grid-template-columns: 1fr;
+    min-height: 500px;
   }
 
   .new-arrivals-hero-content {
+    min-height: 500px;
+
     padding: 60px 30px;
   }
 
   .new-arrivals-hero-visual {
-    height: 380px;
-    min-height: 380px;
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
   }
 
   .arrival-benefits {
@@ -1180,13 +1199,24 @@ body.dark-mode {
     font-size: 53px;
   }
 
-  .new-arrivals-hero-visual {
-    height: 290px;
-    min-height: 290px;
+  .new-arrivals-hero {
+    min-height: 500px;
   }
 
+  .new-arrivals-hero-content {
+    min-height: 500px;
+  }
+
+  .new-arrivals-hero-visual {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+  }
   .hero-handwritten {
-    right: 5%;
+    right: 2%;
     top: 25px;
     font-size: 20px;
   }

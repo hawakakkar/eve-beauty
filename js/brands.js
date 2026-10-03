@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       productDetails: [
         {
           name: "Cica Repair Cream",
-          image: "assets/images/product-cica-repair-cream.jpg",
+          image: "assets/images/product-cicapair-cream.jpg",
           description:
             "A comforting cream designed to support the skin barrier while leaving skin soft and balanced.",
         },

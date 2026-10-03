@@ -9,7 +9,7 @@
       content="Eve Beauty-Premium makeup, skincare, fragrance and beauty products."
     />
 
-    <!--Font links-->
+    <!--THE FONT LINKS-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -18,26 +18,25 @@
       rel="stylesheet"
     />
 
-    <!-- Lucide Icons links -->
+    <!-- THE LINK OF LUCID ICONS -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Font Awesome Icons -->
+    <!-- THE FONT AWESOME ICONS -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
 
-    <!-- CSS link-->
+    <!-- THE CSS LINKS-->
     <link rel="stylesheet" href="css/home.css" />
     <link rel="stylesheet" href="css/navbar.css" />
     <link rel="stylesheet" href="css/footer.css" />
   </head>
   <body class="home-page">
-    <!-- Navbar Component -->
+    <!-- THE NAVBAR COMPONENTS -->
     <div id="navbar-container"></div>
 
-    <!--The Search Overlay Section-->
-
+    <!--THE SEARCH OVERLAY SECTION-->
     <div class="search-overlay" id="searchOverlay">
       <div class="search-box">
         <button class="close-search" id="closeSearch" aria-label="Close search">
@@ -63,7 +62,7 @@
       </div>
     </div>
 
-    <!--The Mobile Navbar-->
+    <!--THE MOBILE NAVBAR-->
     <div class="mobile-menu" id="mobileMenu">
       <button class="mobile-close" id="mobileClose">
         <i data-lucide="x"></i>
@@ -74,16 +73,30 @@
       <a href="shop.html">Shop</a>
       <a href="new-arrivals.html">New Arrivals</a>
       <a href="brands.html">Brands</a>
-      <a href="#">Collections</a>
-      <a href="#">Contact</a>
+      <li class="dropdown">
+        <button
+          type="button"
+          class="navbar-link dropdown-toggle"
+          aria-expanded="false"
+        >
+          <span>Collections</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+
+        <div class="dropdown-menu">
+          <a href="best-sellers.html">Best Sellers</a>
+          <a href="trending.html">Trending</a>
+          <a href="exclusive.html">Exclusive</a>
+        </div>
+      </li>
+      <a href="contact.html">Contact</a>
     </div>
 
     <main>
-      <!--Hero Section-->
-
+      <!--THE HERO SECTION-->
       <section class="hero-section">
         <div class="hero-container">
-          <!--Left side content-->
+          <!--THE LEFT SIDE CONTENT-->
           <div class="hero-content">
             <p class="hero-small-title">
               BE CONFIDENT. BE BEAUTIFUL.
@@ -115,7 +128,7 @@
               </a>
             </div>
 
-            <!--Benefits-->
+            <!--THE BENEFITS SECTION-->
             <div class="hero-benefits">
               <div class="benefit">
                 <div class="benefit-icon">
@@ -149,7 +162,7 @@
             </div>
           </div>
 
-          <!--Hero Image-->
+          <!--THE HERO IMAGE-->
           <div class="hero-image">
             <img
               src="images/hero.jpg"
@@ -159,7 +172,7 @@
         </div>
       </section>
 
-      <!--catagories Section-->
+      <!--THE CATAGORIES SECTION-->
 
       <section class="categories-section">
         <div class="container">
@@ -212,24 +225,11 @@
 
               <span>Bath &amp; Body</span>
             </a>
-
-            <a href="#" class="category-item">
-              <div class="category-image">
-                <img src="images/men.jpg" alt="Men's Care" />
-              </div>
-              <span>Men's Care</span>
-            </a>
-
-            <a href="#" class="discover-categories">
-              <span>Discover All</span>
-              <strong>Categories</strong>
-              <i data-lucide="arrow-right"></i>
-            </a>
           </div>
         </div>
       </section>
 
-      <!--About EVE Beauty Section-->
+      <!--THE ABOUT BEAUTY SECTION-->
 
       <section class="about-eve-section">
         <div class="container">
@@ -257,7 +257,7 @@
                 quality, elegance, and everyday beauty.
               </p>
 
-              <a href="#" class="about-eve-button">
+              <a href="about.html" class="about-eve-button">
                 Discover Our Story
                 <i data-lucide="arrow-right"></i>
               </a>
@@ -266,7 +266,7 @@
         </div>
       </section>
 
-      <!--Collections Section-->
+      <!--THE COLLECTIONS SECTION-->
 
       <section class="collection-section" id="collections">
         <div class="container">
@@ -285,217 +285,243 @@
           <div class="collection-grid">
             <article class="collection-card">
               <div class="collection-details">
-                <span>Bestsellers</span>
+                <span>Best Sellers</span>
                 <h3>Customer favorites</h3>
-
-                <a href="#">
-                  Shop Now
-                  <i data-lucide="arrow-right"></i>
-                </a>
+                <a href="best-sellers.html"
+                  >Shop Now <i data-lucide="arrow-right"></i
+                ></a>
               </div>
-              <img src="images/bestsellers.jpg" alt="Bestseller collection" />
+              <img src="images/bestsellers.jpg" alt="Best Sellers collection" />
             </article>
 
             <article class="collection-card">
               <div class="collection-details">
-                <span>New In</span>
-
-                <h3>Fresh arrivals</h3>
-
-                <a href="#">
-                  Shop Now
-                  <i data-lucide="arrow-right"></i>
-                </a>
+                <span>Trending</span>
+                <h3>What everyone loves</h3>
+                <a href="trending.html"
+                  >Shop Now <i data-lucide="arrow-right"></i
+                ></a>
               </div>
-              <img src="images/fresh-arrivals.jpg" alt="New collection" />
+              <img src="images/trending.jpg" alt="Trending collection" />
             </article>
 
             <article class="collection-card">
               <div class="collection-details">
-                <span>Luxury Sets</span>
-                <h3>Complete beauty</h3>
-                <a href="#">
-                  Shop Now
-                  <i data-lucide="arrow-right"></i>
-                </a>
+                <span>Exclusive</span>
+                <h3>Special beauty picks</h3>
+                <a href="exclusive.html"
+                  >Shop Now <i data-lucide="arrow-right"></i
+                ></a>
               </div>
-              <img src="images/luxury.jpg" alt="Luxury collection" />
-            </article>
-
-            <article class="collection-card">
-              <div class="collection-details">
-                <span>Mini Must-Haves</span>
-                <h3>Small size, big impact</h3>
-
-                <a href="#">
-                  Shop Now
-                  <i data-lucide="arrow-right"></i>
-                </a>
-              </div>
-
-              <img src="images/mini-collection.jpg" alt="Mini collection" />
+              <img src="images/exclusive.jpg" alt="Exclusive collection" />
             </article>
           </div>
         </div>
       </section>
 
-      <!--Products Section-->
+      <!--THE PRODUCTS SECTION-->
       <section class="products-section" id="products">
         <div class="container">
           <div class="section-heading">
             <h2>Popular Picks For You</h2>
 
-            <a href="#" class="view-all">
+            <a href="shop.html" class="view-all">
               View All Products
               <i data-lucide="arrow-right"></i>
             </a>
           </div>
 
           <div class="products-wrapper">
-            <button class="product-arrow product-prev">
+            <button class="product-arrow product-prev" type="button">
               <i data-lucide="chevron-left"></i>
             </button>
 
             <div class="products-grid" id="productsGrid">
-              <!--First Product-->
-
+              <!--FIRST PRODUCT-->
               <article class="product-card">
                 <div class="product-pic">
                   <span class="product-badge">Bestseller</span>
 
-                  <button class="favoritelist">
+                  <button
+                    type="button"
+                    class="wishlist-button"
+                    data-product-id="1"
+                    aria-label="Add to wishlist"
+                  >
                     <i data-lucide="heart"></i>
                   </button>
 
-                  <img src="images/perfume.jpg" alt="Eve Eau de Parfum" />
+                  <img
+                    src="assets/images/product-31.jpg"
+                    alt="Eve Eau de Parfum"
+                  />
                 </div>
+
                 <div class="product-information">
                   <h3>Eve Eau de Parfum</h3>
+
                   <span class="product-size">100ml</span>
 
-                  <div class="rating">
-                    ★★★★★
-                    <small>(128)</small>
-                  </div>
+                  <div class="rating">★★★★★</div>
 
                   <div class="product-bottom">
-                    <strong> $90.00 </strong>
+                    <strong>$90.00</strong>
 
-                    <button class="add-cart" aria-label="Add perform to cart">
+                    <button
+                      type="button"
+                      class="add-cart-button"
+                      data-product-id="1"
+                      aria-label="Add to cart"
+                    >
                       <i data-lucide="shopping-bag"></i>
                     </button>
                   </div>
                 </div>
               </article>
 
-              <!--Second Product-->
+              <!--SECOND PRODUCT-->
               <article class="product-card">
                 <div class="product-pic">
-                  <button class="favoritelist">
+                  <button
+                    type="button"
+                    class="wishlist-button"
+                    data-product-id="2"
+                    aria-label="Add to wishlist"
+                  >
                     <i data-lucide="heart"></i>
                   </button>
 
-                  <img src="images/lipstick.jpg" alt="Velvet Matte Lipstick" />
+                  <img
+                    src="assets/images/lipstick.jpg"
+                    alt="Velvet Matte Lipstick"
+                  />
                 </div>
 
                 <div class="product-information">
                   <h3>Velvet Matte Lipstick</h3>
 
-                  <span class="product-size"> Various Shades</span>
+                  <span class="product-size"> Various Shades </span>
 
-                  <div class="rating">
-                    ★★★★★
-                    <small>(96)</small>
-                  </div>
+                  <div class="rating">★★★★★</div>
 
                   <div class="product-bottom">
-                    <strong> $32.00 </strong>
-                    <button class="add-cart">
+                    <strong>$20.00</strong>
+
+                    <button
+                      type="button"
+                      class="add-cart-button"
+                      data-product-id="2"
+                      aria-label="Add to cart"
+                    >
                       <i data-lucide="shopping-bag"></i>
                     </button>
                   </div>
                 </div>
               </article>
 
-              <!--Third Product-->
-
+              <!--THIRD PRODUCT-->
               <article class="product-card">
                 <div class="product-pic">
                   <span class="discount-badge"> -25% </span>
 
-                  <button class="favoritelist">
+                  <button
+                    type="button"
+                    class="wishlist-button"
+                    data-product-id="3"
+                    aria-label="Add to wishlist"
+                  >
                     <i data-lucide="heart"></i>
                   </button>
 
-                  <img src="images/foundation.jpg" alt="Flawless Foundation" />
+                  <img
+                    src="assets/images/foundation.jpg"
+                    alt="Flawless Foundation"
+                  />
                 </div>
 
                 <div class="product-information">
                   <h3>Flawless Foundation</h3>
 
-                  <span class="product-size">35ml</span>
+                  <span class="product-size"> 35ml </span>
 
-                  <div class="rating">
-                    ★★★★★
-                    <small>(76)</small>
-                  </div>
+                  <div class="rating">★★★★★</div>
 
                   <div class="product-bottom">
                     <div>
-                      <strong>$28.00</strong>
-                      <del>$35.00</del>
+                      <strong>$35.00</strong>
+                      <del>$45.00</del>
                     </div>
-                    <button class="add-cart">
+
+                    <button
+                      type="button"
+                      class="add-cart-button"
+                      data-product-id="3"
+                      aria-label="Add to cart"
+                    >
                       <i data-lucide="shopping-bag"></i>
                     </button>
                   </div>
                 </div>
               </article>
 
-              <!-- Fourth Product -->
-
+              <!--FOURTH PRODUCT-->
               <article class="product-card">
                 <div class="product-pic">
-                  <button class="favoritelist">
+                  <button
+                    type="button"
+                    class="wishlist-button"
+                    data-product-id="4"
+                    aria-label="Add to wishlist"
+                  >
                     <i data-lucide="heart"></i>
                   </button>
 
                   <img
-                    src="images/eyeshadow.jpg"
+                    src="assets/images/eyeshadow.jpg"
                     alt="Soft Glam Eyeshadow Palette"
                   />
                 </div>
+
                 <div class="product-information">
                   <h3>Soft Glam Eyeshadow Palette</h3>
 
                   <span class="product-size"> Palette </span>
 
-                  <div class="rating">
-                    ★★★★★
-                    <small>(112)</small>
-                  </div>
+                  <div class="rating">★★★★★</div>
 
                   <div class="product-bottom">
-                    <strong>$49.00</strong>
+                    <strong>$40.00</strong>
 
-                    <button class="add-cart">
+                    <button
+                      type="button"
+                      class="add-cart-button"
+                      data-product-id="4"
+                      aria-label="Add to cart"
+                    >
                       <i data-lucide="shopping-bag"></i>
                     </button>
                   </div>
                 </div>
               </article>
 
-              <!--Fifth Product -->
-
+              <!--FIFTH PRODUCT-->
               <article class="product-card">
                 <div class="product-pic">
                   <span class="discount-badge"> -15% </span>
 
-                  <button class="favoritelist">
+                  <button
+                    type="button"
+                    class="wishlist-button"
+                    data-product-id="5"
+                    aria-label="Add to wishlist"
+                  >
                     <i data-lucide="heart"></i>
                   </button>
 
-                  <img src="images/serum.jpg" alt="Radiance Facial Serum" />
+                  <img
+                    src="assets/images/product-radiance-serum.jpg"
+                    alt="Radiance Facial Serum"
+                  />
                 </div>
 
                 <div class="product-information">
@@ -503,10 +529,7 @@
 
                   <span class="product-size"> 30ml </span>
 
-                  <div class="rating">
-                    ★★★★★
-                    <small>(88)</small>
-                  </div>
+                  <div class="rating">★★★★★</div>
 
                   <div class="product-bottom">
                     <div>
@@ -514,18 +537,27 @@
                       <del>$52.00</del>
                     </div>
 
-                    <button class="add-cart">
+                    <button
+                      type="button"
+                      class="add-cart-button"
+                      data-product-id="5"
+                      aria-label="Add to cart"
+                    >
                       <i data-lucide="shopping-bag"></i>
                     </button>
                   </div>
                 </div>
               </article>
 
-              <!-- Sixth Product-->
-
+              <!--SIXTH PRODUCT-->
               <article class="product-card">
                 <div class="product-pic">
-                  <button class="favoritelist">
+                  <button
+                    type="button"
+                    class="wishlist-button"
+                    data-product-id="6"
+                    aria-label="Add to wishlist"
+                  >
                     <i data-lucide="heart"></i>
                   </button>
 
@@ -540,15 +572,17 @@
 
                   <span class="product-size"> 10ml </span>
 
-                  <div class="rating">
-                    ★★★★★
-                    <small>(54)</small>
-                  </div>
+                  <div class="rating">★★★★★</div>
 
                   <div class="product-bottom">
                     <strong>$20.00</strong>
 
-                    <button class="add-cart">
+                    <button
+                      type="button"
+                      class="add-cart-button"
+                      data-product-id="6"
+                      aria-label="Add to cart"
+                    >
                       <i data-lucide="shopping-bag"></i>
                     </button>
                   </div>
@@ -556,7 +590,7 @@
               </article>
             </div>
 
-            <button class="product-arrow product-next">
+            <button class="product-arrow product-next" type="button">
               <i data-lucide="chevron-right"></i>
             </button>
           </div>
@@ -581,11 +615,6 @@
             <p class="special-occasions-description">
               Celebrate every special moment with exclusive beauty offers.
             </p>
-
-            <a href="offers.html" class="special-occasions-main-btn">
-              <span>View All Discounts</span>
-              <i data-lucide="arrow-right"></i>
-            </a>
 
             <div class="special-occasions-features">
               <div class="special-feature">
@@ -623,7 +652,7 @@
             </div>
           </div>
 
-          <!-- RIGHT VISUAL -->
+          <!--THE RIGHT VISUAL -->
           <div class="special-occasions-visual">
             <div class="special-visual-glow"></div>
 
@@ -637,10 +666,10 @@
           </div>
         </div>
 
-        <!-- OCCASION CARDS -->
+        <!-- THE OCCASION CARD SECTION -->
 
         <div class="special-occasions-cards">
-          <!-- NEW YEAR -->
+          <!-- THE NEW YEAR DAYS-->
           <article class="occasion-card">
             <div class="occasion-image">
               <span class="occasion-discount">
@@ -661,7 +690,7 @@
             </div>
           </article>
 
-          <!-- VALENTINE -->
+          <!-- THE VALENTINE DAY -->
           <article class="occasion-card">
             <div class="occasion-image">
               <span class="occasion-discount">
@@ -703,7 +732,7 @@
             </div>
           </article>
 
-          <!-- SPRING -->
+          <!-- THE SPRING DAYS -->
           <article class="occasion-card">
             <div class="occasion-image">
               <span class="occasion-discount">
@@ -724,7 +753,7 @@
             </div>
           </article>
 
-          <!-- CHRISTMAS -->
+          <!-- THE CHRISTMAS DAY -->
           <article class="occasion-card">
             <div class="occasion-image">
               <span class="occasion-discount">
@@ -746,21 +775,10 @@
           </article>
         </div>
 
-        <!-- BOTTOM BUTTON -->
-
-        <div class="special-occasions-bottom">
-          <span></span>
-
-          <a href="offers.html">
-            View All Discounts
-            <i data-lucide="arrow-right"></i>
-          </a>
-
-          <span></span>
-        </div>
+        <!-- THE BOTTOM BUTTON -->
       </section>
 
-      <!--Benefits Section-->
+      <!--THE Benefits Section-->
 
       <section class="benefits-sec">
         <div class="container">
@@ -887,7 +905,7 @@
         </div>
       </section>
 
-      <!--Beauty Journal Section-->
+      <!--THE BEAUTY JOURNAL SECTION-->
 
       <section class="beauty-journal-section">
         <div class="container">
@@ -896,11 +914,6 @@
               <span>BEAUTY JOURNAL</span>
               <h2>Beauty Tips &amp; Inspiration</h2>
             </div>
-
-            <a href="#" class="journal-view-all">
-              View All
-              <i data-lucide="arrow-right"></i>
-            </a>
           </div>
 
           <div class="beauty-journal-grid">
@@ -975,7 +988,7 @@
         </div>
       </section>
 
-      <!--NewsLetter Section-->
+      <!--THE NEWSLETTER SECTION-->
 
       <section class="newsletter-sec">
         <div class="container">
@@ -1017,9 +1030,9 @@
         </div>
       </section>
     </main>
-    <!-- Footer Component -->
+    <!-- THE FOOTER COMPONENT -->
     <div id="footer-container"></div>
-    <!--JavaScript URL-->
+    <!--THE JAVASCRIPT URL-->
 
     <script src="js/home.js"></script>
     <script src="js/components.js"></script>

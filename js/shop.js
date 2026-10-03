@@ -1,25 +1,36 @@
 /* =========================================================
+
    EVE BEAUTY
+
    SHOP.JS
+
    PRODUCTS + FILTERS + CART + WISHLIST
+
    LOCAL STORAGE VERSION
+
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
   /* =========================================================
+
      STORAGE KEYS
+
   ========================================================= */
 
   const USERS_KEY = "eveBeautyUsers";
+
   const CURRENT_USER_KEY = "eveBeautyCurrentUser";
 
   const CART_KEY = "eveBeautyCart";
+
   const CART_CURRENT_USER_KEY = "eveBeautyCartCurrentUser";
 
   const WISHLIST_KEY = "eveBeautyWishlist";
 
   /* =========================================================
+
      PRODUCT DATA
+
   ========================================================= */
 
   const products = [
@@ -27,161 +38,281 @@ document.addEventListener("DOMContentLoaded", () => {
 
     {
       id: 1,
+
       name: "Rose Glow Eyeshadow Palette",
+
       category: "Makeup",
+
       brand: "EVE Beauty",
+
       type: "Eyes",
+
       skin: "Normal",
+
       price: 29.99,
+
       oldPrice: 39.99,
+
       discount: 20,
+
       rating: 4.8,
+
       reviews: 124,
+
       newest: 40,
+
       image: "assets/images/product-1.jpg",
     },
 
     {
       id: 2,
+
       name: "Long Lasting Foundation",
+
       category: "Makeup",
+
       brand: "EVE Beauty",
+
       type: "Face",
+
       skin: "Combination",
+
       price: 24.99,
+
       oldPrice: 29.99,
+
       discount: 15,
+
       rating: 4.7,
+
       reviews: 87,
+
       newest: 39,
+
       image: "assets/images/product-2.jpg",
     },
 
     {
       id: 3,
+
       name: "Matte Lipstick",
+
       category: "Makeup",
+
       brand: "EVE Beauty",
+
       type: "Lips",
+
       skin: "Normal",
+
       price: 16.99,
+
       oldPrice: 20.99,
+
       discount: 18,
+
       rating: 4.8,
+
       reviews: 98,
+
       newest: 38,
+
       image: "assets/images/product-3.jpg",
     },
 
     {
       id: 4,
+
       name: "Soft Blush Powder",
+
       category: "Makeup",
+
       brand: "Maybelline",
+
       type: "Face",
+
       skin: "Normal",
+
       price: 18.99,
+
       oldPrice: 23.99,
+
       discount: 21,
+
       rating: 4.6,
+
       reviews: 74,
+
       newest: 37,
+
       image: "assets/images/product-4.jpg",
     },
 
     {
       id: 5,
+
       name: "Volume Mascara",
+
       category: "Makeup",
+
       brand: "L'Oréal",
+
       type: "Eyes",
+
       skin: "Normal",
+
       price: 17.99,
+
       oldPrice: 21.99,
+
       discount: 18,
+
       rating: 4.7,
+
       reviews: 115,
+
       newest: 36,
+
       image: "assets/images/product-5.jpg",
     },
 
     {
       id: 6,
+
       name: "Hydrating Concealer",
+
       category: "Makeup",
+
       brand: "Estée Lauder",
+
       type: "Face",
+
       skin: "Dry",
+
       price: 27.99,
+
       oldPrice: 34.99,
+
       discount: 20,
+
       rating: 4.9,
+
       reviews: 132,
+
       newest: 35,
+
       image: "assets/images/product-6.jpg",
     },
 
     {
       id: 7,
+
       name: "Nude Lip Gloss",
+
       category: "Makeup",
+
       brand: "EVE Beauty",
+
       type: "Lips",
+
       skin: "Normal",
+
       price: 14.99,
+
       oldPrice: 18.99,
+
       discount: 21,
+
       rating: 4.5,
+
       reviews: 63,
+
       newest: 34,
+
       image: "assets/images/product-7.jpg",
     },
 
     {
       id: 8,
+
       name: "Silk Setting Powder",
+
       category: "Makeup",
+
       brand: "Maybelline",
+
       type: "Face",
+
       skin: "Oily",
+
       price: 19.99,
+
       oldPrice: 24.99,
+
       discount: 20,
+
       rating: 4.6,
+
       reviews: 91,
+
       newest: 33,
+
       image: "assets/images/product-8.jpg",
     },
 
     {
       id: 9,
+
       name: "Precision Eyeliner",
+
       category: "Makeup",
+
       brand: "L'Oréal",
+
       type: "Eyes",
+
       skin: "Normal",
+
       price: 13.99,
+
       oldPrice: 17.99,
+
       discount: 22,
+
       rating: 4.4,
+
       reviews: 57,
+
       newest: 32,
+
       image: "assets/images/product-9.jpg",
     },
 
     {
       id: 10,
+
       name: "Natural Glow Highlighter",
+
       category: "Makeup",
+
       brand: "EVE Beauty",
+
       type: "Face",
+
       skin: "Dry",
+
       price: 22.99,
+
       oldPrice: 28.99,
+
       discount: 21,
+
       rating: 4.8,
+
       reviews: 102,
+
       newest: 31,
+
       image: "assets/images/product-10.jpg",
     },
 
@@ -189,161 +320,281 @@ document.addEventListener("DOMContentLoaded", () => {
 
     {
       id: 11,
+
       name: "Hydrating Face Cream",
+
       category: "Skincare",
+
       brand: "EVE Beauty",
+
       type: "Face",
+
       skin: "Dry",
+
       price: 19.99,
+
       oldPrice: 24.99,
+
       discount: 20,
+
       rating: 4.9,
+
       reviews: 156,
+
       newest: 30,
+
       image: "assets/images/product-11.jpg",
     },
 
     {
       id: 12,
+
       name: "Vitamin C Serum",
+
       category: "Skincare",
+
       brand: "EVE Beauty",
+
       type: "Face",
+
       skin: "Normal",
+
       price: 22.99,
+
       oldPrice: 29.99,
+
       discount: 23,
+
       rating: 4.8,
+
       reviews: 73,
+
       newest: 29,
+
       image: "assets/images/product-12.jpg",
     },
 
     {
       id: 13,
+
       name: "Gentle Face Cleanser",
+
       category: "Skincare",
+
       brand: "L'Oréal",
+
       type: "Face",
+
       skin: "Combination",
+
       price: 15.99,
+
       oldPrice: 18.99,
+
       discount: 16,
+
       rating: 4.6,
+
       reviews: 69,
+
       newest: 28,
+
       image: "assets/images/product-13.jpg",
     },
 
     {
       id: 14,
+
       name: "Rose Water Toner",
+
       category: "Skincare",
+
       brand: "EVE Beauty",
+
       type: "Face",
+
       skin: "Dry",
+
       price: 17.99,
+
       oldPrice: 21.99,
+
       discount: 18,
+
       rating: 4.7,
+
       reviews: 88,
+
       newest: 27,
+
       image: "assets/images/product-14.jpg",
     },
 
     {
       id: 15,
+
       name: "Daily SPF 50",
+
       category: "Skincare",
+
       brand: "Estée Lauder",
+
       type: "Face",
+
       skin: "Oily",
+
       price: 25.99,
+
       oldPrice: 31.99,
+
       discount: 19,
+
       rating: 4.9,
+
       reviews: 142,
+
       newest: 26,
+
       image: "assets/images/product-15.jpg",
     },
 
     {
       id: 16,
+
       name: "Night Repair Cream",
+
       category: "Skincare",
+
       brand: "EVE Beauty",
+
       type: "Face",
+
       skin: "Dry",
+
       price: 28.99,
+
       oldPrice: 35.99,
+
       discount: 19,
+
       rating: 4.8,
+
       reviews: 118,
+
       newest: 25,
+
       image: "assets/images/product-16.jpg",
     },
 
     {
       id: 17,
+
       name: "Purifying Clay Mask",
+
       category: "Skincare",
+
       brand: "Maybelline",
+
       type: "Face",
+
       skin: "Oily",
+
       price: 18.99,
+
       oldPrice: 23.99,
+
       discount: 21,
+
       rating: 4.5,
+
       reviews: 65,
+
       newest: 24,
+
       image: "assets/images/product-17.jpg",
     },
 
     {
       id: 18,
+
       name: "Eye Repair Serum",
+
       category: "Skincare",
+
       brand: "Estée Lauder",
+
       type: "Face",
+
       skin: "Normal",
+
       price: 31.99,
+
       oldPrice: 39.99,
+
       discount: 20,
+
       rating: 4.9,
+
       reviews: 127,
+
       newest: 23,
+
       image: "assets/images/product-18.jpg",
     },
 
     {
       id: 19,
+
       name: "Soft Body Lotion",
+
       category: "Skincare",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Dry",
+
       price: 21.99,
+
       oldPrice: 26.99,
+
       discount: 19,
+
       rating: 4.7,
+
       reviews: 82,
+
       newest: 22,
+
       image: "assets/images/product-19.jpg",
     },
 
     {
       id: 20,
+
       name: "Refreshing Face Mist",
+
       category: "Skincare",
+
       brand: "L'Oréal",
+
       type: "Face",
+
       skin: "Combination",
+
       price: 14.99,
+
       oldPrice: 18.99,
+
       discount: 21,
+
       rating: 4.5,
+
       reviews: 59,
+
       newest: 21,
+
       image: "assets/images/product-20.jpg",
     },
 
@@ -351,161 +602,281 @@ document.addEventListener("DOMContentLoaded", () => {
 
     {
       id: 21,
+
       name: "Repairing Hair Mask",
+
       category: "Haircare",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Dry",
+
       price: 18.99,
+
       oldPrice: 22.99,
+
       discount: 17,
+
       rating: 4.8,
+
       reviews: 61,
+
       newest: 20,
+
       image: "assets/images/product-21.jpg",
     },
 
     {
       id: 22,
+
       name: "Silky Hair Shampoo",
+
       category: "Haircare",
+
       brand: "L'Oréal",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 16.99,
+
       oldPrice: 20.99,
+
       discount: 19,
+
       rating: 4.6,
+
       reviews: 78,
+
       newest: 19,
+
       image: "assets/images/product-22.jpg",
     },
 
     {
       id: 23,
+
       name: "Nourishing Hair Oil",
+
       category: "Haircare",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Dry",
+
       price: 23.99,
+
       oldPrice: 29.99,
+
       discount: 20,
+
       rating: 4.8,
+
       reviews: 93,
+
       newest: 18,
+
       image: "assets/images/product-23.jpg",
     },
 
     {
       id: 24,
+
       name: "Volume Conditioner",
+
       category: "Haircare",
+
       brand: "Maybelline",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 15.99,
+
       oldPrice: 19.99,
+
       discount: 20,
+
       rating: 4.5,
+
       reviews: 54,
+
       newest: 17,
+
       image: "assets/images/product-24.jpg",
     },
 
     {
       id: 25,
+
       name: "Scalp Care Treatment",
+
       category: "Haircare",
+
       brand: "Estée Lauder",
+
       type: "Body",
+
       skin: "Oily",
+
       price: 27.99,
+
       oldPrice: 34.99,
+
       discount: 20,
+
       rating: 4.7,
+
       reviews: 72,
+
       newest: 16,
+
       image: "assets/images/product-25.jpg",
     },
 
     {
       id: 26,
+
       name: "Smooth Hair Serum",
+
       category: "Haircare",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Combination",
+
       price: 20.99,
+
       oldPrice: 25.99,
+
       discount: 19,
+
       rating: 4.6,
+
       reviews: 68,
+
       newest: 15,
+
       image: "assets/images/product-26.jpg",
     },
 
     {
       id: 27,
+
       name: "Deep Repair Conditioner",
+
       category: "Haircare",
+
       brand: "L'Oréal",
+
       type: "Body",
+
       skin: "Dry",
+
       price: 18.99,
+
       oldPrice: 23.99,
+
       discount: 21,
+
       rating: 4.7,
+
       reviews: 81,
+
       newest: 14,
+
       image: "assets/images/product-27.jpg",
     },
 
     {
       id: 28,
+
       name: "Gloss Hair Spray",
+
       category: "Haircare",
+
       brand: "Maybelline",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 17.99,
+
       oldPrice: 21.99,
+
       discount: 18,
+
       rating: 4.4,
+
       reviews: 49,
+
       newest: 13,
+
       image: "assets/images/product-28.jpg",
     },
 
     {
       id: 29,
+
       name: "Keratin Hair Treatment",
+
       category: "Haircare",
+
       brand: "Estée Lauder",
+
       type: "Body",
+
       skin: "Dry",
+
       price: 32.99,
+
       oldPrice: 39.99,
+
       discount: 18,
+
       rating: 4.9,
+
       reviews: 111,
+
       newest: 12,
+
       image: "assets/images/product-29.jpg",
     },
 
     {
       id: 30,
+
       name: "Daily Hair Mist",
+
       category: "Haircare",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 14.99,
+
       oldPrice: 18.99,
+
       discount: 21,
+
       rating: 4.5,
+
       reviews: 47,
+
       newest: 11,
+
       image: "assets/images/product-30.jpg",
     },
 
@@ -513,178 +884,303 @@ document.addEventListener("DOMContentLoaded", () => {
 
     {
       id: 31,
+
       name: "Eau de Parfum",
+
       category: "Fragrance",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Normal",
-      price: 34.99,
-      oldPrice: 43.99,
+
+      price: 90.0,
+
+      oldPrice: 120.99,
+
       discount: 20,
+
       rating: 4.9,
+
       reviews: 112,
+
       newest: 10,
+
       image: "assets/images/product-31.jpg",
     },
 
     {
       id: 32,
+
       name: "Rose Blossom Perfume",
+
       category: "Fragrance",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Normal",
-      price: 39.99,
-      oldPrice: 49.99,
+
+      price: 59.99,
+
+      oldPrice: 79.99,
+
       discount: 20,
+
       rating: 4.8,
+
       reviews: 96,
+
       newest: 9,
+
       image: "assets/images/product-32.jpg",
     },
 
     {
       id: 33,
+
       name: "Velvet Night Perfume",
+
       category: "Fragrance",
+
       brand: "Estée Lauder",
+
       type: "Body",
+
       skin: "Normal",
-      price: 44.99,
-      oldPrice: 54.99,
+
+      price: 60.0,
+
+      oldPrice: 94.99,
+
       discount: 18,
+
       rating: 4.9,
+
       reviews: 131,
+
       newest: 8,
+
       image: "assets/images/product-33.jpg",
     },
 
     {
       id: 34,
+
       name: "Fresh Bloom Mist",
+
       category: "Fragrance",
+
       brand: "L'Oréal",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 21.99,
+
       oldPrice: 27.99,
+
       discount: 21,
+
       rating: 4.6,
+
       reviews: 63,
+
       newest: 7,
+
       image: "assets/images/product-34.jpg",
     },
 
     {
       id: 35,
+
       name: "Elegant Rose Eau",
+
       category: "Fragrance",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 36.99,
+
       oldPrice: 45.99,
+
       discount: 20,
+
       rating: 4.8,
+
       reviews: 84,
+
       newest: 6,
+
       image: "assets/images/product-35.jpg",
     },
 
     {
       id: 36,
+
       name: "Golden Bloom",
+
       category: "Fragrance",
+
       brand: "Maybelline",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 29.99,
+
       oldPrice: 36.99,
+
       discount: 19,
+
       rating: 4.5,
+
       reviews: 58,
+
       newest: 5,
+
       image: "assets/images/product-36.jpg",
     },
 
     {
       id: 37,
+
       name: "Soft Vanilla Perfume",
+
       category: "Fragrance",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 31.99,
+
       oldPrice: 39.99,
+
       discount: 20,
+
       rating: 4.7,
+
       reviews: 77,
+
       newest: 4,
+
       image: "assets/images/product-37.jpg",
     },
 
     {
       id: 38,
+
       name: "Pure Jasmine",
+
       category: "Fragrance",
+
       brand: "L'Oréal",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 27.99,
+
       oldPrice: 34.99,
+
       discount: 20,
+
       rating: 4.6,
+
       reviews: 66,
+
       newest: 3,
+
       image: "assets/images/product-38.jpg",
     },
 
     {
       id: 39,
+
       name: "Midnight Rose",
+
       category: "Fragrance",
+
       brand: "Estée Lauder",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 42.99,
+
       oldPrice: 52.99,
+
       discount: 19,
+
       rating: 4.9,
+
       reviews: 108,
+
       newest: 2,
+
       image: "assets/images/product-39.jpg",
     },
 
     {
       id: 40,
+
       name: "EVE Signature Scent",
+
       category: "Fragrance",
+
       brand: "EVE Beauty",
+
       type: "Body",
+
       skin: "Normal",
+
       price: 49.99,
+
       oldPrice: 59.99,
+
       discount: 17,
+
       rating: 5,
+
       reviews: 145,
+
       newest: 1,
+
       image: "assets/images/product-40.jpg",
     },
   ];
 
   /* =========================================================
+
      SETTINGS
+
   ========================================================= */
 
   const productsPerPage = 12;
 
   let currentPage = 1;
+
   let currentView = "grid";
 
   let filteredProducts = [...products];
 
   /* =========================================================
+
      ELEMENTS
+
   ========================================================= */
 
   const productsGrid = document.getElementById("productsGrid");
@@ -708,9 +1204,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const gridView = document.getElementById("gridView");
 
   const listView = document.getElementById("listView");
+  const shopNowButton = document.getElementById("shopNowButton");
 
   /* =========================================================
+
      CURRENT USER
+
   ========================================================= */
 
   function getCurrentUser() {
@@ -736,7 +1235,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      CART KEY
+
   ========================================================= */
 
   function getUserCartKey() {
@@ -750,19 +1251,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      READ CART
+
   ========================================================= */
 
   function getCart() {
     const user = getCurrentUser();
 
     if (!user) {
+      localStorage.setItem(CART_KEY, JSON.stringify([]));
       return [];
     }
 
     const userCartKey = getUserCartKey();
 
     if (!userCartKey) {
+      localStorage.setItem(CART_KEY, JSON.stringify([]));
       return [];
     }
 
@@ -770,60 +1275,117 @@ document.addEventListener("DOMContentLoaded", () => {
       const stored = localStorage.getItem(userCartKey);
 
       if (!stored) {
+        localStorage.setItem(CART_KEY, JSON.stringify([]));
         return [];
       }
 
       const cart = JSON.parse(stored);
 
-      return Array.isArray(cart) ? cart : [];
+      if (!Array.isArray(cart)) {
+        localStorage.setItem(userCartKey, JSON.stringify([]));
+        localStorage.setItem(CART_KEY, JSON.stringify([]));
+        return [];
+      }
+
+      const uniqueCart = [];
+      const usedIds = new Set();
+
+      cart.forEach((item) => {
+        const productId = Number(item.id);
+
+        if (!Number.isFinite(productId)) {
+          return;
+        }
+
+        if (usedIds.has(productId)) {
+          return;
+        }
+
+        usedIds.add(productId);
+
+        uniqueCart.push({
+          ...item,
+          id: productId,
+          quantity: 1,
+        });
+      });
+
+      localStorage.setItem(userCartKey, JSON.stringify(uniqueCart));
+
+      localStorage.setItem(CART_KEY, JSON.stringify(uniqueCart));
+
+      return uniqueCart;
     } catch (error) {
-      console.error("Could not read cart:", error);
+      console.error("Error reading cart:", error);
+
+      localStorage.setItem(userCartKey, JSON.stringify([]));
+      localStorage.setItem(CART_KEY, JSON.stringify([]));
 
       return [];
     }
   }
 
   /* =========================================================
+
      SAVE CART
+
   ========================================================= */
 
   function saveCart(cart) {
     const user = getCurrentUser();
 
     if (!user) {
-      return false;
+      return;
     }
 
     const userCartKey = getUserCartKey();
 
     if (!userCartKey) {
-      return false;
+      return;
     }
 
-    try {
-      localStorage.setItem(userCartKey, JSON.stringify(cart));
+    const uniqueCart = [];
+    const usedIds = new Set();
 
-      localStorage.setItem(
-        CART_CURRENT_USER_KEY,
-        JSON.stringify({
-          userId: user.id,
-          items: cart,
-          updatedAt: new Date().toISOString(),
-        }),
-      );
+    cart.forEach((item) => {
+      const productId = Number(item.id);
 
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      if (!Number.isFinite(productId)) {
+        return;
+      }
 
-      return true;
-    } catch (error) {
-      console.error("Could not save cart:", error);
+      if (usedIds.has(productId)) {
+        return;
+      }
 
-      return false;
-    }
+      usedIds.add(productId);
+
+      uniqueCart.push({
+        ...item,
+        id: productId,
+        quantity: 1,
+      });
+    });
+
+    localStorage.setItem(userCartKey, JSON.stringify(uniqueCart));
+
+    localStorage.setItem(
+      CART_CURRENT_USER_KEY,
+      JSON.stringify({
+        userId: user.id,
+        items: uniqueCart,
+        updatedAt: new Date().toISOString(),
+      }),
+    );
+
+    // Navbar
+    localStorage.setItem(CART_KEY, JSON.stringify(uniqueCart));
   }
 
   /* =========================================================
+
      CART QUANTITY
+
   ========================================================= */
 
   function getCartQuantity(cart = getCart()) {
@@ -833,7 +1395,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      CART TOTAL
+
   ========================================================= */
 
   function getCartTotal(cart = getCart()) {
@@ -843,7 +1407,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      CART COUNTER
+
   ========================================================= */
 
   function updateCartCounter() {
@@ -853,17 +1419,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const selectors = [
       "#cartCount",
+
       "#cartBadge",
+
       ".cart-count",
+
       ".cart-badge",
+
       "[data-cart-count]",
     ];
 
     selectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((element) => {
         element.textContent = quantity;
-
-        element.style.display = quantity > 0 ? "" : "none";
+        element.style.display = "";
       });
     });
 
@@ -871,7 +1440,9 @@ document.addEventListener("DOMContentLoaded", () => {
       new CustomEvent("eveBeautyCartUpdated", {
         detail: {
           cart: cart,
+
           quantity: quantity,
+
           total: getCartTotal(cart),
         },
       }),
@@ -879,10 +1450,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      CART TOAST MESSAGE
-     
-     FIXED:
-     پیام حالا پایین سمت راست صفحه می‌آید.
+
   ========================================================= */
 
   function showCartMessage(message) {
@@ -892,16 +1462,6 @@ document.addEventListener("DOMContentLoaded", () => {
       toast = document.createElement("div");
 
       toast.id = "eveBeautyCartToast";
-
-      /*
-        مهم‌ترین تغییر:
-
-        قبلاً:
-        left: 50%
-
-        حالا:
-        right: 24px
-      */
 
       toast.style.position = "fixed";
 
@@ -913,11 +1473,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       toast.style.top = "auto";
 
-      /*
-        حرکت پیام از پایین
-        بدون translateX
-      */
-
       toast.style.transform = "translateY(20px)";
 
       toast.style.zIndex = "999999";
@@ -925,10 +1480,6 @@ document.addEventListener("DOMContentLoaded", () => {
       toast.style.background = "#8f5f5f";
 
       toast.style.color = "#ffffff";
-
-      /*
-        کمی کوچک‌تر از قبل
-      */
 
       toast.style.padding = "7px 12px";
 
@@ -950,11 +1501,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       toast.style.transition = "opacity 0.25s ease, transform 0.25s ease";
 
-      /*
-        برای اینکه در موبایل
-        از صفحه بیرون نزند
-      */
-
       toast.style.maxWidth = "calc(100vw - 32px)";
 
       toast.style.overflow = "hidden";
@@ -964,29 +1510,13 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.appendChild(toast);
     }
 
-    /*
-      متن پیام
-    */
-
     toast.textContent = message;
-
-    /*
-      نمایش پیام
-    */
 
     toast.style.opacity = "1";
 
     toast.style.transform = "translateY(0)";
 
-    /*
-      تایمر قبلی را پاک می‌کنیم
-    */
-
     clearTimeout(window.eveBeautyToastTimer);
-
-    /*
-      بعد از 2.2 ثانیه مخفی شود
-    */
 
     window.eveBeautyToastTimer = setTimeout(() => {
       toast.style.opacity = "0";
@@ -996,7 +1526,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      IS PRODUCT IN CART
+
   ========================================================= */
 
   function isProductInCart(productId) {
@@ -1006,7 +1538,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      ADD TO CART
+
   ========================================================= */
 
   function addToCart(productId) {
@@ -1028,21 +1562,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!product) {
       console.error("Product not found:", productId);
-
       return false;
     }
 
     const cart = getCart();
 
-    const existingItem = cart.find(
-      (item) => Number(item.id) === Number(productId),
+    const existingIndex = cart.findIndex(
+      (item) => Number(item.id) === Number(product.id),
     );
 
-    if (existingItem) {
-      return removeFromCart(productId);
+    if (existingIndex !== -1) {
+      return removeFromCart(product.id);
     }
 
-    cart.push({
+    const newProduct = {
       id: product.id,
       name: product.name,
       brand: product.brand,
@@ -1058,12 +1591,34 @@ document.addEventListener("DOMContentLoaded", () => {
       quantity: 1,
       addedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-    });
+    };
 
-    const saved = saveCart(cart);
+    cart.push(newProduct);
 
-    if (!saved) {
-      alert("Could not save the product to your cart.");
+    /*
+   CART LOCALLSTORAGE
+  */
+    const userCartKey = getUserCartKey();
+
+    if (!userCartKey) {
+      return false;
+    }
+
+    try {
+      localStorage.setItem(userCartKey, JSON.stringify(cart));
+
+      localStorage.setItem(
+        CART_CURRENT_USER_KEY,
+        JSON.stringify({
+          userId: currentUser.id,
+          items: cart,
+          updatedAt: new Date().toISOString(),
+        }),
+      );
+
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    } catch (error) {
+      console.error("Could not save product to cart:", error);
 
       return false;
     }
@@ -1072,19 +1627,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateAllCartButtons();
 
-    /*
-      پیام پایین سمت راست
-    */
+    window.dispatchEvent(
+      new CustomEvent("eveBeautyCartChanged", {
+        detail: {
+          cart: cart,
+          quantity: getCartQuantity(cart),
+        },
+      }),
+    );
 
     showCartMessage("Product added to cart.");
-
-    console.log("EVE BEAUTY CART UPDATED:", cart);
 
     return true;
   }
 
   /* =========================================================
+
      REMOVE FROM CART
+
   ========================================================= */
 
   function removeFromCart(productId) {
@@ -1096,41 +1656,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const cart = getCart();
 
-    const exists = cart.some((item) => Number(item.id) === Number(productId));
-
-    if (!exists) {
-      return false;
-    }
-
     const newCart = cart.filter(
       (item) => Number(item.id) !== Number(productId),
     );
 
-    const saved = saveCart(newCart);
+    if (newCart.length === cart.length) {
+      return false;
+    }
 
-    if (!saved) {
-      alert("Could not update your cart.");
+    const userCartKey = getUserCartKey();
+
+    if (!userCartKey) {
+      return false;
+    }
+
+    try {
+      localStorage.setItem(userCartKey, JSON.stringify(newCart));
+
+      localStorage.setItem(
+        CART_CURRENT_USER_KEY,
+        JSON.stringify({
+          userId: currentUser.id,
+          items: newCart,
+          updatedAt: new Date().toISOString(),
+        }),
+      );
+
+      localStorage.setItem(CART_KEY, JSON.stringify(newCart));
+    } catch (error) {
+      console.error("Could not remove product from cart:", error);
 
       return false;
     }
 
     updateCartCounter();
-
     updateAllCartButtons();
 
-    /*
-      پیام پایین سمت راست
-    */
+    window.dispatchEvent(
+      new CustomEvent("eveBeautyCartChanged", {
+        detail: {
+          cart: newCart,
+          quantity: getCartQuantity(newCart),
+        },
+      }),
+    );
 
     showCartMessage("Product removed from cart.");
-
-    console.log("PRODUCT REMOVED:", productId);
 
     return true;
   }
 
   /* =========================================================
+
      CHANGE CART QUANTITY
+
   ========================================================= */
 
   function changeCartQuantity(productId, amount) {
@@ -1162,7 +1741,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      CHECKED FILTER VALUES
+
   ========================================================= */
 
   function getCheckedValues(selector) {
@@ -1172,7 +1753,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      CATEGORY FROM URL
+
   ========================================================= */
 
   function applyCategoryFromURL() {
@@ -1194,9 +1777,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
 
-    document.querySelectorAll(".category-filter").forEach((input) => {
-      input.checked = false;
-    });
+    document
+
+      .querySelectorAll(".category-filter")
+
+      .forEach((input) => {
+        input.checked = false;
+      });
 
     categoryInput.checked = true;
 
@@ -1218,7 +1805,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      SCROLL
+
   ========================================================= */
 
   function scrollToProducts() {
@@ -1242,13 +1831,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       window.scrollTo({
         top: Math.max(top, 0),
+
         behavior: "smooth",
       });
     }, 350);
   }
-
+  if (shopNowButton) {
+    shopNowButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      scrollToProducts();
+    });
+  }
   /* =========================================================
+
      APPLY FILTERS
+
   ========================================================= */
 
   function applyFilters() {
@@ -1309,7 +1906,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      SORT PRODUCTS
+
   ========================================================= */
 
   function sortProducts() {
@@ -1329,7 +1928,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      RENDER PRODUCTS
+
   ========================================================= */
 
   function renderProducts() {
@@ -1347,11 +1948,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pageProducts.length === 0) {
       productsGrid.innerHTML = `
+
         <div class="no-products">
+
           <i data-lucide="search-x"></i>
+
           <h3>No products found</h3>
+
           <p>Try changing your filters.</p>
+
         </div>
+
       `;
 
       if (window.lucide) {
@@ -1371,80 +1978,116 @@ document.addEventListener("DOMContentLoaded", () => {
       const productAlreadyInCart = isProductInCart(product.id);
 
       card.innerHTML = `
-          <div class="product-image">
 
-            <img
-              src="${product.image}"
-              alt="${product.name}"
-              loading="lazy"
-              onerror="this.style.display='none';"
-            />
+        <div class="product-image">
 
-            <span class="discount-badge">
-              -${product.discount}%
+          <img
+
+            src="${product.image}"
+
+            alt="${product.name}"
+
+            loading="lazy"
+
+            onerror="this.style.display='none';"
+
+          />
+
+          <span class="discount-badge">
+
+            -${product.discount}%
+
+          </span>
+
+          <button
+
+            type="button"
+
+            class="wishlist-button"
+
+            data-product-id="${product.id}"
+
+            aria-label="Add to wishlist"
+
+            aria-pressed="false"
+
+          >
+
+            <i data-lucide="heart"></i>
+
+          </button>
+
+        </div>
+
+        <div class="product-info">
+
+          <p class="product-brand">
+
+            ${product.brand}
+
+          </p>
+
+          <h3 class="product-name">
+
+            ${product.name}
+
+          </h3>
+
+          <div class="product-rating">
+
+            <span>
+
+              ${"★".repeat(Math.round(product.rating))}
+
             </span>
 
-            <button
-              type="button"
-              class="wishlist-button"
-              data-product-id="${product.id}"
-              aria-label="Add to wishlist"
-            >
-              <i data-lucide="heart"></i>
-            </button>
+            <span>
+
+              (${product.reviews})
+
+            </span>
 
           </div>
 
-          <div class="product-info">
+          <div class="product-price">
 
-            <p class="product-brand">
-              ${product.brand}
-            </p>
+            <span class="current-price">
 
-            <h3 class="product-name">
-              ${product.name}
-            </h3>
+              $${product.price.toFixed(2)}
 
-            <div class="product-rating">
+            </span>
 
-              <span>
-                ${"★".repeat(Math.round(product.rating))}
-              </span>
+            <span class="old-price">
 
-              <span>
-                (${product.reviews})
-              </span>
+              $${product.oldPrice.toFixed(2)}
 
-            </div>
-
-            <div class="product-price">
-
-              <span class="current-price">
-                $${product.price.toFixed(2)}
-              </span>
-
-              <span class="old-price">
-                $${product.oldPrice.toFixed(2)}
-              </span>
-
-            </div>
-
-            <button
-              type="button"
-              class="add-cart-button ${productAlreadyInCart ? "in-cart" : ""}"
-              data-product-id="${product.id}"
-            >
-
-              <i
-                data-lucide="${productAlreadyInCart ? "check" : "shopping-bag"}"
-              ></i>
-
-              ${productAlreadyInCart ? "In cart" : "Add to cart"}
-
-            </button>
+            </span>
 
           </div>
-        `;
+
+          <button
+
+            type="button"
+
+            class="add-cart-button ${productAlreadyInCart ? "in-cart" : ""}"
+
+            data-product-id="${product.id}"
+
+          >
+
+            <i
+
+              data-lucide="${productAlreadyInCart ? "check" : "shopping-bag"}"
+
+            ></i>
+
+            ${productAlreadyInCart ? "In cart" : "Add to cart"}
+
+          </button>
+
+        </div>
+
+      `;
 
       productsGrid.appendChild(card);
     });
@@ -1459,7 +2102,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      UPDATE CART BUTTONS
+
   ========================================================= */
 
   function updateAllCartButtons() {
@@ -1470,30 +2115,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const exists = cart.some((item) => Number(item.id) === productId);
 
-      if (exists) {
-        button.classList.add("in-cart");
+      button.classList.toggle("in-cart", exists);
 
-        button.innerHTML = `
-              <i data-lucide="check"></i>
-              In cart
-            `;
-      } else {
-        button.classList.remove("in-cart");
+      button.innerHTML = `
+        <i data-lucide="shopping-bag"></i>
+        ${exists ? "In cart" : "Add to cart"}
+      `;
 
-        button.innerHTML = `
-              <i data-lucide="shopping-bag"></i>
-              Add to cart
-            `;
-      }
+      button.setAttribute("aria-pressed", exists ? "true" : "false");
     });
 
     if (window.lucide) {
       lucide.createIcons();
     }
   }
-
   /* =========================================================
+
      PRODUCT COUNT
+
   ========================================================= */
 
   function updateProductsCount() {
@@ -1511,13 +2150,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const start = (currentPage - 1) * productsPerPage + 1;
 
-    const end = Math.min(currentPage * productsPerPage, total);
+    const end = Math.min(
+      currentPage * productsPerPage,
+
+      total,
+    );
 
     productsCount.textContent = `Showing ${start}–${end} of ${total} products`;
   }
 
   /* =========================================================
+
      PAGINATION
+
   ========================================================= */
 
   function renderPagination() {
@@ -1541,17 +2186,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     previous.disabled = currentPage === 1;
 
-    previous.addEventListener("click", () => {
-      if (currentPage > 1) {
-        currentPage--;
+    previous.addEventListener(
+      "click",
 
-        renderProducts();
+      () => {
+        if (currentPage > 1) {
+          currentPage--;
 
-        renderPagination();
+          renderProducts();
 
-        scrollToProducts();
-      }
-    });
+          renderPagination();
+
+          scrollToProducts();
+        }
+      },
+    );
 
     pagination.appendChild(previous);
 
@@ -1566,15 +2215,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       button.textContent = page;
 
-      button.addEventListener("click", () => {
-        currentPage = page;
+      button.addEventListener(
+        "click",
 
-        renderProducts();
+        () => {
+          currentPage = page;
 
-        renderPagination();
+          renderProducts();
 
-        scrollToProducts();
-      });
+          renderPagination();
+
+          scrollToProducts();
+        },
+      );
 
       pagination.appendChild(button);
     }
@@ -1587,17 +2240,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     next.disabled = currentPage === totalPages;
 
-    next.addEventListener("click", () => {
-      if (currentPage < totalPages) {
-        currentPage++;
+    next.addEventListener(
+      "click",
 
-        renderProducts();
+      () => {
+        if (currentPage < totalPages) {
+          currentPage++;
 
-        renderPagination();
+          renderProducts();
 
-        scrollToProducts();
-      }
-    });
+          renderPagination();
+
+          scrollToProducts();
+        }
+      },
+    );
 
     pagination.appendChild(next);
 
@@ -1607,7 +2264,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+
      ACTIVE FILTERS
+
   ========================================================= */
 
   function renderActiveFilters() {
@@ -1619,42 +2278,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const selectors = [
       ".category-filter:checked",
+
       ".brand-filter:checked",
+
       ".price-filter:checked",
+
       ".skin-filter:checked",
+
       ".type-filter:checked",
     ];
 
     selectors.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((input) => {
-        const chip = document.createElement("div");
+      document
 
-        chip.className = "filter-chip";
+        .querySelectorAll(selector)
 
-        chip.innerHTML = `
-                ${input.value}
+        .forEach((input) => {
+          const chip = document.createElement("div");
 
-                <button
-                  type="button"
-                  aria-label="Remove filter"
-                >
-                  ×
-                </button>
-              `;
+          chip.className = "filter-chip";
 
-        chip.querySelector("button").addEventListener("click", () => {
-          input.checked = false;
+          chip.innerHTML = `
 
-          applyFilters();
+            ${input.value}
+
+            <button
+
+              type="button"
+
+              aria-label="Remove filter"
+
+            >
+
+              ×
+
+            </button>
+
+          `;
+
+          chip
+
+            .querySelector("button")
+
+            .addEventListener(
+              "click",
+
+              () => {
+                input.checked = false;
+
+                applyFilters();
+              },
+            );
+
+          activeFilters.appendChild(chip);
         });
-
-        activeFilters.appendChild(chip);
-      });
     });
   }
 
   /* =========================================================
+
      WISHLIST
+
   ========================================================= */
 
   function getWishlistKey() {
@@ -1664,8 +2348,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return null;
     }
 
+    /*
+
+      Wishlist will store separately for every logged-in user
+
+    */
+
     return `${WISHLIST_KEY}_${user.id}`;
   }
+
+  /* =========================================================
+
+     READ WISHLIST
+
+  ========================================================= */
 
   function getWishlist() {
     const key = getWishlistKey();
@@ -1685,31 +2381,339 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return Array.isArray(wishlist) ? wishlist : [];
     } catch (error) {
-      console.error("Could not read wishlist:", error);
+      console.error(
+        "Could not read wishlist:",
+
+        error,
+      );
 
       return [];
     }
   }
 
+  /* =========================================================
+
+     SYNC WISHLIST WITH NAVBAR
+
+  ========================================================= */
+
+  function syncWishlistWithNavbar(wishlist = getWishlist()) {
+    try {
+      /*
+
+        Navbar can read this common key.
+
+        The real user-specific Wishlist
+
+        remains in eveBeautyWishlist_USER_ID.
+
+      */
+
+      localStorage.setItem(
+        WISHLIST_KEY,
+
+        JSON.stringify(wishlist),
+      );
+    } catch (error) {
+      console.error(
+        "Could not sync wishlist with navbar:",
+
+        error,
+      );
+    }
+
+    /*
+
+      IMPORTANT:
+
+      storage events do not fire in the
+
+      same browser tab that changed localStorage.
+
+      Therefore we send our own event.
+
+    */
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "eveBeautyWishlistUpdated",
+
+        {
+          detail: {
+            wishlist: wishlist,
+
+            count: wishlist.length,
+          },
+        },
+      ),
+    );
+  }
+
+  /* =========================================================
+
+     SAVE WISHLIST
+
+  ========================================================= */
+
   function saveWishlist(wishlist) {
     const key = getWishlistKey();
 
     if (!key) {
-      return;
+      return false;
     }
 
     try {
-      localStorage.setItem(key, JSON.stringify(wishlist));
+      /*
+
+        Main user-specific Wishlist
+
+      */
+
+      localStorage.setItem(
+        key,
+
+        JSON.stringify(wishlist),
+      );
+
+      /*
+
+        Sync Navbar
+
+      */
+
+      syncWishlistWithNavbar(wishlist);
+
+      return true;
     } catch (error) {
-      console.error("Could not save wishlist:", error);
+      console.error(
+        "Could not save wishlist:",
+
+        error,
+      );
+
+      return false;
     }
   }
+
+  /* =========================================================
+
+     UPDATE NAVBAR WISHLIST UI
+
+  ========================================================= */
+
+  function updateNavbarWishlistUI(wishlist = getWishlist()) {
+    const count = wishlist.length;
+
+    /*
+
+      Main Navbar badge
+
+    */
+
+    const badgeSelectors = [
+      "#favoritelistCount",
+
+      "#wishlistCount",
+
+      "#wishlistBadge",
+
+      ".wishlist-count",
+
+      ".wishlist-badge",
+
+      "[data-wishlist-count]",
+    ];
+
+    badgeSelectors.forEach((selector) => {
+      document
+
+        .querySelectorAll(selector)
+
+        .forEach((element) => {
+          element.textContent = count;
+
+          /*
+
+              Keep badge visible even at zero
+
+              if the original Navbar expects it.
+
+            */
+
+          element.style.display = "";
+        });
+    });
+
+    /*
+
+      Dropdown count
+
+    */
+
+    const dropdownCount = document.getElementById("wishlistDropdownCount");
+
+    if (dropdownCount) {
+      dropdownCount.textContent = count;
+    }
+
+    /*
+
+      Dropdown list
+
+    */
+
+    const dropdownList = document.getElementById("wishlistDropdownList");
+
+    const dropdownEmpty = document.getElementById("wishlistDropdownEmpty");
+
+    if (!dropdownList) {
+      return;
+    }
+
+    dropdownList.innerHTML = "";
+
+    /*
+
+      Empty Wishlist
+
+    */
+
+    if (wishlist.length === 0) {
+      if (dropdownEmpty) {
+        dropdownEmpty.style.display = "";
+      }
+
+      return;
+    }
+
+    /*
+
+      Wishlist has products
+
+    */
+
+    if (dropdownEmpty) {
+      dropdownEmpty.style.display = "none";
+    }
+
+    wishlist.forEach((item) => {
+      const row = document.createElement("div");
+
+      row.className = "quick-dropdown-item wishlist-dropdown-item";
+
+      /*
+
+        PRODUCT IMAGE
+
+      */
+
+      const imageWrapper = document.createElement("div");
+
+      imageWrapper.className = "quick-dropdown-item-image";
+
+      if (item.image) {
+        const image = document.createElement("img");
+
+        image.src = item.image;
+
+        image.alt = item.name || "Wishlist product";
+
+        image.loading = "lazy";
+
+        image.onerror = () => {
+          image.remove();
+
+          imageWrapper.textContent = String(item.name || "P")
+            .charAt(0)
+
+            .toUpperCase();
+        };
+
+        imageWrapper.appendChild(image);
+      } else {
+        imageWrapper.textContent = String(item.name || "P")
+          .charAt(0)
+
+          .toUpperCase();
+      }
+
+      /*
+
+        PRODUCT INFORMATION
+
+      */
+
+      const info = document.createElement("div");
+
+      info.className = "quick-dropdown-item-info";
+
+      const name = document.createElement("strong");
+
+      name.textContent = item.name || "Product";
+
+      info.appendChild(name);
+
+      /*
+
+        BRAND
+
+      */
+
+      if (item.brand) {
+        const brand = document.createElement("small");
+
+        brand.textContent = item.brand;
+
+        info.appendChild(brand);
+      }
+
+      /*
+
+        PRICE
+
+      */
+
+      if (item.price !== undefined && item.price !== null) {
+        const price = document.createElement("span");
+
+        const numericPrice = Number(item.price);
+
+        price.textContent = Number.isFinite(numericPrice)
+          ? `$${numericPrice.toFixed(2)}`
+          : String(item.price);
+
+        info.appendChild(price);
+      }
+
+      row.appendChild(imageWrapper);
+
+      row.appendChild(info);
+
+      dropdownList.appendChild(row);
+    });
+  }
+
+  /* =========================================================
+
+     TOGGLE WISHLIST
+
+  ========================================================= */
 
   function toggleWishlist(productId) {
     const user = getCurrentUser();
 
+    /*
+
+      User must be logged in.
+
+    */
+
     if (!user) {
-      localStorage.setItem("eveBeautyLoginRedirect", "shop.html");
+      localStorage.setItem(
+        "eveBeautyLoginRedirect",
+
+        "shop.html",
+      );
 
       alert("Please sign in first.");
 
@@ -1724,66 +2728,192 @@ document.addEventListener("DOMContentLoaded", () => {
       (item) => Number(item.id) === Number(productId),
     );
 
+    /*
+
+      REMOVE
+
+    */
+
     if (index !== -1) {
       wishlist.splice(index, 1);
     } else {
+      /*
+
+      ADD
+
+    */
       const product = products.find(
         (item) => Number(item.id) === Number(productId),
       );
 
-      if (product) {
-        wishlist.push({
-          id: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.price,
-          image: product.image,
-          addedAt: new Date().toISOString(),
-        });
+      if (!product) {
+        console.error(
+          "Wishlist product not found:",
+
+          productId,
+        );
+
+        return;
       }
+
+      wishlist.push({
+        id: product.id,
+
+        name: product.name,
+
+        brand: product.brand,
+
+        price: product.price,
+
+        image: product.image,
+
+        category: product.category,
+
+        addedAt: new Date().toISOString(),
+      });
     }
 
-    saveWishlist(wishlist);
+    /*
+
+      SAVE
+
+    */
+
+    const saved = saveWishlist(wishlist);
+
+    if (!saved) {
+      return;
+    }
+
+    /*
+
+      Update product hearts
+
+    */
 
     updateWishlistButtons();
+
+    /*
+
+      Update Navbar immediately
+
+    */
+
+    updateNavbarWishlistUI(wishlist);
+
+    /*
+
+      Send event again so Navbar
+
+      can react immediately.
+
+    */
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "eveBeautyWishlistUpdated",
+
+        {
+          detail: {
+            wishlist: wishlist,
+
+            count: wishlist.length,
+          },
+        },
+      ),
+    );
+
+    console.log(
+      "EVE BEAUTY WISHLIST UPDATED:",
+
+      wishlist,
+    );
   }
+
+  /* =========================================================
+
+     UPDATE WISHLIST BUTTONS
+
+  ========================================================= */
 
   function updateWishlistButtons() {
     const wishlist = getWishlist();
 
-    document.querySelectorAll(".wishlist-button").forEach((button) => {
-      const productId = Number(button.dataset.productId);
+    document
 
-      const exists = wishlist.some((item) => Number(item.id) === productId);
+      .querySelectorAll(".wishlist-button")
 
-      button.classList.toggle("active", exists);
-    });
+      .forEach((button) => {
+        const productId = Number(button.dataset.productId);
+
+        const exists = wishlist.some((item) => Number(item.id) === productId);
+
+        button.classList.toggle(
+          "active",
+
+          exists,
+        );
+
+        button.setAttribute(
+          "aria-label",
+
+          exists ? "Remove from wishlist" : "Add to wishlist",
+        );
+
+        button.setAttribute(
+          "aria-pressed",
+
+          exists ? "true" : "false",
+        );
+      });
   }
 
   /* =========================================================
+
      PRODUCT BUTTONS
+
   ========================================================= */
 
   function setupProductButtons() {
-    /*
-      WISHLIST
-    */
+    if (!productsGrid) {
+      return;
+    }
 
-    document.querySelectorAll(".wishlist-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const productId = Number(button.dataset.productId);
+    /*
+    Remove the old click handler from productsGrid
+    before adding a new one.
+
+    This prevents duplicate events when products
+    are rendered again after filtering/pagination.
+  */
+    if (productsGrid._eveBeautyClickHandler) {
+      productsGrid.removeEventListener(
+        "click",
+        productsGrid._eveBeautyClickHandler,
+      );
+    }
+
+    const clickHandler = (event) => {
+      const wishlistButton = event.target.closest(".wishlist-button");
+
+      if (wishlistButton && productsGrid.contains(wishlistButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const productId = Number(wishlistButton.dataset.productId);
 
         toggleWishlist(productId);
-      });
-    });
 
-    /*
-      CART
-    */
+        return;
+      }
 
-    document.querySelectorAll(".add-cart-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const productId = Number(button.dataset.productId);
+      const cartButton = event.target.closest(".add-cart-button");
+
+      if (cartButton && productsGrid.contains(cartButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const productId = Number(cartButton.dataset.productId);
 
         const exists = isProductInCart(productId);
 
@@ -1792,195 +2922,325 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           addToCart(productId);
         }
-      });
-    });
+      }
+    };
+
+    productsGrid._eveBeautyClickHandler = clickHandler;
+
+    productsGrid.addEventListener("click", clickHandler);
 
     updateWishlistButtons();
-
     updateAllCartButtons();
+
+    updateNavbarWishlistUI(getWishlist());
   }
 
   /* =========================================================
+
      FILTER EVENTS
+
   ========================================================= */
 
   document
+
     .querySelectorAll(
       `
+
       .category-filter,
+
       .brand-filter,
+
       .price-filter,
+
       .skin-filter,
+
       .type-filter
+
       `,
     )
+
     .forEach((input) => {
-      input.addEventListener("change", applyFilters);
+      input.addEventListener(
+        "change",
+
+        applyFilters,
+      );
     });
 
   /* =========================================================
+
      SORT EVENT
+
   ========================================================= */
 
   if (sortSelect) {
-    sortSelect.addEventListener("change", () => {
-      sortProducts();
+    sortSelect.addEventListener(
+      "change",
 
-      currentPage = 1;
+      () => {
+        sortProducts();
 
-      renderProducts();
+        currentPage = 1;
 
-      renderPagination();
-    });
+        renderProducts();
+
+        renderPagination();
+      },
+    );
   }
 
   /* =========================================================
+
      CLEAR FILTERS
+
   ========================================================= */
 
   if (clearFilters) {
-    clearFilters.addEventListener("click", () => {
-      document
-        .querySelectorAll(
-          `
-            .category-filter,
-            .brand-filter,
-            .price-filter,
-            .skin-filter,
-            .type-filter
+    clearFilters.addEventListener(
+      "click",
+
+      () => {
+        document
+
+          .querySelectorAll(
+            `
+
+              .category-filter,
+
+              .brand-filter,
+
+              .price-filter,
+
+              .skin-filter,
+
+              .type-filter
+
             `,
-        )
-        .forEach((input) => {
-          input.checked = false;
-        });
+          )
 
-      if (sortSelect) {
-        sortSelect.value = "featured";
-      }
+          .forEach((input) => {
+            input.checked = false;
+          });
 
-      const cleanURL = window.location.pathname;
+        if (sortSelect) {
+          sortSelect.value = "featured";
+        }
 
-      window.history.replaceState({}, "", cleanURL);
+        const cleanURL = window.location.pathname;
 
-      applyFilters();
-    });
+        window.history.replaceState(
+          {},
+
+          "",
+
+          cleanURL,
+        );
+
+        applyFilters();
+      },
+    );
   }
 
   /* =========================================================
+
      FILTER GROUP COLLAPSE
+
   ========================================================= */
 
-  document.querySelectorAll("[data-filter-toggle]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const group = button.closest(".filter-group");
+  document
 
-      if (!group) {
-        return;
-      }
+    .querySelectorAll("[data-filter-toggle]")
 
-      group.classList.toggle("closed");
+    .forEach((button) => {
+      button.addEventListener(
+        "click",
 
-      const icon = button.querySelector("svg");
+        () => {
+          const group = button.closest(".filter-group");
 
-      if (icon) {
-        icon.style.transform = group.classList.contains("closed")
-          ? "rotate(0deg)"
-          : "rotate(180deg)";
-      }
+          if (!group) {
+            return;
+          }
+
+          group.classList.toggle("closed");
+
+          const icon = button.querySelector("svg");
+
+          if (icon) {
+            icon.style.transform = group.classList.contains("closed")
+              ? "rotate(0deg)"
+              : "rotate(180deg)";
+          }
+        },
+      );
     });
-  });
 
   /* =========================================================
+
      MOBILE FILTER
+
   ========================================================= */
 
   if (mobileFilterButton) {
-    mobileFilterButton.addEventListener("click", () => {
-      if (sidebar) {
-        sidebar.classList.add("open");
-      }
-    });
+    mobileFilterButton.addEventListener(
+      "click",
+
+      () => {
+        if (sidebar) {
+          sidebar.classList.add("open");
+        }
+      },
+    );
   }
 
   if (filterMobileClose) {
-    filterMobileClose.addEventListener("click", () => {
-      if (sidebar) {
-        sidebar.classList.remove("open");
-      }
-    });
+    filterMobileClose.addEventListener(
+      "click",
+
+      () => {
+        if (sidebar) {
+          sidebar.classList.remove("open");
+        }
+      },
+    );
   }
 
   /* =========================================================
+
      GRID / LIST VIEW
+
   ========================================================= */
 
   if (gridView) {
-    gridView.addEventListener("click", () => {
-      currentView = "grid";
+    gridView.addEventListener(
+      "click",
 
-      if (productsGrid) {
-        productsGrid.classList.remove("list-view");
-      }
+      () => {
+        currentView = "grid";
 
-      gridView.classList.add("active");
+        if (productsGrid) {
+          productsGrid.classList.remove("list-view");
+        }
 
-      if (listView) {
-        listView.classList.remove("active");
-      }
-    });
+        gridView.classList.add("active");
+
+        if (listView) {
+          listView.classList.remove("active");
+        }
+      },
+    );
   }
 
   if (listView) {
-    listView.addEventListener("click", () => {
-      currentView = "list";
+    listView.addEventListener(
+      "click",
 
-      if (productsGrid) {
-        productsGrid.classList.add("list-view");
-      }
+      () => {
+        currentView = "list";
 
-      listView.classList.add("active");
+        if (productsGrid) {
+          productsGrid.classList.add("list-view");
+        }
 
-      if (gridView) {
-        gridView.classList.remove("active");
-      }
-    });
+        listView.classList.add("active");
+
+        if (gridView) {
+          gridView.classList.remove("active");
+        }
+      },
+    );
   }
 
   /* =========================================================
+
      CART UPDATE EVENT
+
   ========================================================= */
 
-  window.addEventListener("eveBeautyCartUpdated", () => {
-    updateCartCounter();
-    updateAllCartButtons();
-  });
+  window.addEventListener(
+    "eveBeautyCartUpdated",
 
-  /* =========================================================
-     STORAGE EVENT
-  ========================================================= */
-
-  window.addEventListener("storage", (event) => {
-    const currentUser = getCurrentUser();
-
-    if (!currentUser) {
-      return;
-    }
-
-    const userCartKey = `${CART_KEY}_${currentUser.id}`;
-
-    if (
-      event.key === userCartKey ||
-      event.key === CART_KEY ||
-      event.key === CART_CURRENT_USER_KEY
-    ) {
+    () => {
       updateCartCounter();
 
       updateAllCartButtons();
-    }
-  });
+    },
+  );
 
   /* =========================================================
+
+     WISHLIST UPDATE EVENT
+
+  ========================================================= */
+
+  window.addEventListener(
+    "eveBeautyWishlistUpdated",
+
+    (event) => {
+      const wishlist = event.detail?.wishlist || getWishlist();
+
+      updateWishlistButtons();
+
+      updateNavbarWishlistUI(wishlist);
+    },
+  );
+
+  /* =========================================================
+
+     STORAGE EVENT
+
+  ========================================================= */
+
+  window.addEventListener(
+    "storage",
+
+    (event) => {
+      const currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        return;
+      }
+
+      const userCartKey = `${CART_KEY}_${currentUser.id}`;
+
+      const userWishlistKey = `${WISHLIST_KEY}_${currentUser.id}`;
+
+      /*
+
+        CART
+
+      */
+
+      if (
+        event.key === userCartKey ||
+        event.key === CART_KEY ||
+        event.key === CART_CURRENT_USER_KEY
+      ) {
+        updateCartCounter();
+
+        updateAllCartButtons();
+      }
+
+      /*
+
+        WISHLIST
+
+      */
+
+      if (event.key === userWishlistKey || event.key === WISHLIST_KEY) {
+        const wishlist = getWishlist();
+
+        updateWishlistButtons();
+
+        updateNavbarWishlistUI(wishlist);
+      }
+    },
+  );
+
+  /* =========================================================
+
      INITIALIZE
+
   ========================================================= */
 
   const hasURLCategory = applyCategoryFromURL();
@@ -2002,33 +3262,64 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /*
+
     Load saved cart immediately.
+
   */
 
   updateCartCounter();
 
   updateAllCartButtons();
 
+  /*
+
+    Load saved Wishlist immediately.
+
+  */
+
   updateWishlistButtons();
+
+  updateNavbarWishlistUI(getWishlist());
 
   if (window.lucide) {
     lucide.createIcons();
   }
 
   /* =========================================================
+
      GLOBAL DEBUG HELPERS
+
   ========================================================= */
 
   window.eveBeautyShop = {
     getCurrentUser,
+
     getCart,
+
     saveCart,
+
     addToCart,
+
     removeFromCart,
+
     changeCartQuantity,
+
     getCartQuantity,
+
     getCartTotal,
+
     showCartMessage,
+
+    getWishlist,
+
+    saveWishlist,
+
+    toggleWishlist,
+
+    updateWishlistButtons,
+
+    updateNavbarWishlistUI,
+
     products,
   };
 
@@ -2036,9 +3327,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("EVE BEAUTY SHOP READY");
 
-  console.log("Current User:", getCurrentUser());
+  console.log(
+    "Current User:",
 
-  console.log("Current Cart:", getCart());
+    getCurrentUser(),
+  );
+
+  console.log(
+    "Current Cart:",
+
+    getCart(),
+  );
+
+  console.log(
+    "Current Wishlist:",
+
+    getWishlist(),
+  );
 
   console.log("=================================");
 });

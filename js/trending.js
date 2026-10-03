@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.8,
         reviews: 72,
         badge: "TRENDING",
-        image: "assets/images/glow-spf-50.jpg",
+        image: "assets/images/product-glow-spf-50.jpg",
       },
 
       {
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.8,
         reviews: 176,
         badge: "BEST SELLER",
-        image: "assets/images/cica-repair-cream.jpg",
+        image: "assets/images/product-cicapair-cream.jpg",
       },
 
       {
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.7,
         reviews: 67,
         badge: "NEW",
-        image: "assets/images/purifying-toner.jpg",
+        image: "assets/images/product-17.jpg",
       },
 
       {
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.7,
         reviews: 108,
         badge: "TRENDING",
-        image: "assets/images/rose-milk-cleanser.jpg",
+        image: "assets/images/product-rose-milk-cleanser.jpg",
       },
 
       {
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.9,
         reviews: 88,
         badge: "-15%",
-        image: "assets/images/radiance-facial-serum.jpg",
+        image: "assets/images/product-radiance-serum.jpg",
       },
 
       {
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.8,
         reviews: 95,
         badge: "FAVORITE",
-        image: "assets/images/hydra-cream.jpg",
+        image: "assets/images/product-hydra-cream.jpg",
       },
 
       {
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.9,
         reviews: 126,
         badge: "VIRAL",
-        image: "assets/images/vitamin-c-glow-serum.jpg",
+        image: "assets/images/product-vitamin-c-glow-serum.jpg",
       },
     ],
 
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.8,
         reviews: 93,
         badge: "VIRAL",
-        image: "assets/images/lash-sensational-mascara.jpg",
+        image: "assets/images/product-lash-sensational.jpg",
       },
 
       {
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.7,
         reviews: 149,
         badge: "TRENDING",
-        image: "assets/images/fit-me-foundation.jpg",
+        image: "assets/images/product-fit-me-foundation.jpg",
       },
 
       {
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.9,
         reviews: 171,
         badge: "ICONIC",
-        image: "assets/images/dior-addict-lip-glow.jpg",
+        image: "assets/images/product-dior-addict.jpg",
       },
 
       {
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.8,
         reviews: 96,
         badge: "BEST SELLER",
-        image: "assets/images/velvet-matte-lipstick.jpg",
+        image: "assets/images/product-3.jpg",
       },
 
       {
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.8,
         reviews: 69,
         badge: "LUXURY",
-        image: "assets/images/les-beiges-powder.jpg",
+        image: "assets/images/product-les-beiges.jpg",
       },
 
       {
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.7,
         reviews: 76,
         badge: "-20%",
-        image: "assets/images/flawless-foundation.jpg",
+        image: "assets/images/product-2.jpg",
       },
     ],
 
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.8,
         reviews: 74,
         badge: "TRENDING",
-        image: "assets/images/silk-repair-mask.jpg",
+        image: "assets/images/product-21.jpg",
       },
 
       {
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rating: 4.9,
         reviews: 91,
         badge: "VIRAL",
-        image: "assets/images/glossy-hair-oil.jpg",
+        image: "assets/images/product-24.jpg",
       },
     ],
 

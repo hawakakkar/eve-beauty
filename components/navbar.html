@@ -26,11 +26,13 @@
 <header class="eve-header">
   <nav class="navbar">
     <div class="navbar-container">
-      <!-- LOGO -->
+      <!-- =====================================================
+           LOGO
+      ====================================================== -->
 
       <a href="index.html" class="my-logo" aria-label="EVE Beauty Home">
         <img
-          src="images/eve-logo.png"
+          src="assets/images/eve-logo.png"
           alt="EVE Beauty"
           class="site-logo-image"
         />
@@ -42,11 +44,11 @@
 
       <ul class="navbar-menu main-navbar-menu">
         <li>
-          <a href="index.html" class="navbar-link"> Home </a>
+          <a href="index.html" class="navbar-link">Home</a>
         </li>
 
         <li>
-          <a href="about.html" class="navbar-link"> About Us </a>
+          <a href="about.html" class="navbar-link">About Us</a>
         </li>
 
         <!-- SHOP -->
@@ -66,13 +68,10 @@
           </div>
 
           <div class="dropdown-menu shop-menu">
-            <a href="shop.html?category=Makeup"> Makeup </a>
-
-            <a href="shop.html?category=Skincare"> Skincare </a>
-
-            <a href="shop.html?category=Haircare"> Haircare </a>
-
-            <a href="shop.html?category=Fragrance"> Fragrance </a>
+            <a href="shop.html?category=Makeup">Makeup</a>
+            <a href="shop.html?category=Skincare">Skincare</a>
+            <a href="shop.html?category=Haircare">Haircare</a>
+            <a href="shop.html?category=Fragrance">Fragrance</a>
           </div>
         </li>
 
@@ -93,18 +92,16 @@
             aria-expanded="false"
           >
             <span>Collections</span>
-
             <i data-lucide="chevron-down"></i>
           </button>
 
           <div class="dropdown-menu">
-            <a href="best-sellers.html"> Best Sellers </a>
-
-            <a href="trending.html"> Trending </a>
-
-            <a href="exclusive.html"> Exclusive </a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="trending.html">Trending</a>
+            <a href="exclusive.html">Exclusive</a>
           </div>
         </li>
+
         <li>
           <a href="beauty-test.html" class="navbar-link"> Beauty Test </a>
         </li>
@@ -153,7 +150,9 @@
           </button>
 
           <div class="dropdown-menu account-dropdown" id="accountDropdown">
-            <!-- LOGGED IN -->
+            <!-- =================================================
+                 LOGGED IN
+            ================================================== -->
 
             <div id="loggedInAccountMenu" class="logged-in-account-menu">
               <!-- ACCOUNT HEADER -->
@@ -174,11 +173,11 @@
                     <span id="accountGreetingName"> Beauty User </span>
                   </strong>
 
-                  <a href="profile.html"> View your account </a>
+                  <a href="dashboard.html?page=settings"> View your account </a>
                 </div>
 
                 <a
-                  href="profile.html"
+                  href="dashboard.html?page=settings"
                   class="account-header-arrow"
                   aria-label="View account"
                 >
@@ -189,9 +188,11 @@
               <!-- ACCOUNT LINKS -->
 
               <div class="account-menu-list">
-                <a href="profile.html" class="account-menu-item">
+                <!-- DASHBOARD -->
+
+                <a href="dashboard.html" class="account-menu-item">
                   <span class="account-menu-icon">
-                    <i data-lucide="house"></i>
+                    <i data-lucide="layout-dashboard"></i>
                   </span>
 
                   <span class="account-menu-label"> Dashboard </span>
@@ -199,7 +200,9 @@
                   <i data-lucide="chevron-right" class="account-menu-arrow"></i>
                 </a>
 
-                <a href="orders.html" class="account-menu-item">
+                <!-- ORDERS -->
+
+                <a href="dashboard.html?page=orders" class="account-menu-item">
                   <span class="account-menu-icon">
                     <i data-lucide="package"></i>
                   </span>
@@ -211,7 +214,12 @@
                   </small>
                 </a>
 
-                <a href="wishlist.html" class="account-menu-item">
+                <!-- WISHLIST -->
+
+                <a
+                  href="dashboard.html?page=wishlist"
+                  class="account-menu-item"
+                >
                   <span class="account-menu-icon">
                     <i data-lucide="heart"></i>
                   </span>
@@ -221,7 +229,12 @@
                   <i data-lucide="chevron-right" class="account-menu-arrow"></i>
                 </a>
 
-                <a href="addresses.html" class="account-menu-item">
+                <!-- ADDRESSES -->
+
+                <a
+                  href="dashboard.html?page=addresses"
+                  class="account-menu-item"
+                >
                   <span class="account-menu-icon">
                     <i data-lucide="map-pin"></i>
                   </span>
@@ -231,7 +244,12 @@
                   <i data-lucide="chevron-right" class="account-menu-arrow"></i>
                 </a>
 
-                <a href="settings.html" class="account-menu-item">
+                <!-- SETTINGS -->
+
+                <a
+                  href="dashboard.html?page=settings"
+                  class="account-menu-item"
+                >
                   <span class="account-menu-icon">
                     <i data-lucide="settings"></i>
                   </span>
@@ -259,7 +277,9 @@
               </div>
             </div>
 
-            <!-- LOGGED OUT -->
+            <!-- =================================================
+                 LOGGED OUT
+            ================================================== -->
 
             <div id="loggedOutAccountMenu" class="logged-out-account-menu">
               <a href="signup.html">
@@ -281,33 +301,121 @@
           </div>
         </div>
 
-        <!-- WISHLIST -->
+        <!-- =================================================
+             WISHLIST
+        ================================================== -->
 
-        <button
-          class="icon-button notification-button"
-          id="favoritelistButton"
-          aria-label="Wishlist"
-          type="button"
-        >
-          <i data-lucide="heart"></i>
+        <div class="navbar-action-dropdown" id="wishlistWrapper">
+          <button
+            class="icon-button notification-button"
+            id="favoritelistButton"
+            aria-label="Wishlist"
+            aria-expanded="false"
+            type="button"
+          >
+            <i data-lucide="heart"></i>
 
-          <small id="favoritelistCount"> 0 </small>
-        </button>
+            <small id="favoritelistCount"> 0 </small>
+          </button>
 
-        <!-- CART -->
+          <div
+            class="navbar-mini-dropdown wishlist-dropdown"
+            id="wishlistDropdown"
+          >
+            <div class="mini-dropdown-header">
+              <div>
+                <span class="mini-dropdown-eyebrow"> YOUR FAVORITES </span>
 
-        <button
-          class="icon-button notification-button"
-          id="cartButton"
-          aria-label="Cart"
-          type="button"
-        >
-          <i data-lucide="shopping-bag"></i>
+                <h3>Wishlist</h3>
+              </div>
 
-          <small id="cartCount"> 0 </small>
-        </button>
+              <i data-lucide="heart"></i>
+            </div>
 
-        <!-- THEME -->
+            <div class="mini-dropdown-items" id="wishlistDropdownItems"></div>
+
+            <div class="mini-dropdown-empty" id="wishlistDropdownEmpty">
+              <i data-lucide="heart"></i>
+
+              <p>Your wishlist is empty.</p>
+
+              <span> Add products you love to see them here. </span>
+            </div>
+
+            <div class="mini-dropdown-footer">
+              <a href="dashboard.html?page=wishlist">
+                View Wishlist
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- =================================================
+             CART
+        ================================================== -->
+
+        <div class="navbar-action-dropdown" id="cartWrapper">
+          <button
+            class="icon-button notification-button"
+            id="cartButton"
+            aria-label="Cart"
+            aria-expanded="false"
+            type="button"
+          >
+            <i data-lucide="shopping-bag"></i>
+
+            <small id="cartCount"> 0 </small>
+          </button>
+
+          <div class="navbar-mini-dropdown cart-dropdown" id="cartDropdown">
+            <div class="mini-dropdown-header">
+              <div>
+                <span class="mini-dropdown-eyebrow"> YOUR BAG </span>
+
+                <h3>Shopping Bag</h3>
+              </div>
+
+              <i data-lucide="shopping-bag"></i>
+            </div>
+
+            <div class="mini-dropdown-items" id="cartDropdownItems"></div>
+
+            <div class="mini-dropdown-empty" id="cartDropdownEmpty">
+              <i data-lucide="shopping-bag"></i>
+
+              <p>Your shopping bag is empty.</p>
+
+              <span> Add products to your bag to see them here. </span>
+            </div>
+
+            <div class="cart-dropdown-summary" id="cartDropdownSummary">
+              <div class="cart-summary-row">
+                <span> Subtotal </span>
+
+                <strong id="cartDropdownSubtotal"> $0.00 </strong>
+              </div>
+            </div>
+
+            <div class="mini-dropdown-footer cart-footer">
+              <a href="dashboard.html?page=cart">
+                View Cart
+                <i data-lucide="arrow-right"></i>
+              </a>
+
+              <a
+                href="dashboard.html?page=checkout"
+                class="mini-checkout-button"
+              >
+                Checkout
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- =================================================
+             THEME
+        ================================================== -->
 
         <button
           id="themeToggle"
@@ -321,7 +429,9 @@
         </button>
       </div>
 
-      <!-- MOBILE BUTTON -->
+      <!-- =====================================================
+           MOBILE BUTTON
+      ====================================================== -->
 
       <button
         class="mobile-menu-button"
@@ -338,6 +448,8 @@
 
 <!-- =========================================================
      SEARCH OVERLAY
+     
+     SEARCH LOGIC IS INTENTIONALLY KEPT AS BEFORE.
 ========================================================= -->
 
 <div class="search-overlay" id="searchOverlay">
@@ -391,7 +503,7 @@
   </button>
 
   <div class="mobile-menu-brand">
-    <img src="images/eve-logo.png" alt="EVE Beauty" />
+    <img src="assets/images/eve-logo.jpg" alt="EVE Beauty" />
   </div>
 
   <ul class="navbar-menu">
@@ -458,6 +570,10 @@
 
         <a href="exclusive.html"> Exclusive </a>
       </div>
+    </li>
+
+    <li>
+      <a href="beauty-test.html" class="navbar-link"> Beauty Test </a>
     </li>
 
     <li>

@@ -172,10 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!productGrid) return;
 
-    /*
-      فاصله برای Navbar / Header ثابت
-      اگر کارت کمی زیر Navbar رفت، این عدد را افزایش بده.
-    */
     const headerOffset = 90;
 
     const gridPosition =
@@ -248,6 +244,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.className = "arrival-product-card";
 
+      card.dataset.productId = product.id;
+
+      const cart = getCart();
+      const wishlist = getWishlist();
+
+      const productInCart = cart.some(
+        (item) => Number(item.id) === Number(product.id),
+      );
+
+      const productInWishlist = wishlist.some(
+        (item) => Number(item.id) === Number(product.id),
+      );
+
       card.innerHTML = `
         <div class="arrival-product-image">
 
@@ -263,12 +272,13 @@ document.addEventListener("DOMContentLoaded", () => {
           </span>
 
           <button
-            type="button"
-            class="arrival-wishlist"
-            aria-label="Add to wishlist"
-          >
-            <i data-lucide="heart"></i>
-          </button>
+  type="button"
+  class="arrival-wishlist ${productInWishlist ? "active" : ""}"
+  aria-label="${productInWishlist ? "Remove from wishlist" : "Add to wishlist"}"
+  aria-pressed="${productInWishlist ? "true" : "false"}"
+>
+  <i data-lucide="heart"></i>
+</button>
 
         </div>
 
@@ -311,12 +321,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
           <button
-            type="button"
-            class="arrival-add-cart"
-          >
-            <i data-lucide="shopping-bag"></i>
-            Add to cart
-          </button>
+  type="button"
+  class="arrival-add-cart ${productInCart ? "in-cart" : ""}"
+  aria-label="${productInCart ? "Remove from cart" : "Add to cart"}"
+  aria-pressed="${productInCart ? "true" : "false"}"
+>
+  <i data-lucide="shopping-bag"></i>
+  ${productInCart ? "In cart" : "Add to cart"}
+</button>
 
         </div>
       `;
@@ -329,48 +341,412 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     setupProductButtons();
+
+    updateArrivalProductButtons();
   }
 
   /* =========================================================
-     PRODUCT BUTTONS
-  ========================================================= */
+   PRODUCT BUTTONS
+   Shared Cart + Wishlist
+   Synced with Navbar
+========================================================= */
+
+  function getCurrentUser() {
+    try {
+      const stored = localStorage.getItem("eveBeautyCurrentUser");
+
+      if (!stored) {
+        return null;
+      }
+
+      const user = JSON.parse(stored);
+
+      if (!user || !user.id) {
+        return null;
+      }
+
+      return user;
+    } catch (error) {
+      console.error("Could not read current user:", error);
+
+      return null;
+    }
+  }
+
+  /* =========================================================
+   CART HELPERS
+========================================================= */
+
+  function getCart() {
+    try {
+      const cart = JSON.parse(localStorage.getItem("eveBeautyCart") || "[]");
+
+      return Array.isArray(cart) ? cart : [];
+    } catch (error) {
+      console.error("Could not read cart:", error);
+
+      return [];
+    }
+  }
+
+  function saveCart(cart) {
+    try {
+      localStorage.setItem("eveBeautyCart", JSON.stringify(cart));
+
+      return true;
+    } catch (error) {
+      console.error("Could not save cart:", error);
+
+      return false;
+    }
+  }
+
+  /* =========================================================
+   WISHLIST HELPERS
+========================================================= */
+
+  function getWishlist() {
+    try {
+      const wishlist = JSON.parse(
+        localStorage.getItem("eveBeautyWishlist") || "[]",
+      );
+
+      return Array.isArray(wishlist) ? wishlist : [];
+    } catch (error) {
+      console.error("Could not read wishlist:", error);
+
+      return [];
+    }
+  }
+
+  function saveWishlist(wishlist) {
+    try {
+      localStorage.setItem("eveBeautyWishlist", JSON.stringify(wishlist));
+
+      return true;
+    } catch (error) {
+      console.error("Could not save wishlist:", error);
+
+      return false;
+    }
+  }
+
+  /* =========================================================
+   NAVBAR COUNTERS
+========================================================= */
+
+  function updateNavbarCounts() {
+    if (typeof window.updateNavbarCounts === "function") {
+      window.updateNavbarCounts();
+    }
+
+    if (typeof window.updateCartCounter === "function") {
+      window.updateCartCounter();
+    }
+
+    /*
+    Fallback FOR Navbar
+  */
+
+    const cart = getCart();
+    const wishlist = getWishlist();
+
+    const cartQuantity = cart.reduce((total, item) => {
+      const quantity = Number(item?.quantity);
+
+      return total + (Number.isFinite(quantity) && quantity > 0 ? quantity : 1);
+    }, 0);
+
+    const wishlistCount = wishlist.length;
+
+    document
+      .querySelectorAll(
+        "#cartCount, #cartBadge, .cart-count, .cart-badge, [data-cart-count]",
+      )
+      .forEach((element) => {
+        element.textContent = cartQuantity > 99 ? "99+" : String(cartQuantity);
+
+        element.style.display = "";
+      });
+
+    document
+      .querySelectorAll(
+        "#favoritelistCount, #wishlistCount, #wishlistBadge, " +
+          ".wishlist-count, .wishlist-badge, [data-wishlist-count]",
+      )
+      .forEach((element) => {
+        element.textContent =
+          wishlistCount > 99 ? "99+" : String(wishlistCount);
+
+        element.style.display = "";
+      });
+  }
+
+  /* =========================================================
+   PRODUCT BUTTON STATE
+========================================================= */
+
+  function updateArrivalWishlistButton(button, active) {
+    if (!button) return;
+
+    button.classList.toggle("active", active);
+
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+
+    button.setAttribute(
+      "aria-label",
+      active ? "Remove from wishlist" : "Add to wishlist",
+    );
+
+    const icon = button.querySelector("svg");
+
+    if (icon) {
+      icon.style.fill = active ? "#aa8386" : "none";
+      icon.style.color = active ? "#aa8386" : "";
+    }
+  }
+
+  function updateArrivalCartButton(button, active) {
+    if (!button) return;
+
+    button.classList.toggle("in-cart", active);
+
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+
+    button.setAttribute(
+      "aria-label",
+      active ? "Remove from cart" : "Add to cart",
+    );
+
+  
+
+    button.innerHTML = `
+    <i data-lucide="shopping-bag"></i>
+    ${active ? "In cart" : "Add to cart"}
+  `;
+
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  }
+
+  /* =========================================================
+   UPDATE ALL PRODUCT BUTTONS
+========================================================= */
+
+  function updateArrivalProductButtons() {
+    const cart = getCart();
+    const wishlist = getWishlist();
+
+    document.querySelectorAll(".arrival-product-card").forEach((card) => {
+      const productId = Number(card.dataset.productId);
+
+      const cartButton = card.querySelector(".arrival-add-cart");
+
+      const wishlistButton = card.querySelector(".arrival-wishlist");
+
+      const inCart = cart.some((item) => Number(item.id) === productId);
+
+      const inWishlist = wishlist.some((item) => Number(item.id) === productId);
+
+      updateArrivalCartButton(cartButton, inCart);
+
+      updateArrivalWishlistButton(wishlistButton, inWishlist);
+    });
+  }
+
+  /* =========================================================
+   PRODUCT BUTTONS
+========================================================= */
 
   function setupProductButtons() {
+    /* =========================
+     WISHLIST
+  ========================= */
+
     document.querySelectorAll(".arrival-wishlist").forEach((button) => {
-      button.addEventListener("click", () => {
-        button.classList.toggle("active");
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
 
-        const icon = button.querySelector("svg");
+        const card = button.closest(".arrival-product-card");
 
-        if (icon) {
-          icon.style.fill = button.classList.contains("active")
-            ? "#aa8386"
-            : "none";
+        if (!card) return;
+
+        const productId = Number(card.dataset.productId);
+
+        const product = newProducts.find(
+          (item) => Number(item.id) === productId,
+        );
+
+        if (!product) return;
+
+        /* =========================
+           LOGIN CHECK
+        ========================= */
+
+        const currentUser = getCurrentUser();
+
+        if (!currentUser) {
+          localStorage.setItem("eveBeautyLoginRedirect", "new-arrivals.html");
+
+          alert("Please sign in first to add products to your wishlist.");
+
+          window.location.href = "login.html";
+
+          return;
         }
+
+        /* =========================
+           GET WISHLIST
+        ========================= */
+
+        const wishlist = getWishlist();
+
+        const existingIndex = wishlist.findIndex(
+          (item) => Number(item.id) === Number(product.id),
+        );
+
+        /* =========================
+           REMOVE
+        ========================= */
+
+        if (existingIndex !== -1) {
+          wishlist.splice(existingIndex, 1);
+
+          saveWishlist(wishlist);
+
+          updateArrivalWishlistButton(button, false);
+
+          updateNavbarCounts();
+
+          window.dispatchEvent(new CustomEvent("eveBeautyWishlistChanged"));
+
+          return;
+        }
+
+        /* =========================
+           ADD
+        ========================= */
+
+        wishlist.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          image: product.image,
+          category: product.category,
+        });
+
+        if (!saveWishlist(wishlist)) {
+          alert("Could not update your wishlist.");
+
+          return;
+        }
+
+        updateArrivalWishlistButton(button, true);
+
+        updateNavbarCounts();
+
+        window.dispatchEvent(new CustomEvent("eveBeautyWishlistChanged"));
       });
     });
 
+    /* =========================
+     CART
+  ========================= */
+
     document.querySelectorAll(".arrival-add-cart").forEach((button) => {
-      button.addEventListener("click", () => {
-        const original = button.innerHTML;
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
 
-        button.innerHTML = '<i data-lucide="check"></i> Added';
+        const card = button.closest(".arrival-product-card");
 
-        button.style.background = "#806064";
+        if (!card) return;
 
-        if (window.lucide) {
-          lucide.createIcons();
+        const productId = Number(card.dataset.productId);
+
+        const product = newProducts.find(
+          (item) => Number(item.id) === productId,
+        );
+
+        if (!product) return;
+
+        /* =========================
+           LOGIN CHECK
+        ========================= */
+
+        const currentUser = getCurrentUser();
+
+        if (!currentUser) {
+          localStorage.setItem("eveBeautyLoginRedirect", "new-arrivals.html");
+
+          alert("Please sign in first to add products to your cart.");
+
+          window.location.href = "login.html";
+
+          return;
         }
 
-        setTimeout(() => {
-          button.innerHTML = original;
+        /* =========================
+           GET CART
+        ========================= */
 
-          button.style.background = "";
+        const cart = getCart();
 
-          if (window.lucide) {
-            lucide.createIcons();
-          }
-        }, 1200);
+        const existingIndex = cart.findIndex(
+          (item) => Number(item.id) === Number(product.id),
+        );
+
+        /* =========================
+           REMOVE FROM CART
+        ========================= */
+
+        if (existingIndex !== -1) {
+          cart.splice(existingIndex, 1);
+
+          saveCart(cart);
+
+          updateArrivalCartButton(button, false);
+
+          updateNavbarCounts();
+
+          window.dispatchEvent(new CustomEvent("eveBeautyCartChanged"));
+
+          return;
+        }
+
+        /* =========================
+           ADD TO CART
+        ========================= */
+
+        cart.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          category: product.category,
+          price: product.price,
+          oldPrice: product.oldPrice,
+          rating: product.rating,
+          reviews: product.reviews,
+          image: product.image,
+          quantity: 1,
+          addedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
+
+        if (!saveCart(cart)) {
+          alert("Could not save the product to your cart.");
+
+          return;
+        }
+
+        updateArrivalCartButton(button, true);
+
+        updateNavbarCounts();
+
+        window.dispatchEvent(new CustomEvent("eveBeautyCartChanged"));
       });
     });
   }
@@ -389,15 +765,9 @@ document.addEventListener("DOMContentLoaded", () => {
         (product) => product.category === category,
       );
 
-      /*
-        اول محصولات دسته انتخاب‌شده رندر می‌شوند
-      */
+   
       renderProducts(categoryProducts);
 
-      /*
-        بعد از ساخته شدن کارت‌ها،
-        مستقیماً روی خود کارت‌ها اسکرول می‌کنیم.
-      */
       requestAnimationFrame(() => {
         scrollToProductCards();
       });
@@ -410,15 +780,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (shopAllButton) {
     shopAllButton.addEventListener("click", () => {
-      /*
-        نمایش تمام محصولات
-      */
+      
       renderProducts(newProducts);
 
-      /*
-        بعد از رندر کارت‌ها،
-        مستقیم روی کارت‌های محصولات برو.
-      */
+      
       requestAnimationFrame(() => {
         scrollToProductCards();
       });

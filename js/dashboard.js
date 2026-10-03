@@ -5,15 +5,71 @@
 
    USER SYSTEM
    ---------------------------------------------------------
-   New system:
+   New:
    eveBeautyCurrentUser
 
    Backward compatibility:
    eveBeautyUser
    eveBeautyLoggedIn
 
-   PROFILE IMAGE:
-   eveBeautyProfileImage
+   PROFILE IMAGE
+   ---------------------------------------------------------
+   eveBeautyProfileImage_<user-id>
+
+   DASHBOARD PAGES
+   ---------------------------------------------------------
+   dashboard
+   orders
+   wishlist
+   addresses
+   settings
+   cart
+   checkout
+
+   SHOP
+   ---------------------------------------------------------
+   shop.html
+
+   CART / CHECKOUT FLOW
+   ---------------------------------------------------------
+   Product
+      ↓
+   Add to Cart
+      ↓
+   eveBeautyCart
+      ↓
+   Cart
+      ↓
+   Checkout
+      ├── Shipping Information
+      ├── Payment Method
+      │      ├── COD
+      │      └── Card
+      │             ↓
+      │        Card Information
+      │             ↓
+      │        Demo Validation
+      │             ↓
+      │        Payment Successful
+      │             ↓
+      └──────── Place Order
+                   ↓
+            eveBeautyOrders
+                   ↓
+              Orders Page
+
+   IMPORTANT
+   ---------------------------------------------------------
+   Full card number and CVV are NEVER saved to localStorage.
+   Only payment status and cardLast4 are stored with the order.
+========================================================= */
+
+let cardPaymentVerified = false;
+
+let currentCardLast4 = "";
+
+/* =========================================================
+   DOM READY
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,8 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeNotifications();
   initializeLogout();
   initializeSearch();
+  initializeCart();
+  initializeCheckout();
 
   refreshIcons();
+
+  openDashboardPageFromURL();
 });
 
 /* =========================================================
@@ -46,12 +106,23 @@ function readStorage(key, fallback = []) {
     return JSON.parse(value);
   } catch (error) {
     console.error("Storage error:", key, error);
+
     return fallback;
   }
 }
 
 function writeStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+
+    return true;
+  } catch (error) {
+    console.error("Unable to save to localStorage:", key, error);
+
+    alert("There was a problem saving your information. Please try again.");
+
+    return false;
+  }
 }
 
 function initializeStorage() {
@@ -96,6 +167,40 @@ function initializeNavigation() {
   });
 }
 
+/* =========================================================
+   OPEN DASHBOARD PAGE FROM URL
+========================================================= */
+
+function openDashboardPageFromURL() {
+  const params = new URLSearchParams(window.location.search);
+
+  const page = params.get("page");
+
+  if (!page) {
+    return;
+  }
+
+  const allowedPages = [
+    "dashboard",
+    "orders",
+    "wishlist",
+    "addresses",
+    "settings",
+    "cart",
+    "checkout",
+  ];
+
+  if (!allowedPages.includes(page)) {
+    return;
+  }
+
+  openPage(page);
+}
+
+/* =========================================================
+   OPEN DASHBOARD PAGE
+========================================================= */
+
 function openPage(page) {
   if (!page) {
     return;
@@ -108,6 +213,8 @@ function openPage(page) {
   const target = document.getElementById(`page-${page}`);
 
   if (!target) {
+    console.warn(`Dashboard page not found: page-${page}`);
+
     return;
   }
 
@@ -145,8 +252,9 @@ function openPage(page) {
     renderCart();
   }
 
-  if (page === "shop") {
-    renderShop();
+  if (page === "checkout") {
+    renderCheckout();
+    initializeCardPaymentUI();
   }
 
   window.scrollTo({
@@ -156,16 +264,11 @@ function openPage(page) {
 
   refreshIcons();
 }
-
 /* =========================================================
    CURRENT USER
 ========================================================= */
 
 function getCurrentUser() {
-  /* =======================================================
-     NEW LOGIN SYSTEM
-  ======================================================= */
-
   const currentUserData = localStorage.getItem("eveBeautyCurrentUser");
 
   if (currentUserData) {
@@ -179,11 +282,6 @@ function getCurrentUser() {
       console.error("Invalid eveBeautyCurrentUser:", error);
     }
   }
-
-  /* =======================================================
-     OLD LOGIN SYSTEM
-     BACKWARD COMPATIBILITY
-  ======================================================= */
 
   const oldUserData = localStorage.getItem("eveBeautyUser");
 
@@ -200,10 +298,6 @@ function getCurrentUser() {
       console.error("Invalid eveBeautyUser:", error);
     }
   }
-
-  /* =======================================================
-     DEFAULT
-  ======================================================= */
 
   return {
     name: "Beauty User",
@@ -222,24 +316,11 @@ function saveUser(user) {
 
   const data = JSON.stringify(user);
 
-  /* =======================================================
-     NEW SYSTEM
-  ======================================================= */
-
   localStorage.setItem("eveBeautyCurrentUser", data);
-
-  /* =======================================================
-     OLD SYSTEM
-     Keep compatibility
-  ======================================================= */
 
   localStorage.setItem("eveBeautyUser", data);
 
   localStorage.setItem("eveBeautyLoggedIn", "true");
-
-  /* =======================================================
-     Notify shared components
-  ======================================================= */
 
   window.dispatchEvent(new Event("eveBeautyUserChanged"));
 }
@@ -271,11 +352,43 @@ function initializeUser() {
 }
 
 /* =========================================================
-   DASHBOARD PROFILE IMAGE
+   PER USER PROFILE IMAGE
+========================================================= */
+
+function getUserStorageId(user = getCurrentUser()) {
+  if (!user || typeof user !== "object") {
+    return "guest";
+  }
+
+  const identifier =
+    user.id ||
+    user.userId ||
+    user.email ||
+    user.emailAddress ||
+    user.username ||
+    user.name ||
+    "guest";
+
+  return String(identifier)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]/g, "_");
+}
+
+function getProfileImageStorageKey(user = getCurrentUser()) {
+  return `eveBeautyProfileImage_${getUserStorageId(user)}`;
+}
+
+/* =========================================================
+   PROFILE IMAGE
 ========================================================= */
 
 function updateDashboardProfileImage() {
-  const image = localStorage.getItem("eveBeautyProfileImage");
+  const user = getCurrentUser();
+
+  const imageKey = getProfileImageStorageKey(user);
+
+  const image = localStorage.getItem(imageKey);
 
   const dashboardImage = document.getElementById("dashboardProfileImage");
 
@@ -288,6 +401,7 @@ function updateDashboardProfileImage() {
   if (image) {
     if (dashboardImage) {
       dashboardImage.src = image;
+
       dashboardImage.style.display = "block";
     }
 
@@ -297,6 +411,7 @@ function updateDashboardProfileImage() {
 
     if (headerImage) {
       headerImage.src = image;
+
       headerImage.style.display = "block";
     }
 
@@ -307,12 +422,9 @@ function updateDashboardProfileImage() {
     return;
   }
 
-  /* =======================================================
-     NO IMAGE
-  ======================================================= */
-
   if (dashboardImage) {
     dashboardImage.removeAttribute("src");
+
     dashboardImage.style.display = "none";
   }
 
@@ -322,6 +434,7 @@ function updateDashboardProfileImage() {
 
   if (headerImage) {
     headerImage.removeAttribute("src");
+
     headerImage.style.display = "none";
   }
 
@@ -417,7 +530,7 @@ function renderRecentOrders() {
   refreshIcons();
 }
 
-/* =========================================================
+/*=========================================================
    ORDERS PAGE
 ========================================================= */
 
@@ -471,6 +584,15 @@ function createLargeOrder(order) {
 
   const total = getOrderTotal(order);
 
+  const paymentMethod =
+    order.paymentMethod === "card"
+      ? "Card Payment"
+      : order.paymentMethod === "cod"
+        ? "Cash on Delivery"
+        : "Not selected";
+
+  const paymentStatus = order.paymentStatus || "Pending";
+
   const wrapper = document.createElement("div");
 
   wrapper.className = "dashboard-card order-page-card";
@@ -482,6 +604,7 @@ function createLargeOrder(order) {
       display:flex;
       align-items:center;
       gap:15px;
+      flex-wrap:wrap;
     ">
 
       <div class="order-product-image">
@@ -499,7 +622,7 @@ function createLargeOrder(order) {
         }
       </div>
 
-      <div style="flex:1">
+      <div style="flex:1;min-width:180px">
 
         <strong>
           #${escapeHTML(String(order.orderNumber || order.id || "Order"))}
@@ -509,6 +632,16 @@ function createLargeOrder(order) {
           ${getOrderDate(order)}
           •
           ${escapeHTML(name)}
+        </div>
+
+        <div class="order-meta">
+          Payment:
+          ${escapeHTML(paymentMethod)}
+        </div>
+
+        <div class="order-meta">
+          Payment Status:
+          ${escapeHTML(capitalizeWords(paymentStatus))}
         </div>
 
       </div>
@@ -551,6 +684,8 @@ function renderWishlist() {
       empty.style.display = "flex";
     }
 
+    refreshIcons();
+
     return;
   }
 
@@ -579,6 +714,8 @@ function createProductCard(product, wishlistMode = false) {
   const image = getProductImage(product);
 
   const price = Number(product?.price ?? product?.salePrice ?? 0);
+
+  const productId = getProductId(product);
 
   card.innerHTML = `
     <div class="product-card-image">
@@ -614,26 +751,29 @@ function createProductCard(product, wishlistMode = false) {
           wishlistMode
             ? `
               <button
+                type="button"
                 class="primary-button"
                 data-action="cart"
-                data-id="${escapeHTML(getProductId(product))}"
+                data-id="${escapeHTML(productId)}"
               >
                 Add to Cart
               </button>
 
               <button
+                type="button"
                 class="remove-button"
                 data-action="remove-wishlist"
-                data-id="${escapeHTML(getProductId(product))}"
+                data-id="${escapeHTML(productId)}"
               >
                 Remove
               </button>
             `
             : `
               <button
+                type="button"
                 class="primary-button"
                 data-action="cart"
-                data-id="${escapeHTML(getProductId(product))}"
+                data-id="${escapeHTML(productId)}"
               >
                 Add to Cart
               </button>
@@ -675,6 +815,10 @@ function createProductCard(product, wishlistMode = false) {
 function removeWishlist(id) {
   let wishlist = readStorage("eveBeautyWishlist", []);
 
+  if (!Array.isArray(wishlist)) {
+    wishlist = [];
+  }
+
   wishlist = wishlist.filter((item) => getProductId(item) !== String(id));
 
   writeStorage("eveBeautyWishlist", wishlist);
@@ -688,6 +832,10 @@ function removeWishlist(id) {
 
 function addToWishlist(product) {
   let wishlist = readStorage("eveBeautyWishlist", []);
+
+  if (!Array.isArray(wishlist)) {
+    wishlist = [];
+  }
 
   const id = getProductId(product);
 
@@ -711,6 +859,10 @@ function addToWishlist(product) {
 function addToCart(product) {
   let cart = readStorage("eveBeautyCart", []);
 
+  if (!Array.isArray(cart)) {
+    cart = [];
+  }
+
   const id = getProductId(product);
 
   const existing = cart.find((item) => getProductId(item) === id);
@@ -730,13 +882,33 @@ function addToCart(product) {
 
   window.dispatchEvent(new Event("eveBeautyCartChanged"));
 
-  alert("Product added to cart.");
+  alert("Product added to cart successfully.");
 }
+
+/* =========================================================
+   CART SHIPPING
+========================================================= */
+
+function getCartShipping() {
+  return 0;
+}
+
+/* =========================================================
+   CART RENDER
+========================================================= */
 
 function renderCart() {
   const container = document.getElementById("cartPageList");
 
   const empty = document.getElementById("cartEmpty");
+
+  const summary = document.getElementById("cartPageSummary");
+
+  const subtotalElement = document.getElementById("cartSubtotal");
+
+  const shippingElement = document.getElementById("cartShipping");
+
+  const totalElement = document.getElementById("cartTotal");
 
   if (!container) {
     return;
@@ -748,15 +920,29 @@ function renderCart() {
 
   if (!Array.isArray(cart) || cart.length === 0) {
     if (empty) {
+      empty.hidden = false;
       empty.style.display = "flex";
     }
+
+    if (summary) {
+      summary.hidden = true;
+    }
+
+    refreshIcons();
 
     return;
   }
 
   if (empty) {
+    empty.hidden = true;
     empty.style.display = "none";
   }
+
+  if (summary) {
+    summary.hidden = false;
+  }
+
+  let subtotal = 0;
 
   cart.forEach((item) => {
     const row = document.createElement("div");
@@ -767,9 +953,14 @@ function renderCart() {
 
     const name = getProductName(item);
 
-    const price = Number(item.price || 0);
+    const price =
+      Number(item.price ?? item.salePrice ?? item.productPrice ?? 0) || 0;
 
     const quantity = Number(item.quantity) || 1;
+
+    const itemTotal = price * quantity;
+
+    subtotal += itemTotal;
 
     row.innerHTML = `
       <div class="cart-row-image">
@@ -789,7 +980,7 @@ function renderCart() {
 
       </div>
 
-      <div>
+      <div class="cart-row-info">
         <h3>
           ${escapeHTML(name)}
         </h3>
@@ -802,7 +993,9 @@ function renderCart() {
       <div class="quantity-control">
 
         <button
+          type="button"
           data-cart-action="minus"
+          aria-label="Decrease quantity"
         >
           −
         </button>
@@ -812,16 +1005,27 @@ function renderCart() {
         </span>
 
         <button
+          type="button"
           data-cart-action="plus"
+          aria-label="Increase quantity"
         >
           +
         </button>
 
       </div>
 
-      <strong>
-        ${formatCurrency(price * quantity)}
+      <strong class="cart-row-total">
+        ${formatCurrency(itemTotal)}
       </strong>
+
+      <button
+        type="button"
+        class="cart-remove-button"
+        data-cart-action="remove"
+        aria-label="Remove ${escapeHTML(name)}"
+      >
+        <i data-lucide="trash-2"></i>
+      </button>
     `;
 
     row.querySelectorAll("[data-cart-action]").forEach((button) => {
@@ -833,11 +1037,35 @@ function renderCart() {
     container.appendChild(row);
   });
 
+  const shipping = getCartShipping();
+
+  const total = subtotal + shipping;
+
+  if (subtotalElement) {
+    subtotalElement.textContent = formatCurrency(subtotal);
+  }
+
+  if (shippingElement) {
+    shippingElement.textContent = formatCurrency(shipping);
+  }
+
+  if (totalElement) {
+    totalElement.textContent = formatCurrency(total);
+  }
+
   refreshIcons();
 }
 
+/* =========================================================
+   CART QUANTITY
+========================================================= */
+
 function changeCartQuantity(id, action) {
-  const cart = readStorage("eveBeautyCart", []);
+  let cart = readStorage("eveBeautyCart", []);
+
+  if (!Array.isArray(cart)) {
+    cart = [];
+  }
 
   const item = cart.find((product) => getProductId(product) === String(id));
 
@@ -855,10 +1083,18 @@ function changeCartQuantity(id, action) {
     quantity--;
   }
 
-  if (quantity <= 0) {
+  if (action === "remove") {
     const index = cart.indexOf(item);
 
-    cart.splice(index, 1);
+    if (index >= 0) {
+      cart.splice(index, 1);
+    }
+  } else if (quantity <= 0) {
+    const index = cart.indexOf(item);
+
+    if (index >= 0) {
+      cart.splice(index, 1);
+    }
   } else {
     item.quantity = quantity;
   }
@@ -870,6 +1106,788 @@ function changeCartQuantity(id, action) {
   renderCart();
 
   window.dispatchEvent(new Event("eveBeautyCartChanged"));
+}
+
+/* =========================================================
+   CART INITIALIZATION
+========================================================= */
+
+function initializeCart() {
+  const checkoutButton = document.getElementById("proceedToCheckoutBtn");
+
+  checkoutButton?.addEventListener("click", () => {
+    const cart = readStorage("eveBeautyCart", []);
+
+    if (!Array.isArray(cart) || cart.length === 0) {
+      alert("Your cart is empty.");
+
+      return;
+    }
+
+    openPage("checkout");
+  });
+}
+
+/* =========================================================
+   CHECKOUT INITIALIZATION
+========================================================= */
+
+function initializeCheckout() {
+  const form = document.getElementById("checkoutForm");
+
+  if (!form) {
+    return;
+  }
+
+  form.addEventListener("submit", handleCheckoutSubmit);
+
+  initializeCardPaymentUI();
+}
+
+/* =========================================================
+   CARD PAYMENT UI
+========================================================= */
+
+function initializeCardPaymentUI() {
+  const cardRadio = document.querySelector(
+    'input[name="paymentMethod"][value="card"]',
+  );
+
+  const codRadio = document.querySelector(
+    'input[name="paymentMethod"][value="cod"]',
+  );
+
+  const fields = document.getElementById("cardPaymentFields");
+
+  const payButton = document.getElementById("payByCardBtn");
+
+  const success = document.getElementById("cardPaymentSuccess");
+
+  const message = document.getElementById("cardPaymentMessage");
+
+  const placeOrderButton = document.getElementById("placeOrderBtn");
+
+  const cardholderName = document.getElementById("cardholderName");
+
+  const cardNumber = document.getElementById("cardNumber");
+
+  const cardExpiry = document.getElementById("cardExpiry");
+
+  const cardCvv = document.getElementById("cardCvv");
+
+  const cardInputs = [cardholderName, cardNumber, cardExpiry, cardCvv].filter(
+    Boolean,
+  );
+
+  if (!cardRadio && !codRadio) {
+    return;
+  }
+
+  const resetVerification = () => {
+    cardPaymentVerified = false;
+
+    currentCardLast4 = "";
+
+    if (success) {
+      success.hidden = true;
+    }
+
+    if (message) {
+      message.textContent = "";
+
+      message.className = "card-payment-message";
+    }
+
+    if (payButton) {
+      payButton.disabled = false;
+
+      payButton.innerHTML = `
+          <i data-lucide="credit-card"></i>
+          Pay by Card
+        `;
+    }
+
+    refreshIcons();
+  };
+
+  const updatePaymentUI = () => {
+    const cardSelected = Boolean(cardRadio?.checked);
+
+    if (fields) {
+      fields.hidden = !cardSelected;
+    }
+
+    cardInputs.forEach((input) => {
+      input.disabled = !cardSelected;
+
+      input.required = cardSelected;
+    });
+
+    if (!cardSelected) {
+      resetVerification();
+
+      if (placeOrderButton) {
+        placeOrderButton.disabled = false;
+      }
+
+      return;
+    }
+
+    resetVerification();
+
+    if (placeOrderButton) {
+      placeOrderButton.disabled = true;
+    }
+  };
+
+  cardRadio?.addEventListener("change", updatePaymentUI);
+
+  codRadio?.addEventListener("change", updatePaymentUI);
+
+  payButton?.addEventListener("click", processDemoCardPayment);
+
+  /* =====================================================
+     CARD NUMBER FORMAT
+  ====================================================== */
+
+  cardNumber?.addEventListener("input", () => {
+    const digits = cardNumber.value.replace(/\D/g, "").slice(0, 16);
+
+    cardNumber.value = digits.replace(/(.{4})/g, "$1 ").trim();
+
+    resetVerification();
+
+    if (placeOrderButton) {
+      placeOrderButton.disabled = true;
+    }
+  });
+
+  /* =====================================================
+     EXPIRY FORMAT
+  ====================================================== */
+
+  cardExpiry?.addEventListener("input", () => {
+    const digits = cardExpiry.value.replace(/\D/g, "").slice(0, 4);
+
+    cardExpiry.value =
+      digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+
+    resetVerification();
+
+    if (placeOrderButton) {
+      placeOrderButton.disabled = true;
+    }
+  });
+
+  /* =====================================================
+     CVV
+  ====================================================== */
+
+  cardCvv?.addEventListener("input", () => {
+    cardCvv.value = cardCvv.value.replace(/\D/g, "").slice(0, 4);
+
+    resetVerification();
+
+    if (placeOrderButton) {
+      placeOrderButton.disabled = true;
+    }
+  });
+
+  cardholderName?.addEventListener("input", () => {
+    resetVerification();
+
+    if (placeOrderButton) {
+      placeOrderButton.disabled = true;
+    }
+  });
+
+  updatePaymentUI();
+}
+
+/* =========================================================
+   DEMO CARD PAYMENT
+========================================================= */
+
+function processDemoCardPayment() {
+  const cardholderName = document.getElementById("cardholderName");
+
+  const cardNumber = document.getElementById("cardNumber");
+
+  const cardExpiry = document.getElementById("cardExpiry");
+
+  const cardCvv = document.getElementById("cardCvv");
+
+  const success = document.getElementById("cardPaymentSuccess");
+
+  const message = document.getElementById("cardPaymentMessage");
+
+  const payButton = document.getElementById("payByCardBtn");
+
+  const placeOrderButton = document.getElementById("placeOrderBtn");
+
+  const validation = validateCardDetails(
+    cardholderName?.value,
+    cardNumber?.value,
+    cardExpiry?.value,
+    cardCvv?.value,
+  );
+
+  if (!validation.valid) {
+    cardPaymentVerified = false;
+
+    currentCardLast4 = "";
+
+    if (success) {
+      success.hidden = true;
+    }
+
+    if (message) {
+      message.textContent = validation.message;
+
+      message.className = "card-payment-message error";
+    }
+
+    if (placeOrderButton) {
+      placeOrderButton.disabled = true;
+    }
+
+    return;
+  }
+
+  /* =====================================================
+     PAYMENT SUCCESS
+  ====================================================== */
+
+  cardPaymentVerified = true;
+
+  const cardDigits = String(cardNumber?.value || "").replace(/\D/g, "");
+
+  currentCardLast4 = cardDigits.slice(-4);
+
+  if (message) {
+    message.textContent = "Card information verified successfully.";
+
+    message.className = "card-payment-message";
+  }
+
+  if (success) {
+    success.hidden = false;
+
+    success.textContent = "Payment Successful";
+  }
+
+  if (payButton) {
+    payButton.disabled = true;
+
+    payButton.innerHTML = `
+      <i data-lucide="check-circle"></i>
+      Payment Successful
+    `;
+  }
+
+  if (placeOrderButton) {
+    placeOrderButton.disabled = false;
+  }
+
+  refreshIcons();
+}
+
+/* =========================================================
+   CARD VALIDATION
+========================================================= */
+
+function validateCardDetails(name, number, expiry, cvv) {
+  const cardholder = String(name || "").trim();
+
+  if (!cardholder || cardholder.length < 2) {
+    return {
+      valid: false,
+      message: "Please enter the cardholder name.",
+    };
+  }
+
+  const digits = String(number || "").replace(/\D/g, "");
+
+  if (digits.length !== 16) {
+    return {
+      valid: false,
+      message: "Please enter a valid 16-digit card number.",
+    };
+  }
+
+  if (!passesLuhn(digits)) {
+    return {
+      valid: false,
+      message: "Please enter a valid card number.",
+    };
+  }
+
+  const expiryMatch = String(expiry || "").match(/^(\d{2})\/(\d{2})$/);
+
+  if (!expiryMatch) {
+    return {
+      valid: false,
+      message: "Please enter the expiry date as MM/YY.",
+    };
+  }
+
+  const month = Number(expiryMatch[1]);
+
+  const year = 2000 + Number(expiryMatch[2]);
+
+  if (month < 1 || month > 12) {
+    return {
+      valid: false,
+      message: "Please enter a valid expiry month.",
+    };
+  }
+
+  /*
+    Last day of selected expiry month.
+  */
+
+  const expiryDate = new Date(year, month, 0, 23, 59, 59, 999);
+
+  const now = new Date();
+
+  if (expiryDate < now) {
+    return {
+      valid: false,
+      message: "This card is expired.",
+    };
+  }
+
+  if (!/^\d{3,4}$/.test(String(cvv || ""))) {
+    return {
+      valid: false,
+      message: "Please enter a valid 3 or 4 digit CVV.",
+    };
+  }
+
+  return {
+    valid: true,
+    message: "Card information is valid.",
+  };
+}
+
+/* =========================================================
+   LUHN CHECK
+========================================================= */
+
+function passesLuhn(number) {
+  let sum = 0;
+
+  let shouldDouble = false;
+
+  for (let i = number.length - 1; i >= 0; i--) {
+    let digit = Number(number[i]);
+
+    if (shouldDouble) {
+      digit *= 2;
+
+      if (digit > 9) {
+        digit -= 9;
+      }
+    }
+
+    sum += digit;
+
+    shouldDouble = !shouldDouble;
+  }
+
+  return sum % 10 === 0;
+}
+
+/* =========================================================
+   RENDER CHECKOUT
+========================================================= */
+
+function renderCheckout() {
+  const itemsContainer = document.getElementById("checkoutOrderItems");
+
+  if (!itemsContainer) {
+    return;
+  }
+
+  const cart = readStorage("eveBeautyCart", []);
+
+  if (!Array.isArray(cart) || cart.length === 0) {
+    itemsContainer.innerHTML = `
+      <div class="empty-checkout">
+        <i data-lucide="shopping-cart"></i>
+
+        <p>Your cart is empty.</p>
+      </div>
+    `;
+
+    updateCheckoutTotals(0, 0);
+
+    refreshIcons();
+
+    return;
+  }
+
+  itemsContainer.innerHTML = "";
+
+  let subtotal = 0;
+
+  cart.forEach((item) => {
+    const quantity = Number(item.quantity) || 1;
+
+    const price =
+      Number(item.price ?? item.salePrice ?? item.productPrice ?? 0) || 0;
+
+    const itemTotal = price * quantity;
+
+    subtotal += itemTotal;
+
+    const productName = getProductName(item);
+
+    const productImage = getProductImage(item);
+
+    const itemElement = document.createElement("div");
+
+    itemElement.className = "checkout-order-item";
+
+    itemElement.innerHTML = `
+      <div class="checkout-order-item-image">
+        ${
+          productImage
+            ? `
+              <img
+                src="${escapeHTML(productImage)}"
+                alt="${escapeHTML(productName)}"
+              >
+            `
+            : `
+              <i data-lucide="image"></i>
+            `
+        }
+      </div>
+
+      <div class="checkout-order-item-info">
+        <h3>
+          ${escapeHTML(productName)}
+        </h3>
+
+        <p>
+          Qty: ${quantity}
+        </p>
+      </div>
+
+      <strong>
+        ${formatCurrency(itemTotal)}
+      </strong>
+    `;
+
+    itemsContainer.appendChild(itemElement);
+  });
+
+  const shipping = getCartShipping();
+
+  updateCheckoutTotals(subtotal, shipping);
+
+  fillCheckoutUserData();
+
+  fillCheckoutDefaultAddress();
+
+  refreshIcons();
+}
+
+/* =========================================================
+   CHECKOUT TOTALS
+========================================================= */
+
+function updateCheckoutTotals(subtotal, shipping) {
+  const total = subtotal + shipping;
+
+  const subtotalElement = document.getElementById("checkoutSubtotal");
+
+  const shippingElement = document.getElementById("checkoutShipping");
+
+  const totalElement = document.getElementById("checkoutTotal");
+
+  if (subtotalElement) {
+    subtotalElement.textContent = formatCurrency(subtotal);
+  }
+
+  if (shippingElement) {
+    shippingElement.textContent = formatCurrency(shipping);
+  }
+
+  if (totalElement) {
+    totalElement.textContent = formatCurrency(total);
+  }
+}
+
+/* =========================================================
+   CHECKOUT USER DATA
+========================================================= */
+
+function fillCheckoutUserData() {
+  const user = getCurrentUser();
+
+  if (!user) {
+    return;
+  }
+
+  const firstName = document.getElementById("checkoutFirstName");
+
+  const lastName = document.getElementById("checkoutLastName");
+
+  const email = document.getElementById("checkoutEmail");
+
+  const phone = document.getElementById("checkoutPhone");
+
+  const fullName = user.name || user.fullName || user.username || "";
+
+  const nameParts = String(fullName).trim().split(/\s+/).filter(Boolean);
+
+  if (firstName && !firstName.value) {
+    firstName.value = user.firstName || user.firstname || nameParts[0] || "";
+  }
+
+  if (lastName && !lastName.value) {
+    lastName.value =
+      user.lastName || user.lastname || nameParts.slice(1).join(" ") || "";
+  }
+
+  if (email && !email.value) {
+    email.value = user.email || user.emailAddress || "";
+  }
+
+  if (phone && !phone.value) {
+    phone.value = user.phone || user.phoneNumber || "";
+  }
+}
+
+/* =========================================================
+   CHECKOUT DEFAULT ADDRESS
+========================================================= */
+
+function fillCheckoutDefaultAddress() {
+  const addresses = readStorage("eveBeautyAddresses", []);
+
+  if (!Array.isArray(addresses) || addresses.length === 0) {
+    return;
+  }
+
+  const defaultAddress =
+    addresses.find((address) => address.default === true) || addresses[0];
+
+  if (!defaultAddress) {
+    return;
+  }
+
+  const addressInput = document.getElementById("checkoutAddress");
+
+  const cityInput = document.getElementById("checkoutCity");
+
+  if (addressInput && !addressInput.value) {
+    addressInput.value = defaultAddress.address || "";
+  }
+
+  if (cityInput && !cityInput.value) {
+    cityInput.value = defaultAddress.city || "";
+  }
+
+  const phoneInput = document.getElementById("checkoutPhone");
+
+  if (phoneInput && !phoneInput.value) {
+    phoneInput.value = defaultAddress.phone || "";
+  }
+}
+
+/* =========================================================
+   PLACE ORDER
+========================================================= */
+
+function handleCheckoutSubmit(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+
+  const cart = readStorage("eveBeautyCart", []);
+
+  if (!Array.isArray(cart) || cart.length === 0) {
+    alert("Your cart is empty.");
+
+    openPage("cart");
+
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  const paymentMethod = formData.get("paymentMethod");
+
+  if (!paymentMethod) {
+    alert("Please select a payment method.");
+
+    return;
+  }
+
+  /* =====================================================
+     CARD MUST BE PAID FIRST
+  ====================================================== */
+
+  if (paymentMethod === "card" && !cardPaymentVerified) {
+    alert(
+      "Please enter valid card information and complete the card payment first.",
+    );
+
+    const cardFields = document.getElementById("cardPaymentFields");
+
+    cardFields?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    return;
+  }
+
+  let orders = readStorage("eveBeautyOrders", []);
+
+  if (!Array.isArray(orders)) {
+    orders = [];
+  }
+
+  const subtotal = cart.reduce((total, item) => {
+    const price =
+      Number(item.price ?? item.salePrice ?? item.productPrice ?? 0) || 0;
+
+    const quantity = Number(item.quantity) || 1;
+
+    return total + price * quantity;
+  }, 0);
+
+  const shipping = getCartShipping();
+
+  const total = subtotal + shipping;
+
+  const now = new Date();
+
+  const timestamp = now.getTime();
+
+  const orderNumber = `EVB-${timestamp}`;
+
+  /* =====================================================
+     PAYMENT DATA
+  ====================================================== */
+
+  let paymentStatus = "Pending";
+
+  let cardLast4 = null;
+
+  let paymentVerifiedAt = null;
+
+  if (paymentMethod === "card") {
+    paymentStatus = "Paid";
+
+    cardLast4 = currentCardLast4 || null;
+
+    paymentVerifiedAt = now.toISOString();
+  }
+
+  /* =====================================================
+     ORDER OBJECT
+  ====================================================== */
+
+  const order = {
+    id: `order_${timestamp}`,
+
+    orderNumber,
+
+    items: cart.map((item) => ({
+      ...item,
+
+      quantity: Number(item.quantity) || 1,
+
+      price:
+        Number(item.price ?? item.salePrice ?? item.productPrice ?? 0) || 0,
+    })),
+
+    subtotal,
+
+    shipping,
+
+    total,
+
+    status: "Processing",
+
+    paymentMethod,
+
+    paymentStatus,
+
+    paymentVerifiedAt,
+
+    /*
+      Only the last 4 digits are saved.
+      Full card number and CVV are NEVER saved.
+    */
+
+    cardLast4,
+
+    customer: {
+      firstName: String(formData.get("firstName") || "").trim(),
+
+      lastName: String(formData.get("lastName") || "").trim(),
+
+      email: String(formData.get("email") || "").trim(),
+
+      phone: String(formData.get("phone") || "").trim(),
+
+      address: String(formData.get("address") || "").trim(),
+
+      city: String(formData.get("city") || "").trim(),
+
+      country: String(formData.get("country") || "").trim(),
+    },
+
+    createdAt: now.toISOString(),
+  };
+
+  /* =====================================================
+     SAVE ORDER TO LOCAL STORAGE
+  ====================================================== */
+
+  orders.push(order);
+
+  const saved = writeStorage("eveBeautyOrders", orders);
+
+  if (!saved) {
+    return;
+  }
+
+  /* =====================================================
+     CLEAR CART
+  ====================================================== */
+
+  writeStorage("eveBeautyCart", []);
+
+  /* =====================================================
+     RESET CARD PAYMENT STATE
+  ====================================================== */
+
+  cardPaymentVerified = false;
+
+  currentCardLast4 = "";
+
+  /* =====================================================
+     SYNC
+  ====================================================== */
+
+  window.dispatchEvent(new Event("eveBeautyCartChanged"));
+
+  window.dispatchEvent(new Event("eveBeautyOrderChanged"));
+
+  /* =====================================================
+     SUCCESS
+  ====================================================== */
+
+  alert(`Order placed successfully!\n\nOrder Number: ${orderNumber}`);
+
+  openPage("orders");
 }
 
 /* =========================================================
@@ -933,48 +1951,51 @@ function renderAddresses() {
     }
 
     card.innerHTML = `
-      ${address.default ? `<span class="default-label">Default</span>` : ""}
+        ${address.default ? `<span class="default-label">Default</span>` : ""}
 
-      <h3>
-        ${escapeHTML(address.name)}
-      </h3>
+        <h3>
+          ${escapeHTML(address.name)}
+        </h3>
 
-      <p>
-        ${escapeHTML(address.phone)}
-        <br>
-        ${escapeHTML(address.city)}
-        <br>
-        ${escapeHTML(address.address)}
-      </p>
+        <p>
+          ${escapeHTML(address.phone)}
+          <br>
+          ${escapeHTML(address.city)}
+          <br>
+          ${escapeHTML(address.address)}
+        </p>
 
-      <div class="address-actions">
+        <div class="address-actions">
 
-        <button
-          data-edit-address="${escapeHTML(address.id)}"
-        >
-          Edit
-        </button>
+          <button
+            type="button"
+            data-edit-address="${escapeHTML(address.id)}"
+          >
+            Edit
+          </button>
 
-        <button
-          data-delete-address="${escapeHTML(address.id)}"
-        >
-          Delete
-        </button>
+          <button
+            type="button"
+            data-delete-address="${escapeHTML(address.id)}"
+          >
+            Delete
+          </button>
 
-        ${
-          !address.default
-            ? `
-              <button
-                data-default-address="${escapeHTML(address.id)}"
-              >
-                Default
-              </button>
-            `
-            : ""
-        }
+          ${
+            !address.default
+              ? `
+                <button
+                  type="button"
+                  data-default-address="${escapeHTML(address.id)}"
+                >
+                  Default
+                </button>
+              `
+              : ""
+          }
 
-      </div>
-    `;
+        </div>
+      `;
 
     card
       .querySelector("[data-edit-address]")
@@ -1175,6 +2196,10 @@ function saveProfile(event) {
   alert("Profile updated successfully.");
 }
 
+/* =========================================================
+   PROFILE IMAGE
+========================================================= */
+
 function handleProfileImage(event) {
   const file = event.target.files[0];
 
@@ -1191,7 +2216,11 @@ function handleProfileImage(event) {
   const reader = new FileReader();
 
   reader.onload = () => {
-    localStorage.setItem("eveBeautyProfileImage", reader.result);
+    const user = getCurrentUser();
+
+    const imageKey = getProfileImageStorageKey(user);
+
+    localStorage.setItem(imageKey, reader.result);
 
     initializeUser();
 
@@ -1217,7 +2246,9 @@ function renderSettingsPhoto() {
     .charAt(0)
     .toUpperCase();
 
-  const image = localStorage.getItem("eveBeautyProfileImage");
+  const imageKey = getProfileImageStorageKey(user);
+
+  const image = localStorage.getItem(imageKey);
 
   if (image) {
     preview.textContent = "";
@@ -1243,62 +2274,17 @@ function renderSettingsPhoto() {
 }
 
 function removeProfileImage() {
-  localStorage.removeItem("eveBeautyProfileImage");
+  const user = getCurrentUser();
+
+  const imageKey = getProfileImageStorageKey(user);
+
+  localStorage.removeItem(imageKey);
 
   initializeUser();
 
   renderSettingsPhoto();
 
   window.dispatchEvent(new Event("eveBeautyUserChanged"));
-}
-
-/* =========================================================
-   SHOP
-========================================================= */
-
-function renderShop() {
-  const container = document.getElementById("shopProducts");
-
-  if (!container) {
-    return;
-  }
-
-  const products = readStorage("eveBeautyProducts", []);
-
-  container.innerHTML = "";
-
-  if (!Array.isArray(products) || products.length === 0) {
-    container.innerHTML = `
-      <div
-        class="empty-page"
-        style="grid-column:1/-1"
-      >
-
-        <i data-lucide="shopping-bag"></i>
-
-        <h2>
-          No products available
-        </h2>
-
-        <p>
-          Add products to
-          eveBeautyProducts
-          in localStorage.
-        </p>
-
-      </div>
-    `;
-
-    refreshIcons();
-
-    return;
-  }
-
-  products.forEach((product) => {
-    container.appendChild(createProductCard(product));
-  });
-
-  refreshIcons();
 }
 
 /* =========================================================
@@ -1339,36 +2325,38 @@ function renderRecentlyViewed() {
 
     const name = getProductName(product);
 
-    const price = Number(product.price || 0);
+    const price = Number(product.price || product.salePrice || 0);
 
     button.innerHTML = `
-        <div class="viewed-product-image">
+          <div class="viewed-product-image">
 
-          ${
-            image
-              ? `
-                <img
-                  src="${escapeHTML(image)}"
-                  alt="${escapeHTML(name)}"
-                >
-              `
-              : `
-                <i data-lucide="sparkles"></i>
-              `
-          }
+            ${
+              image
+                ? `
+                  <img
+                    src="${escapeHTML(image)}"
+                    alt="${escapeHTML(name)}"
+                  >
+                `
+                : `
+                  <i data-lucide="sparkles"></i>
+                `
+            }
 
-        </div>
+          </div>
 
-        <span class="viewed-product-name">
-          ${escapeHTML(name)}
-        </span>
+          <span class="viewed-product-name">
+            ${escapeHTML(name)}
+          </span>
 
-        <span class="viewed-product-price">
-          ${formatCurrency(price)}
-        </span>
-      `;
+          <span class="viewed-product-price">
+            ${formatCurrency(price)}
+          </span>
+        `;
 
-    button.addEventListener("click", () => openPage("shop"));
+    button.addEventListener("click", () => {
+      window.location.href = "shop.html";
+    });
 
     container.appendChild(button);
   });
@@ -1391,61 +2379,15 @@ function initializeSearch() {
     const value = input.value.trim();
 
     if (!value) {
+      window.location.href = "shop.html";
+
       return;
     }
 
-    openPage("shop");
+    const search = encodeURIComponent(value);
 
-    setTimeout(() => {
-      filterShopProducts(value);
-    }, 50);
+    window.location.href = `shop.html?search=${search}`;
   });
-}
-
-function filterShopProducts(search) {
-  const products = readStorage("eveBeautyProducts", []);
-
-  const filtered = products.filter((product) => {
-    const name = getProductName(product).toLowerCase();
-
-    return name.includes(search.toLowerCase());
-  });
-
-  const container = document.getElementById("shopProducts");
-
-  if (!container) {
-    return;
-  }
-
-  container.innerHTML = "";
-
-  filtered.forEach((product) => {
-    container.appendChild(createProductCard(product));
-  });
-
-  if (!filtered.length) {
-    container.innerHTML = `
-      <div
-        class="empty-page"
-        style="grid-column:1/-1"
-      >
-
-        <i data-lucide="search-x"></i>
-
-        <h2>
-          No products found
-        </h2>
-
-        <p>
-          No products match
-          "${escapeHTML(search)}".
-        </p>
-
-      </div>
-    `;
-  }
-
-  refreshIcons();
 }
 
 /* =========================================================
@@ -1484,30 +2426,13 @@ function initializeLogout() {
       return;
     }
 
-    /* ===================================================
-         NEW LOGIN SYSTEM
-      =================================================== */
-
     localStorage.removeItem("eveBeautyCurrentUser");
-
-    /* ===================================================
-         OLD LOGIN SYSTEM
-         Clean old session
-      =================================================== */
 
     localStorage.removeItem("eveBeautyLoggedIn");
 
     localStorage.removeItem("eveBeautyUser");
 
-    /* ===================================================
-         Notify shared components
-      =================================================== */
-
     window.dispatchEvent(new Event("eveBeautyUserChanged"));
-
-    /* ===================================================
-         HOME
-      =================================================== */
 
     window.location.href = "index.html";
   });
@@ -1598,6 +2523,7 @@ function getFirstOrderItem(order) {
   if (order.product) {
     return {
       product: order.product,
+
       quantity: order.quantity || 1,
     };
   }
@@ -1716,6 +2642,8 @@ function createOrderRow(order) {
 
   const quantity = Number(item.quantity) || 1;
 
+  const paymentStatus = order.paymentStatus || "Pending";
+
   row.innerHTML = `
     <div class="order-product-image">
 
@@ -1754,6 +2682,11 @@ function createOrderRow(order) {
 
       <div class="order-product-name">
         ${escapeHTML(name)}
+      </div>
+
+      <div class="order-meta">
+        Payment:
+        ${escapeHTML(capitalizeWords(paymentStatus))}
       </div>
 
     </div>
@@ -1816,13 +2749,55 @@ window.addEventListener("eveBeautyUserChanged", () => {
 });
 
 /* =========================================================
-   CROSS-SCRIPT CART / WISHLIST SYNC
+   CROSS-SCRIPT CART SYNC
 ========================================================= */
 
 window.addEventListener("eveBeautyCartChanged", () => {
   updateStatistics();
+
+  if (document.getElementById("page-cart")?.classList.contains("active-page")) {
+    renderCart();
+  }
+
+  if (
+    document.getElementById("page-checkout")?.classList.contains("active-page")
+  ) {
+    renderCheckout();
+  }
 });
+
+/* =========================================================
+   CROSS-SCRIPT WISHLIST SYNC
+========================================================= */
 
 window.addEventListener("eveBeautyWishlistChanged", () => {
   updateStatistics();
+
+  if (
+    document.getElementById("page-wishlist")?.classList.contains("active-page")
+  ) {
+    renderWishlist();
+  }
+});
+
+/* =========================================================
+   CROSS-SCRIPT ORDER SYNC
+========================================================= */
+
+window.addEventListener("eveBeautyOrderChanged", () => {
+  updateStatistics();
+
+  if (
+    document.getElementById("page-orders")?.classList.contains("active-page")
+  ) {
+    renderOrdersPage();
+  }
+
+  if (
+    document.getElementById("page-dashboard")?.classList.contains("active-page")
+  ) {
+    renderRecentOrders();
+  }
+
+  refreshIcons();
 });

@@ -388,11 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*
-     * Without a backend/email server,
-     * real password-reset email is impossible.
-     *
-     * For local version we provide
-     * a simple local reset flow.
+     local version simple local reset flow
      */
 
     const newPassword = window.prompt(
@@ -434,15 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
   socialButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const provider = getProviderFromButton(button);
-
-      /*
-       * Real Google/Facebook/Apple OAuth
-       * requires an OAuth provider/backend.
-       *
-       * Since this project is local-only,
-       * we create/use a local provider account.
-       */
-
+      
       localProviderLogin(provider);
     });
   });

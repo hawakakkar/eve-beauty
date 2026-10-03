@@ -285,28 +285,6 @@ a {
   object-position: center;
 }
 
-.trending-hero-script {
-  position: absolute;
-
-  right: 15px;
-  bottom: 22px;
-
-  z-index: 5;
-
-  color: #805e62;
-
-  font-family: var(--serif);
-
-  font-size: 23px;
-  line-height: 0.8;
-
-  transform: rotate(-5deg);
-}
-
-.trending-hero-script em {
-  font-size: 18px;
-}
-
 /* =========================================================
    CATEGORY ROW
 ========================================================= */
@@ -396,7 +374,7 @@ a {
 .talked-about {
   position: relative;
 
-  min-height: 120px;
+  min-height: 180px;
 
   display: flex;
   align-items: center;
@@ -497,7 +475,7 @@ a {
 .talked-about-image img {
   width: 100%;
   height: 100%;
-
+  object-position: center 39%;
   object-fit: cover;
 }
 
@@ -1434,10 +1412,6 @@ body.dark-mode .trending-hero-image::before {
     rgba(43, 32, 35, 0.48) 28%,
     rgba(43, 32, 35, 0) 53%
   );
-}
-
-body.dark-mode .trending-hero-script {
-  color: #c59298;
 }
 
 /* =========================================================

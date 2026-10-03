@@ -135,6 +135,8 @@ a {
   text-decoration: none;
   font-size: 13px;
   transition: 0.3s ease;
+
+  pointer-events: auto;
 }
 
 .shop-hero-button:hover {
@@ -534,8 +536,13 @@ a {
 }
 
 .wishlist-button.active {
-  background: #aa8386;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: #aa8386;
+}
+
+.wishlist-button.active svg {
+  fill: #aa8386;
+  stroke: #aa8386;
 }
 
 .product-info {

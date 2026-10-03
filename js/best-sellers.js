@@ -24,6 +24,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const galleryImage3 = document.getElementById("galleryImage3");
 
   /* =========================================================
+   CURRENT USER
+========================================================= */
+
+  function getCurrentUser() {
+    try {
+      const stored = localStorage.getItem("eveBeautyCurrentUser");
+
+      if (!stored) {
+        return null;
+      }
+
+      const user = JSON.parse(stored);
+
+      if (!user || !user.id) {
+        return null;
+      }
+
+      return user;
+    } catch (error) {
+      console.warn("Could not read current user:", error);
+
+      return null;
+    }
+  }
+  /* =========================================================
      GALLERY DATA
 
      هر نقطه = سه عکس جدید
@@ -31,27 +56,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const gallerySlides = [
     [
-      "assets/images/cica-repair-cream.jpg",
-      "assets/images/vitamin-c-glow-serum.jpg",
-      "assets/images/rose-milk-cleanser.jpg",
+      "assets/images/product-cicapair-cream.jpg",
+      "assets/images/product-vitamin-c-glow-serum.jpg",
+      "assets/images/product-rose-milk-cleanser.jpg",
     ],
 
     [
-      "assets/images/hydra-cream.jpg",
-      "assets/images/fit-me-foundation.jpg",
-      "assets/images/dior-addict-lip-glow.jpg",
+      "assets/images/product-11.jpg",
+      "assets/images/product-fit-me-foundation.jpg",
+      "assets/images/product-dior-addict.jpg",
     ],
 
     [
-      "assets/images/lash-sensational-mascara.jpg",
-      "assets/images/les-beiges-powder.jpg",
-      "assets/images/radiance-facial-serum.jpg",
+      "assets/images/product-lash-sensational.jpg",
+      "assets/images/product-les-beiges.jpg",
+      "assets/images/product-radiance-serum.jpg",
     ],
 
     [
-      "assets/images/best-sellers-hero.jpg",
-      "assets/images/cica-repair-cream.jpg",
-      "assets/images/vitamin-c-glow-serum.jpg",
+      "assets/images/product-glow-spf-50.jpg",
+      "assets/images/product-4.jpg",
+      "assets/images/product-5.jpg",
     ],
   ];
 
@@ -143,21 +168,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!button) return;
 
     const icon = button.querySelector("i");
-
     const text = button.querySelector("span");
 
     if (added) {
       button.classList.add("added");
 
       if (icon) {
-        icon.className = "fa-solid fa-check";
+        icon.className = "fa-solid fa-cart-shopping";
       }
 
       if (text) {
-        text.textContent = "Added — Remove";
+        text.textContent = "Remove";
       }
 
       button.setAttribute("aria-label", "Remove from cart");
+      button.setAttribute("aria-pressed", "true");
     } else {
       button.classList.remove("added");
 
@@ -170,6 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       button.setAttribute("aria-label", "Add to cart");
+      button.setAttribute("aria-pressed", "false");
     }
   }
 
@@ -194,23 +220,31 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================================================= */
 
   cartButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const card = button.closest(".best-product-card");
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
 
+      const card = button.closest(".best-product-card");
       const product = getProductFromCard(card);
 
-      if (!product || !product.id) {
+      if (!product || !product.id) return;
+
+      const currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        localStorage.setItem("eveBeautyLoginRedirect", "best-sellers.html");
+
+        alert("Please sign in first to add products to your cart.");
+
+        window.location.href = "login.html";
         return;
       }
 
       const existingIndex = cartItems.findIndex(
-        (item) => item.id === product.id,
+        (item) => String(item.id) === String(product.id),
       );
 
-      /* ===============================================
-         SECOND CLICK = REMOVE
-      =============================================== */
-
+      // اگر قبلاً در Cart است → حذف شود
       if (existingIndex !== -1) {
         cartItems.splice(existingIndex, 1);
 
@@ -218,20 +252,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateCartButton(button, false);
 
+        if (typeof updateNavbarCounts === "function") {
+          updateNavbarCounts();
+        }
+
+        if (typeof renderCartDropdown === "function") {
+          renderCartDropdown();
+        }
+
+        window.dispatchEvent(new CustomEvent("eveBeautyCartChanged"));
+
         showToast(`${product.name} removed from cart`);
 
         return;
       }
 
-      /* ===============================================
-         FIRST CLICK = ADD
-      =============================================== */
-
-      cartItems.push(product);
+      // اگر در Cart نیست → اضافه شود
+      cartItems.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity: 1,
+      });
 
       saveCart();
 
       updateCartButton(button, true);
+
+      if (typeof updateNavbarCounts === "function") {
+        updateNavbarCounts();
+      }
+
+      if (typeof renderCartDropdown === "function") {
+        renderCartDropdown();
+      }
+
+      window.dispatchEvent(new CustomEvent("eveBeautyCartChanged"));
 
       showToast(`${product.name} added to cart`);
     });
@@ -244,24 +301,198 @@ document.addEventListener("DOMContentLoaded", () => {
   syncCartButtons();
 
   /* =========================================================
-     WISHLIST
-  ========================================================= */
+   WISHLIST
+========================================================= */
+
+  let wishlistItems = [];
+
+  try {
+    const savedWishlist = localStorage.getItem("eveBeautyWishlist");
+
+    if (savedWishlist) {
+      wishlistItems = JSON.parse(savedWishlist);
+    }
+
+    if (!Array.isArray(wishlistItems)) {
+      wishlistItems = [];
+    }
+  } catch (error) {
+    console.warn("Could not load wishlist:", error);
+
+    wishlistItems = [];
+  }
+
+  /* =========================================================
+   SAVE WISHLIST
+========================================================= */
+
+  function saveWishlist() {
+    try {
+      localStorage.setItem("eveBeautyWishlist", JSON.stringify(wishlistItems));
+    } catch (error) {
+      console.warn("Could not save wishlist:", error);
+    }
+  }
+
+  /* =========================================================
+   CHECK WISHLIST
+========================================================= */
+
+  function isProductInWishlist(productId) {
+    return wishlistItems.some((item) => String(item.id) === String(productId));
+  }
+
+  /* =========================================================
+   UPDATE WISHLIST BUTTON
+========================================================= */
+
+  function updateWishlistButton(button, active) {
+    if (!button) return;
+
+    button.classList.toggle("active", active);
+
+    button.setAttribute(
+      "aria-label",
+      active ? "Remove from wishlist" : "Add to wishlist",
+    );
+
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+
+    const icon = button.querySelector("i");
+
+    if (icon) {
+      if (active) {
+        icon.classList.remove("fa-regular");
+        icon.classList.add("fa-solid");
+
+        icon.style.color = "#aa8386";
+      } else {
+        icon.classList.remove("fa-solid");
+        icon.classList.add("fa-regular");
+
+        icon.style.color = "";
+      }
+    }
+  }
+  /* =========================================================
+   SYNC WISHLIST BUTTONS
+========================================================= */
+
+  function syncWishlistButtons() {
+    wishlistButtons.forEach((button) => {
+      const card = button.closest(".best-product-card");
+
+      const product = getProductFromCard(card);
+
+      if (!product || !product.id) return;
+
+      updateWishlistButton(button, isProductInWishlist(product.id));
+    });
+  }
+
+  /* =========================================================
+   ADD / REMOVE WISHLIST
+========================================================= */
 
   wishlistButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      button.classList.toggle("active");
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
 
-      if (button.classList.contains("active")) {
-        button.textContent = "♥";
+      const card = button.closest(".best-product-card");
 
-        showToast("Added to your wishlist");
-      } else {
-        button.textContent = "♡";
+      const product = getProductFromCard(card);
 
-        showToast("Removed from your wishlist");
+      if (!product || !product.id) {
+        console.warn("Could not find product data for wishlist button.");
+        return;
       }
+
+      const currentUser = getCurrentUser();
+
+      /* =====================================================
+       LOGIN CHECK
+    ===================================================== */
+
+      if (!currentUser) {
+        localStorage.setItem("eveBeautyLoginRedirect", "best-sellers.html");
+
+        alert("Please sign in first to add products to your wishlist.");
+
+        window.location.href = "login.html";
+
+        return;
+      }
+
+      /* =====================================================
+       FIND PRODUCT
+    ===================================================== */
+
+      const existingIndex = wishlistItems.findIndex(
+        (item) => String(item.id) === String(product.id),
+      );
+
+      /* =====================================================
+       REMOVE FROM WISHLIST
+    ===================================================== */
+
+      if (existingIndex !== -1) {
+        wishlistItems.splice(existingIndex, 1);
+
+        saveWishlist();
+
+        updateWishlistButton(button, false);
+
+        if (typeof updateNavbarCounts === "function") {
+          updateNavbarCounts();
+        }
+
+        if (typeof renderWishlistDropdown === "function") {
+          renderWishlistDropdown();
+        }
+
+        window.dispatchEvent(new CustomEvent("eveBeautyWishlistChanged"));
+
+        showToast(`${product.name} removed from your wishlist`);
+
+        return;
+      }
+
+      /* =====================================================
+       ADD TO WISHLIST
+    ===================================================== */
+
+      wishlistItems.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        category: "Beauty",
+      });
+
+      saveWishlist();
+
+      updateWishlistButton(button, true);
+
+      if (typeof updateNavbarCounts === "function") {
+        updateNavbarCounts();
+      }
+
+      if (typeof renderWishlistDropdown === "function") {
+        renderWishlistDropdown();
+      }
+
+      window.dispatchEvent(new CustomEvent("eveBeautyWishlistChanged"));
+
+      showToast(`${product.name} added to your wishlist`);
     });
   });
+
+  /* =========================================================
+   INITIAL WISHLIST STATE
+========================================================= */
+
+  syncWishlistButtons();
 
   /* =========================================================
      GALLERY
@@ -344,7 +575,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Cica Repair Cream",
       brand: "EVE BEAUTY",
       price: "$38.00",
-      image: "assets/images/cica-repair-cream.jpg",
+      image: "assets/images/product-cicapair-cream.jpg",
     },
 
     {
@@ -352,7 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Vitamin C Glow Serum",
       brand: "EVE BEAUTY",
       price: "$42.00",
-      image: "assets/images/vitamin-c-glow-serum.jpg",
+      image: "assets/images/product-vitamin-c-glow-serum.jpg",
     },
 
     {
@@ -360,7 +591,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Rose Milk Cleanser",
       brand: "EVE BEAUTY",
       price: "$28.00",
-      image: "assets/images/rose-milk-cleanser.jpg",
+      image: "assets/images/product-rose-milk-cleanser.jpg",
     },
 
     {
@@ -368,7 +599,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Hydra Cream",
       brand: "EVE BEAUTY",
       price: "$36.00",
-      image: "assets/images/hydra-cream.jpg",
+      image: "assets/images/product-11.jpg",
     },
 
     {
@@ -376,7 +607,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Fit Me Foundation",
       brand: "MAYBELLINE",
       price: "$16.00",
-      image: "assets/images/fit-me-foundation.jpg",
+      image: "assets/images/product-fit-me-foundation.jpg",
     },
 
     {
@@ -384,7 +615,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Dior Addict Lip Glow",
       brand: "DIOR",
       price: "$42.00",
-      image: "assets/images/dior-addict-lip-glow.jpg",
+      image: "assets/images/product-dior-addict.jpg",
     },
 
     {
@@ -392,7 +623,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Lash Sensational Mascara",
       brand: "MAYBELLINE",
       price: "$18.00",
-      image: "assets/images/lash-sensational-mascara.jpg",
+      image: "assets/images/product-lash-sensational.jpg",
     },
 
     {
@@ -400,7 +631,22 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Les Beiges Powder",
       brand: "CHANEL",
       price: "$64.00",
-      image: "assets/images/les-beiges-powder.jpg",
+      image: "assets/images/product-les-beiges.jpg",
+    },
+    {
+      id: "radiance-facial-serum",
+      name: "Radiance Facial Serum",
+      brand: "EVE BEAUTY",
+      price: "$46.00",
+      image: "assets/images/product-radiance-serum.jpg",
+    },
+
+    {
+      id: "rose-water-toner",
+      name: "Rose Water Toner",
+      brand: "EVE BEAUTY",
+      price: "$32.00",
+      image: "assets/images/product-14.jpg",
     },
   ];
 
@@ -578,5 +824,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
+
+    syncWishlistButtons();
+    syncCartButtons();
   }
 });
