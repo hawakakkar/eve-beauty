@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* =========================================================
-     BRAND DATA
-  ========================================================= */
+  /* BRAND DATA*/
 
   const brands = [
     {
@@ -317,9 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  /* =========================================================
-     ELEMENTS
-  ========================================================= */
+  /* HERE WE FIND THE HTML ELEMENTS*/
 
   const searchForm = document.getElementById("brandSearchForm");
   const searchInput = document.getElementById("brandSearchInput");
@@ -330,9 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ? brandResult.querySelector(".brand-result-inner")
     : null;
 
-  /* =========================================================
-     FIND BRAND
-  ========================================================= */
+  /* FIND BRAND */
 
   function findBrand(value) {
     const search = value.trim().toLowerCase();
@@ -352,9 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     CREATE GET INFO MODAL STYLES
-  ========================================================= */
+  /* CREATE GET INFO MODAL STYLES */
 
   function createModalStyles() {
     if (document.getElementById("brand-modal-styles")) {
@@ -378,10 +370,10 @@ document.addEventListener("DOMContentLoaded", () => {
         height: 100% !important;
 
         display: flex !important;
-        align-items: center !important;
+        align-items: flex-start !important;
         justify-content: center !important;
 
-        padding: 25px !important;
+        padding: 1700px 25px 25px !important;
 
         background: rgba(30, 20, 23, 0.55) !important;
 
@@ -686,26 +678,24 @@ document.addEventListener("DOMContentLoaded", () => {
       #exploreBrandModal {
         position: fixed;
 
-        inset: 0;
+        top: 50%;
+        left: 50%;
 
-        width: 100%;
-        height: 100%;
+        width: min(780px, 90vw);
 
-        display: flex;
+        max-height: 88vh;
 
-        align-items: center;
-        justify-content: center;
+        display: block;
 
-        padding: 25px;
+        padding: 0;
 
-        background: rgba(30, 20, 23, 0.58);
-
-        backdrop-filter: blur(7px);
-        -webkit-backdrop-filter: blur(7px);
+        background: transparent;
 
         z-index: 1000000;
 
-        overflow-y: auto;
+        overflow: visible;
+
+        transform: translate(-50%, -50%);
 
         animation: exploreOverlayIn 0.25s ease both;
       }
@@ -715,26 +705,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       .explore-modal-inner {
-        position: relative;
+  position: relative;
 
-        width: min(1000px, 95vw);
+  width: 100%;
 
-        max-height: 90vh;
+  max-height: 88vh;
 
-        overflow-y: auto;
+  overflow-y: auto;
 
-        border: 1px solid #e5d6d8;
+  border: 1px solid #e5d6d8;
 
-        border-radius: 24px;
+  border-radius: 24px;
 
-        background: #fffafa;
+  background: #fffafa;
 
-        box-shadow:
-          0 35px 100px rgba(43, 28, 32, 0.28),
-          0 10px 30px rgba(43, 28, 32, 0.13);
+  box-shadow:
+    0 35px 100px rgba(43, 28, 32, 0.28),
+    0 10px 30px rgba(43, 28, 32, 0.13);
 
-        animation: exploreModalOpen 0.38s cubic-bezier(0.22, 1, 0.36, 1);
-      }
+  animation: exploreModalOpen 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
       .explore-modal-close {
         position: absolute;
@@ -1110,7 +1100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ===================================================== */
 
       body.dark-mode #exploreBrandModal {
-        background: rgba(5, 4, 5, 0.75);
+        background: transparent;
       }
 
       body.dark-mode .explore-modal-inner {
@@ -1206,13 +1196,20 @@ document.addEventListener("DOMContentLoaded", () => {
       @media (max-width: 750px) {
 
         #exploreBrandModal {
-          padding: 12px;
+          width: calc(100vw - 24px);
+
+          padding: 0;
+
+          top: 50%;
+          left: 50%;
+
+          transform: translate(-50%, -50%);
         }
 
         .explore-modal-inner {
           width: 100%;
 
-          max-height: 94vh;
+          max-height: 92vh;
 
           border-radius: 19px;
         }
@@ -1265,7 +1262,14 @@ document.addEventListener("DOMContentLoaded", () => {
       @media (max-width: 430px) {
 
         #exploreBrandModal {
-          padding: 8px;
+          width: calc(100vw - 16px);
+
+          padding: 0;
+
+          top: 50%;
+          left: 50%;
+
+          transform: translate(-50%, -50%);
         }
 
         .explore-modal-inner {
@@ -1305,9 +1309,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.head.appendChild(style);
   }
 
-  /* =========================================================
-     SHOW GET INFO MODAL
-  ========================================================= */
+  /* SHOW GET INFO MODAL*/
 
   function showBrandInfo(brand) {
     if (!brandResult || !brandResultInner) {
@@ -1329,7 +1331,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="brand-modal-image">
         <img
           src="${escapeHTML(brand.image)}"
-          alt="${escapeHTML(brand.name)}"
+          alt="${escapeHTML(brand.name)}" 
           onerror="this.style.display='none';"
         />
       </div>
@@ -1341,6 +1343,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </span>
 
         <h2>
+        
           ${escapeHTML(brand.name)}
         </h2>
 
@@ -1401,12 +1404,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       </div>
     `;
-
+    /*IF THE MODAL ALREADY WAS HIDDEN THIS TRY TO DISPLAY IT*/
     brandResult.hidden = false;
 
     brandResult.classList.add("show");
-
+    /*THIS PREVENT THE MAIN PAGE TO DONT SCROLL WHEN THE MODAL IS OPEN*/
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     const closeButton = brandResult.querySelector(".brand-modal-close");
 
@@ -1419,11 +1423,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", handleEscapeKey);
   }
 
-  /* =========================================================
-     SHOW EXPLORE BRAND MODAL
-  ========================================================= */
+  /* SHOW EXPLORE BRAND MODAL */
 
-  function showExploreBrand(brand) {
+  function showExploreBrand(brand, button) {
     closeBrandInfo();
 
     let modal = document.getElementById("exploreBrandModal");
@@ -1581,6 +1583,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modal.hidden = false;
 
+    setupBrandScrollAnimations();
+
     document.body.style.overflow = "hidden";
 
     const closeButton = modal.querySelector(".explore-modal-close");
@@ -1594,15 +1598,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", handleExploreEscapeKey);
   }
 
-  /* =========================================================
-     CLOSE EXPLORE BRAND
-  ========================================================= */
+  /* CLOSE EXPLORE BRAND*/
 
   function closeExploreBrand() {
     const modal = document.getElementById("exploreBrandModal");
 
     if (!modal) return;
 
+    /*THE MODAL WILL HIDE*/
     modal.hidden = true;
 
     document.body.style.overflow = "";
@@ -1612,19 +1615,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.removeEventListener("keydown", handleExploreEscapeKey);
   }
 
-  /* =========================================================
-     EXPLORE BACKGROUND CLICK
-  ========================================================= */
+  /* EXPLORE BACKGROUND CLICK*/
 
   function handleExploreBackgroundClick(event) {
     if (event.target.id === "exploreBrandModal") {
       closeExploreBrand();
     }
   }
-
-  /* =========================================================
-     EXPLORE ESC
-  ========================================================= */
+  /* EXPLORE ESC*/
 
   function handleExploreEscapeKey(event) {
     if (event.key === "Escape") {
@@ -1632,9 +1630,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-     CLOSE GET INFO
-  ========================================================= */
+  /* 
+     CLOSE GET INFO*/
 
   function closeBrandInfo() {
     if (!brandResult) return;
@@ -1644,15 +1641,14 @@ document.addEventListener("DOMContentLoaded", () => {
     brandResult.hidden = true;
 
     document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
 
     brandResult.removeEventListener("click", handleModalBackgroundClick);
 
     document.removeEventListener("keydown", handleEscapeKey);
   }
 
-  /* =========================================================
-     GET INFO BACKGROUND CLICK
-  ========================================================= */
+  /*GET INFO BACKGROUND CLICK*/
 
   function handleModalBackgroundClick(event) {
     if (event.target === brandResult) {
@@ -1660,9 +1656,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-     GET INFO ESC
-  ========================================================= */
+  /* GET INFO ESC */
 
   function handleEscapeKey(event) {
     if (event.key === "Escape") {
@@ -1670,9 +1664,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-     NOT FOUND
-  ========================================================= */
+  /* NOT FOUND*/
 
   function showNotFound(value) {
     if (!brandResult || !brandResultInner) return;
@@ -1725,9 +1717,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", handleEscapeKey);
   }
 
-  /* =========================================================
-     SEARCH FORM
-  ========================================================= */
+  /* SEARCH FORM */
 
   if (searchForm) {
     searchForm.addEventListener("submit", (event) => {
@@ -1753,9 +1743,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     EXPLORE BRAND BUTTONS
-  ========================================================= */
+  /* EXPLORE BRAND BUTTONS*/
 
   const exploreButtons = document.querySelectorAll(".brand-explore");
 
@@ -1769,14 +1757,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const brand = findBrand(brandName);
 
       if (brand) {
-        showExploreBrand(brand);
+        showExploreBrand(brand, button);
       }
     });
   });
 
-  /* =========================================================
-     ENTER KEY
-  ========================================================= */
+  /* ENTER KEY */
 
   if (searchInput && searchForm) {
     searchInput.addEventListener("keydown", (event) => {
@@ -1788,9 +1774,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     ESCAPE HTML
-  ========================================================= */
+  /* ESCAPE HTML*/
+  /*THIS FUNC GIVE A VALUE ANF CHANGE THE HTML SPECIAL ELEMENTS*/
 
   function escapeHTML(value) {
     return String(value)
@@ -1801,17 +1786,175 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
-  /* =========================================================
-     INITIALIZE STYLES
-  ========================================================= */
+  /*  INITIALIZE STYLES */
 
   createModalStyles();
 
-  /* =========================================================
-     INITIAL STATE
-  ========================================================= */
+  /*INITIAL STATE */
 
   if (brandResult) {
     brandResult.hidden = true;
   }
 });
+
+/* ==========================================
+   BRAND PAGE — FULL PAGE SCROLL REVEAL
+========================================== */
+
+if (!document.getElementById("brand-scroll-animation-style")) {
+  const style = document.createElement("style");
+
+  style.id = "brand-scroll-animation-style";
+
+  style.textContent = `
+    .brand-scroll-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+
+      transition:
+        opacity 0.65s ease,
+        transform 0.65s ease;
+    }
+
+    .brand-scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .brand-scroll-reveal,
+      .brand-scroll-reveal.is-visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+/* OBSERVER */
+
+const brandScrollObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            } else {
+              entry.target.classList.remove("is-visible");
+            }
+          });
+        },
+        {
+          threshold: 0.08,
+          rootMargin: "0px 0px -25px 0px",
+        },
+      )
+    : null;
+
+/* SETUP ANIMATIONS */
+
+function setupBrandScrollAnimations(root = document) {
+  const revealSelectors = [
+    /* Brand page headings and text */
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "p",
+    ".section-title",
+    ".section-heading",
+    ".section-subtitle",
+    ".section-description",
+
+    /* Search area */
+    "#brandSearchForm",
+    "#brandSearchForm label",
+    "#brandSearchInput",
+    "#brandSearchForm button",
+    ".brand-search",
+    ".brand-search-form",
+    ".brand-search-container",
+
+    /* Brand page content */
+    ".brand-card",
+    ".brand-item",
+    ".brand-category-card",
+    ".brand-feature-card",
+    ".brand-product-card",
+    ".brand-section",
+    ".brand-content",
+    ".brand-description",
+    ".brand-hero",
+    ".brand-hero-content",
+    ".brand-hero-image",
+    ".brand-banner",
+    ".brand-banner-content",
+    ".brand-grid > *",
+    ".brands-grid > *",
+    ".brands-container > *",
+    ".brand-list > *",
+
+    /* General content elements */
+    "article",
+    "figure",
+    "img",
+    "a",
+    "button",
+
+    /* Brand information modal */
+    ".brand-modal-image",
+    ".brand-modal-image img",
+    ".brand-modal-label",
+    ".brand-modal-content h2",
+    ".brand-modal-tagline",
+    ".brand-modal-description",
+    ".brand-modal-box",
+    ".brand-modal-box-label",
+    ".brand-modal-box li",
+    ".brand-modal-close",
+
+    /* Explore brand modal */
+    ".explore-brand-image",
+    ".explore-brand-image img",
+    ".explore-brand-intro > *",
+    ".explore-created",
+    ".explore-created-icon",
+    ".explore-created-label",
+    ".explore-created-name",
+    ".explore-products-header",
+    ".explore-products-label",
+    ".explore-products-title",
+    ".explore-products-note",
+    ".explore-product-card",
+    ".explore-product-image",
+    ".explore-product-image img",
+    ".explore-product-content > *",
+    ".explore-modal-close",
+  ];
+
+  const elements = root.querySelectorAll(revealSelectors.join(", "));
+
+  elements.forEach((element, index) => {
+    if (element.classList.contains("brand-scroll-reveal")) {
+      return;
+    }
+
+    element.classList.add("brand-scroll-reveal");
+
+    element.style.transitionDelay = `${(index % 4) * 70}ms`;
+
+    if (brandScrollObserver) {
+      brandScrollObserver.observe(element);
+    } else {
+      element.classList.add("is-visible");
+    }
+  });
+}
+
+/* INITIALIZE STATIC PAGE CONTENT */
+
+setupBrandScrollAnimations();

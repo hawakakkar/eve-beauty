@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>EVE BEAUTY — Dashboard</title>
+    <title>EVE BEAUTY — Products</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,98 +16,15 @@
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <link rel="stylesheet" href="css/dashboard.css" />
-
-    <style>
-      /* =====================================================
-         CARD PAYMENT
-      ====================================================== */
-
-      .card-payment-fields {
-        margin-top: 20px;
-        padding: 20px;
-        border: 1px solid #e7e2df;
-        border-radius: 14px;
-        background: #faf8f7;
-      }
-
-      .card-payment-fields[hidden] {
-        display: none;
-      }
-
-      .card-payment-fields .form-group {
-        margin-bottom: 15px;
-      }
-
-      .card-payment-fields .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-      }
-
-      .card-payment-fields input {
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      .card-payment-message {
-        margin: 12px 0 0;
-        font-size: 14px;
-        min-height: 20px;
-      }
-
-      .card-payment-message.error {
-        color: #b42318;
-      }
-
-      .card-payment-success {
-        margin-top: 14px;
-        padding: 12px 14px;
-        border-radius: 10px;
-        background: #edf9f0;
-        color: #16753b;
-        font-weight: 600;
-      }
-
-      .card-payment-success[hidden] {
-        display: none;
-      }
-
-      #payByCardBtn:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-      }
-
-      #placeOrderBtn:disabled {
-        opacity: 0.55;
-        cursor: not-allowed;
-      }
-
-      @media (max-width: 600px) {
-        .card-payment-fields .form-row {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="css/myproducts.css" />
   </head>
 
   <body>
     <header class="dashboard-header">
       <div class="dashboard-brand">
-        <a href="dashboard.html" class="brand">
+        <a href="myproducts.html" class="brand">
           <img src="assets/images/eve-logo.png" alt="EVE BEAUTY Logo" />
         </a>
-      </div>
-
-      <div class="dashboard-search">
-        <i data-lucide="search"></i>
-
-        <input
-          id="dashboardSearch"
-          type="search"
-          placeholder="Search products..."
-          autocomplete="off"
-        />
       </div>
 
       <div class="dashboard-header-actions">
@@ -165,7 +82,7 @@
               <i data-lucide="house"></i>
             </span>
 
-            <span>Dashboard</span>
+            <span>Home</span>
           </button>
 
           <button class="sidebar-link" data-page="orders" type="button">
@@ -389,22 +306,6 @@
                   <a href="shop.html" class="primary-button">
                     Start Shopping
                   </a>
-                </div>
-              </section>
-
-              <section class="dashboard-card recently-viewed-card">
-                <div class="card-header">
-                  <h2>Recently Viewed</h2>
-
-                  <a href="shop.html" class="card-link">
-                    View All <span>→</span>
-                  </a>
-                </div>
-
-                <div id="recentlyViewed" class="recently-viewed-grid"></div>
-
-                <div id="recentlyViewedEmpty" class="recently-empty">
-                  Products you view will appear here.
                 </div>
               </section>
             </div>
@@ -1151,6 +1052,6 @@
       </div>
     </div>
 
-    <script src="js/dashboard.js"></script>
+    <script src="js/myproducts.js"></script>
   </body>
 </html>

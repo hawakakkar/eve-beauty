@@ -242,77 +242,6 @@ select:focus-visible {
 
 /* =========================================================
 
-   SEARCH
-
-========================================================= */
-
-.dashboard-search {
-  width: 100%;
-
-  max-width: 450px;
-
-  height: 39px;
-
-  display: flex;
-
-  align-items: center;
-
-  padding: 0 12px;
-
-  background: #fffdfd;
-
-  border: 1px solid #ddd2d4;
-
-  border-radius: 10px;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-
-.dashboard-search:focus-within {
-  background: #fff;
-
-  border-color: var(--primary);
-
-  box-shadow: 0 0 0 3px rgba(170, 131, 134, 0.09);
-}
-
-.dashboard-search svg {
-  width: 17px;
-
-  height: 17px;
-
-  flex-shrink: 0;
-
-  color: #9b8c8f;
-}
-
-.dashboard-search input {
-  width: 100%;
-
-  height: 100%;
-
-  border: 0;
-
-  outline: 0;
-
-  background: transparent;
-
-  padding: 0 10px;
-
-  color: var(--text);
-
-  font-size: 12px;
-}
-
-.dashboard-search input::placeholder {
-  color: #a89a9d;
-}
-
-/* =========================================================
-
    HEADER ACTIONS
 
 ========================================================= */
@@ -1657,114 +1586,6 @@ select:focus-visible {
 
 /* =========================================================
 
-   RECENTLY VIEWED
-
-========================================================= */
-
-.recently-viewed-card {
-  padding-bottom: 15px;
-}
-
-.recently-viewed-grid {
-  padding: 13px 16px 0;
-
-  display: grid;
-
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-
-  gap: 13px;
-}
-
-.viewed-product {
-  min-width: 0;
-
-  border: 0;
-
-  background: transparent;
-
-  text-align: left;
-
-  padding: 0;
-
-  cursor: pointer;
-}
-
-.viewed-product-image {
-  height: 81px;
-
-  border-radius: 7px;
-
-  background: #f6e9ea;
-
-  overflow: hidden;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  position: relative;
-
-  transition: transform 0.2s ease;
-}
-
-.viewed-product:hover .viewed-product-image {
-  transform: translateY(-2px);
-}
-
-.viewed-product-image img {
-  width: 100%;
-
-  height: 100%;
-
-  object-fit: cover;
-}
-
-.viewed-product-image > svg {
-  width: 27px;
-
-  height: 27px;
-
-  color: var(--primary);
-}
-
-.viewed-product-name {
-  display: block;
-
-  margin-top: 7px;
-
-  color: #5b4c50;
-
-  font-size: 9px;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-.viewed-product-price {
-  display: block;
-
-  margin-top: 4px;
-
-  color: #4e2931;
-
-  font-size: 10px;
-}
-
-.recently-empty {
-  margin: 18px 20px 0;
-
-  color: #5b4c50;
-
-  font-size: 11px;
-}
-
-/* =========================================================
-
    SPECIAL OFFER
 
 ========================================================= */
@@ -2764,7 +2585,71 @@ select:focus-visible {
    CHECKOUT
 
 ========================================================= */
+.card-payment-fields {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #e7e2df;
+  border-radius: 14px;
+  background: #faf8f7;
+}
 
+.card-payment-fields[hidden] {
+  display: none;
+}
+
+.card-payment-fields .form-group {
+  margin-bottom: 15px;
+}
+
+.card-payment-fields .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.card-payment-fields input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card-payment-message {
+  margin: 12px 0 0;
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.card-payment-message.error {
+  color: #b42318;
+}
+
+.card-payment-success {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #edf9f0;
+  color: #16753b;
+  font-weight: 600;
+}
+
+.card-payment-success[hidden] {
+  display: none;
+}
+
+#payByCardBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+#placeOrderBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .card-payment-fields .form-row {
+    grid-template-columns: 1fr;
+  }
+}
 .checkout-layout {
   display: grid;
 
@@ -3571,10 +3456,6 @@ select:focus-visible {
     height: 43px;
   }
 
-  .dashboard-search {
-    max-width: 340px;
-  }
-
   .dashboard-sidebar {
     width: 72px;
 
@@ -3669,18 +3550,6 @@ select:focus-visible {
     gap: 3px;
   }
 
-  .dashboard-search {
-    order: 3;
-
-    flex: 1 0 100%;
-
-    max-width: none;
-
-    margin: 2px 0 0;
-
-    height: 37px;
-  }
-
   .dashboard-layout {
     min-height: calc(100vh - 115px);
 
@@ -3763,10 +3632,6 @@ select:focus-visible {
   }
 
   .dashboard-stat-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .recently-viewed-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 

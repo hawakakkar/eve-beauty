@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* =========================================================
-     NEW ARRIVAL PRODUCTS
-  ========================================================= */
+  /* NEW ARRIVAL PRODUCTS*/
 
   const newProducts = [
     {
@@ -149,9 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  /* =========================================================
-     ELEMENTS
-  ========================================================= */
+  /* ELEMENTS */
 
   const productGrid = document.getElementById("arrivalProductsGrid");
 
@@ -163,9 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const newsletterForm = document.getElementById("arrivalNewsletterForm");
 
-  /* =========================================================
-     SCROLL DIRECTLY TO PRODUCT CARDS
-  ========================================================= */
+  /* SCROLL DIRECTLY TO PRODUCT CARDS*/
 
   function scrollToProductCards() {
     const productGrid = document.getElementById("arrivalProductsGrid");
@@ -173,32 +167,31 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!productGrid) return;
 
     const headerOffset = 90;
-
+    /*THIS SAY THAT WHERE IS THE DISTANCE OF THE PRODUCT GRID FROM THR TOP OF
+ THE VIEWPORT TO THE CURRENTLY VISIBLE SCREEN AREA AND window.scrollY SAY TO BROWSER TO SCROLL THE SCREEN*/
     const gridPosition =
       productGrid.getBoundingClientRect().top + window.scrollY;
-
+    /*window.scrollTo SAY TO BROWSER TO SCROLL THE SCREEN*/
     window.scrollTo({
       top: gridPosition - headerOffset,
       behavior: "smooth",
     });
   }
 
-  /* =========================================================
-     RENDER FEATURED PRODUCTS
-  ========================================================= */
+  /* THIS RENDER THE FEATURED PRODUCTS*/
 
   function renderFeaturedProducts() {
     if (!featuredList) return;
-
+    /*HERE THE ARRAYS GIVE ONLY 3 PRODUCTS*/
     const featuredProducts = newProducts.slice(0, 3);
-
+    /*THIS WILL ERASE THE PERVIOUS PRODUCTS IF EXIST*/
     featuredList.innerHTML = "";
-
+    /*HERE THIS IRRATES ON THE EACH FEATURED PRODUCT */
     featuredProducts.forEach((product) => {
       const item = document.createElement("div");
 
       item.className = "featured-product-item";
-
+      /*HERE WE PUT HTML INTO DIV*/
       item.innerHTML = `
         <div class="featured-product-image">
           <img
@@ -225,14 +218,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         </div>
       `;
-
+      /*THIS MEAN THAT PUT THE ITEM  INTO FEATURED LIST*/
       featuredList.appendChild(item);
     });
   }
 
-  /* =========================================================
-     RENDER ALL PRODUCTS
-  ========================================================= */
+  /* RENDER ALL PRODUCTS*/
 
   function renderProducts(products = newProducts) {
     if (!productGrid) return;
@@ -373,13 +364,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-   CART HELPERS
-========================================================= */
+  /*CART HELPERS */
+
+  function getUserCartKey() {
+    const user = getCurrentUser();
+
+    return user ? `eveBeautyCart_${user.id}` : "eveBeautyCart";
+  }
 
   function getCart() {
     try {
-      const cart = JSON.parse(localStorage.getItem("eveBeautyCart") || "[]");
+      const userCartKey = getUserCartKey();
+      const storedCart = localStorage.getItem(userCartKey);
+
+      const cart = JSON.parse(
+        storedCart !== null
+          ? storedCart
+          : localStorage.getItem("eveBeautyCart") || "[]",
+      );
 
       return Array.isArray(cart) ? cart : [];
     } catch (error) {
@@ -391,7 +393,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function saveCart(cart) {
     try {
+      const user = getCurrentUser();
+
+      if (user) {
+        localStorage.setItem(`eveBeautyCart_${user.id}`, JSON.stringify(cart));
+
+        localStorage.setItem(
+          "eveBeautyCartCurrentUser",
+          JSON.stringify({
+            userId: user.id,
+            items: cart,
+            updatedAt: new Date().toISOString(),
+          }),
+        );
+      }
+
       localStorage.setItem("eveBeautyCart", JSON.stringify(cart));
+
+      window.dispatchEvent(new CustomEvent("eveBeautyCartUpdated"));
 
       return true;
     } catch (error) {
@@ -401,14 +420,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-   WISHLIST HELPERS
-========================================================= */
+  /*RETURN ISHLIST HELPERS */
+
+  function getUserWishlistKey() {
+    const user = getCurrentUser();
+
+    return user ? `eveBeautyWishlist_${user.id}` : "eveBeautyWishlist";
+  }
 
   function getWishlist() {
     try {
+      const userWishlistKey = getUserWishlistKey();
+      const storedWishlist = localStorage.getItem(userWishlistKey);
+
       const wishlist = JSON.parse(
-        localStorage.getItem("eveBeautyWishlist") || "[]",
+        storedWishlist !== null
+          ? storedWishlist
+          : localStorage.getItem("eveBeautyWishlist") || "[]",
       );
 
       return Array.isArray(wishlist) ? wishlist : [];
@@ -421,7 +449,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function saveWishlist(wishlist) {
     try {
+      const user = getCurrentUser();
+
+      if (user) {
+        localStorage.setItem(
+          `eveBeautyWishlist_${user.id}`,
+          JSON.stringify(wishlist),
+        );
+      }
+
       localStorage.setItem("eveBeautyWishlist", JSON.stringify(wishlist));
+
+      window.dispatchEvent(new CustomEvent("eveBeautyWishlistUpdated"));
 
       return true;
     } catch (error) {
@@ -431,11 +470,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-   NAVBAR COUNTERS
-========================================================= */
+  /* NAVBAR COUNTERS */
 
   function updateNavbarCounts() {
+    /*ARE THE typeof window.updateNavbarCounts IS FUNCTION AND 
+    IF THIS IS CORRECT THIS FUNCTION window.updateNavbarCounts() MUST APPLT*/
     if (typeof window.updateNavbarCounts === "function") {
       window.updateNavbarCounts();
     }
@@ -482,9 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  /* =========================================================
-   PRODUCT BUTTON STATE
-========================================================= */
+  /* PRODUCT BUTTON STATE */
 
   function updateArrivalWishlistButton(button, active) {
     if (!button) return;
@@ -501,7 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const icon = button.querySelector("svg");
 
     if (icon) {
-      icon.style.fill = active ? "#aa8386" : "none";
+      icon.style.fill = active ? "#faf6f6" : "none";
       icon.style.color = active ? "#aa8386" : "";
     }
   }
@@ -518,8 +555,6 @@ document.addEventListener("DOMContentLoaded", () => {
       active ? "Remove from cart" : "Add to cart",
     );
 
-  
-
     button.innerHTML = `
     <i data-lucide="shopping-bag"></i>
     ${active ? "In cart" : "Add to cart"}
@@ -530,9 +565,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-   UPDATE ALL PRODUCT BUTTONS
-========================================================= */
+  /* UPDATE ALL PRODUCT BUTTONS */
 
   function updateArrivalProductButtons() {
     const cart = getCart();
@@ -555,14 +588,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-   PRODUCT BUTTONS
-========================================================= */
+  /* PRODUCT BUTTONS */
 
   function setupProductButtons() {
-    /* =========================
-     WISHLIST
-  ========================= */
+    /*WISHLIST*/
 
     document.querySelectorAll(".arrival-wishlist").forEach((button) => {
       button.addEventListener("click", (event) => {
@@ -581,9 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!product) return;
 
-        /* =========================
-           LOGIN CHECK
-        ========================= */
+        /* THIS CHECK THE LOGIN SIUTUATION */
 
         const currentUser = getCurrentUser();
 
@@ -597,21 +624,19 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        /* =========================
-           GET WISHLIST
-        ========================= */
+        /* GET WISHLIST */
 
         const wishlist = getWishlist();
 
+        /*THE findIndex CHECK THAT ARE THE NEW PRODUCT EXIST IN CART ALREADY OR NO*/
         const existingIndex = wishlist.findIndex(
           (item) => Number(item.id) === Number(product.id),
         );
 
-        /* =========================
-           REMOVE
-        ========================= */
+        /*REMOVE*/
 
         if (existingIndex !== -1) {
+          /*THIS REMOVE THE PRODUCT FROM ARRAYS */
           wishlist.splice(existingIndex, 1);
 
           saveWishlist(wishlist);
@@ -625,9 +650,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        /* =========================
-           ADD
-        ========================= */
+        /* ADDING PRODUCTS INTO CART*/
 
         wishlist.push({
           id: product.id,
@@ -652,9 +675,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    /* =========================
-     CART
-  ========================= */
+    /*  CART */
 
     document.querySelectorAll(".arrival-add-cart").forEach((button) => {
       button.addEventListener("click", (event) => {
@@ -673,9 +694,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!product) return;
 
-        /* =========================
-           LOGIN CHECK
-        ========================= */
+        /* LOGIN CHECK*/
 
         const currentUser = getCurrentUser();
 
@@ -689,9 +708,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        /* =========================
-           GET CART
-        ========================= */
+        /* GET CART*/
 
         const cart = getCart();
 
@@ -699,9 +716,7 @@ document.addEventListener("DOMContentLoaded", () => {
           (item) => Number(item.id) === Number(product.id),
         );
 
-        /* =========================
-           REMOVE FROM CART
-        ========================= */
+        /*REMOVE FROM CART*/
 
         if (existingIndex !== -1) {
           cart.splice(existingIndex, 1);
@@ -717,9 +732,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        /* =========================
-           ADD TO CART
-        ========================= */
+        /* ADD TO CART*/
 
         cart.push({
           id: product.id,
@@ -751,9 +764,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     CATEGORY BUTTONS
-  ========================================================= */
+  /* CATEGORY BUTTONS */
 
   categoryCards.forEach((card) => {
     card.addEventListener("click", (event) => {
@@ -765,7 +776,6 @@ document.addEventListener("DOMContentLoaded", () => {
         (product) => product.category === category,
       );
 
-   
       renderProducts(categoryProducts);
 
       requestAnimationFrame(() => {
@@ -774,25 +784,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* =========================================================
-     SHOP ALL
-  ========================================================= */
+  /* SHOP ALL*/
 
   if (shopAllButton) {
     shopAllButton.addEventListener("click", () => {
-      
       renderProducts(newProducts);
-
-      
+      /*WE HAVE USED  requestAnimationFrame(() BECAUSE FIRST WE WANT TO MAKE THE NEW CADS 
+THEN THE PAGE SCROLL TO THE PART OF PRODUCTS*/
       requestAnimationFrame(() => {
         scrollToProductCards();
       });
     });
   }
 
-  /* =========================================================
-     NEWSLETTER
-  ========================================================= */
+  /* NEWSLETTER*/
+  /*FIRST THIS CHECK THAT THE FORM MUST EXIST THEN IN THE TIME OF SENDING OF EMAIL THE FUNCTION WILL EXECUTE*/
 
   if (newsletterForm) {
     newsletterForm.addEventListener("submit", (event) => {
@@ -803,19 +809,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!email || !email.value.trim()) {
         return;
       }
+      /*THIS WILL FIND THE BUTTON OF FORM THAT EXIST IN IT*/
 
       const button = newsletterForm.querySelector("button");
-
+      /*THIS WILL STORE THE INNERHTML OF IT THAT WE CAN RESTORE THE BUTTONS ORIDINAL APPEARANCE LATER*/
       const original = button.innerHTML;
-
+      /*DISPLAY OF SUCCESS MESSAGE*/
       button.innerHTML = '<i data-lucide="check"></i> Subscribed';
 
       if (window.lucide) {
         lucide.createIcons();
       }
-
+      /*THRN TH EMAIL PLACE WILL CLEAR*/
       email.value = "";
-
+      /*THE RESTORING OF BUTTON TO ITS FIRST FORM WILL EXECUTE AFTE 1.8 SECONDS*/
       setTimeout(() => {
         button.innerHTML = original;
 
@@ -826,15 +833,194 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     INITIALIZE
-  ========================================================= */
+  /* INITIALIZE*/
+  /*THIS PART RESPONSIBLE TO TO PREPARE THE PRODUCTS AND ICONS FOR EXCUTING OF PAGE*/
 
   renderFeaturedProducts();
-
+  /*THE MAIN PRODUCTS*/
   renderProducts();
 
   if (window.lucide) {
     lucide.createIcons();
   }
+});
+
+// ==========================================
+// EVE BEAUTY - FULL PAGE SCROLL REVEAL
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+  /* ANIMATION STYLES */
+
+  if (!document.getElementById("arrival-scroll-animation-style")) {
+    const style = document.createElement("style");
+
+    style.id = "arrival-scroll-animation-style";
+
+    style.textContent = `
+      .arrival-scroll-reveal {
+        opacity: 0;
+        transform: translateY(24px);
+
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+
+      .arrival-scroll-reveal.arrival-is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .arrival-scroll-reveal,
+        .arrival-scroll-reveal.arrival-is-visible {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  /* SCROLL OBSERVER */
+
+  const arrivalObserver =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("arrival-is-visible");
+              } else {
+                entry.target.classList.remove("arrival-is-visible");
+              }
+            });
+          },
+          {
+            threshold: 0.08,
+            rootMargin: "0px 0px -25px 0px",
+          },
+        )
+      : null;
+
+  /* ALL PAGE ELEMENTS TO REVEAL */
+
+  const revealSelectors = [
+    /* Page headings and text */
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    ".arrival-section-heading",
+    ".section-title",
+    ".section-heading",
+    ".section-subtitle",
+    ".section-description",
+
+    /* Hero and introductory sections */
+    ".arrival-hero",
+    ".arrival-hero-content",
+    ".arrival-hero-image",
+    ".arrival-hero-title",
+    ".arrival-hero-description",
+    ".arrival-hero-buttons",
+
+    /* Categories */
+    ".arrival-category-card",
+    ".arrival-category-card img",
+    ".arrival-category-card h3",
+    ".arrival-category-card p",
+    ".arrival-categories",
+    ".arrival-categories-grid",
+
+    /* Featured products */
+    "#featuredProductList",
+    ".featured-product-item",
+    ".featured-product-image",
+    ".featured-product-image img",
+    ".featured-product-details",
+    ".featured-product-details h3",
+    ".featured-product-details strong",
+    ".featured-product-details small",
+
+    /* Main product section */
+    "#arrivalProductsGrid",
+    ".arrival-product-card",
+    ".arrival-product-image",
+    ".arrival-product-image img",
+    ".arrival-product-info",
+    ".arrival-product-brand",
+    ".arrival-product-name",
+    ".arrival-product-rating",
+    ".arrival-product-price",
+    ".arrival-current-price",
+    ".arrival-old-price",
+    ".arrival-add-cart",
+    ".arrival-wishlist",
+    ".new-badge",
+
+    /* Newsletter */
+    "#arrivalNewsletterForm",
+    ".arrival-newsletter",
+    ".arrival-newsletter-content",
+    ".arrival-newsletter-image",
+    ".arrival-newsletter h2",
+    ".arrival-newsletter p",
+    "#arrivalNewsletterEmail",
+    "#arrivalNewsletterForm button",
+
+    /* Common supporting elements */
+    ".arrival-banner",
+    ".arrival-banner-content",
+    ".arrival-feature",
+    ".arrival-feature-card",
+    ".arrival-promo",
+    ".arrival-promo-content",
+    ".arrival-info-card",
+    ".arrival-content",
+    ".arrival-image",
+    ".arrival-text",
+    ".arrival-button",
+    ".arrival-link",
+
+    /* Footer content */
+    "footer h2",
+    "footer h3",
+    "footer p",
+    "footer li",
+    "footer a",
+    "footer img",
+    "footer .social-links > *",
+  ];
+
+  /* SETUP OR REFRESH ANIMATIONS */
+
+  window.setupArrivalScrollAnimations = function (root = document) {
+    const elements = root.querySelectorAll(revealSelectors.join(", "));
+
+    elements.forEach(function (element, index) {
+      if (element.classList.contains("arrival-scroll-reveal")) {
+        return;
+      }
+
+      element.classList.add("arrival-scroll-reveal");
+
+      element.style.transitionDelay = `${(index % 4) * 70}ms`;
+
+      if (arrivalObserver) {
+        arrivalObserver.observe(element);
+      } else {
+        element.classList.add("arrival-is-visible");
+      }
+    });
+  };
+
+  /* INITIAL PAGE ANIMATIONS */
+
+  window.setupArrivalScrollAnimations();
+
+  console.log("New Arrivals full-page animations initialized.");
 });

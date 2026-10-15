@@ -5,7 +5,7 @@
 ========================================================= */
 
 /* =========================================================
-   VARIABLES
+   01. VARIABLES
 ========================================================= */
 
 :root {
@@ -31,7 +31,7 @@
 }
 
 /* =========================================================
-   RESET
+   02. RESET
 ========================================================= */
 
 * {
@@ -66,7 +66,7 @@ body {
 }
 
 /* =========================================================
-   MAIN AUTH AREA
+   03. MAIN AUTH AREA — LIGHT MODE
 ========================================================= */
 
 .auth-page {
@@ -108,7 +108,7 @@ body {
 }
 
 /* =========================================================
-   BACKGROUND OVERLAY
+   04. BACKGROUND OVERLAY — LIGHT MODE
 ========================================================= */
 
 .auth-page::after {
@@ -133,7 +133,7 @@ body {
 }
 
 /* =========================================================
-   LOGO
+   05. LOGO
 ========================================================= */
 
 .auth-logo {
@@ -159,15 +159,13 @@ body {
 }
 
 /* =========================================================
-   THEME TOGGLE
-   IMPORTANT:
-   This is detached visually from the form card.
+   06. THEME TOGGLE — LIGHT MODE
 ========================================================= */
 
 .theme-toggle {
   position: absolute;
 
-  top: 24px;
+  top: 20px;
 
   right: 26px;
 
@@ -179,7 +177,7 @@ body {
 
   gap: 3px;
 
-  padding: 3px;
+  padding: 2px;
 
   border-radius: 24px;
 
@@ -193,8 +191,6 @@ body {
 
   -webkit-backdrop-filter: blur(14px);
 
-  /* Keep it visually independent from card */
-
   transform: translateY(-4px);
 
   transition:
@@ -203,19 +199,19 @@ body {
 }
 
 /* =========================================================
-   THEME BUTTON
+   07. THEME BUTTON
 ========================================================= */
 
 .theme-btn {
   height: 28px;
 
-  min-width: 56px;
+  min-width: 72px;
 
-  padding: 0 9px;
+  padding: 0 13px;
 
   border: 0;
 
-  border-radius: 18px;
+  border-radius: 22px;
 
   background: transparent;
 
@@ -229,30 +225,49 @@ body {
 
   justify-content: center;
 
-  gap: 4px;
+  gap: 8px;
 
   font-family: inherit;
 
-  font-size: 9px;
+  font-size: 10px;
 
-  font-weight: 500;
+  font-weight: 600;
 
   transition:
     background var(--transition),
     color var(--transition),
-    transform var(--transition);
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .theme-btn .icon {
-  font-size: 12px;
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 15px;
+
+  height: 15px;
+
+  font-size: 18px;
 
   line-height: 1;
 }
 
-.theme-btn:hover {
-  background: rgba(170, 131, 134, 0.1);
+.theme-btn .icon svg {
+  width: 18px;
 
-  transform: translateY(-1px);
+  height: 18px;
+
+  stroke-width: 2;
+}
+
+.theme-btn:hover {
+  background: rgba(170, 131, 134, 0.12);
+
+  transform: translateY(-2px);
 }
 
 .theme-btn.active {
@@ -260,11 +275,17 @@ body {
 
   color: #ffffff;
 
-  box-shadow: 0 4px 12px rgba(170, 131, 134, 0.2);
+  box-shadow: 0 4px 14px rgba(170, 131, 134, 0.28);
+}
+
+.theme-btn:focus-visible {
+  outline: 2px solid var(--burgundy);
+
+  outline-offset: 3px;
 }
 
 /* =========================================================
-   AUTH CONTENT CARD
+   08. AUTH CONTENT CARD — LIGHT MODE
 ========================================================= */
 
 .auth-content {
@@ -277,6 +298,8 @@ body {
   position: relative;
 
   z-index: 5;
+
+  margin-top: 30px;
 
   padding: 28px 30px 26px;
 
@@ -303,7 +326,7 @@ body {
 }
 
 /* =========================================================
-   FORM
+   09. FORM
 ========================================================= */
 
 .auth-form {
@@ -314,18 +337,22 @@ body {
   display: none;
 }
 
+.auth-form form {
+  width: 100%;
+}
+
 /* =========================================================
-   EYEBROW
+   10. EYEBROW
 ========================================================= */
 
 .eyebrow {
   display: block;
 
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 
   color: var(--burgundy);
 
-  font-size: 9px;
+  font-size: 10px;
 
   font-weight: 600;
 
@@ -335,7 +362,7 @@ body {
 }
 
 /* =========================================================
-   HEADING
+   11. HEADING
 ========================================================= */
 
 .auth-form h1 {
@@ -343,25 +370,27 @@ body {
 
   color: var(--text);
 
-  font-size: 29px;
+  font-size: 30px;
 
   font-weight: 300;
 
   line-height: 1.18;
 
   text-align: center;
+
+  margin-top: 25px;
 }
 
 /* =========================================================
-   HEADING LINE
+   12. HEADING LINE
 ========================================================= */
 
 .heading-line {
-  width: 42px;
+  width: 52px;
 
   height: 2px;
 
-  margin: 14px auto 14px;
+  margin: 10px auto 10px;
 
   background: var(--burgundy);
 
@@ -369,7 +398,7 @@ body {
 }
 
 /* =========================================================
-   INTRO
+   13. INTRO
 ========================================================= */
 
 .intro {
@@ -379,7 +408,7 @@ body {
 
   color: var(--muted);
 
-  font-size: 9px;
+  font-size: 10px;
 
   line-height: 1.55;
 
@@ -387,15 +416,7 @@ body {
 }
 
 /* =========================================================
-   FORM
-========================================================= */
-
-.auth-form form {
-  width: 100%;
-}
-
-/* =========================================================
-   INPUT GROUP
+   14. INPUT GROUP
 ========================================================= */
 
 .input-group {
@@ -438,7 +459,7 @@ body {
 }
 
 /* =========================================================
-   INPUT ICON
+   15. INPUT ICON
 ========================================================= */
 
 .input-icon {
@@ -470,7 +491,7 @@ body {
 }
 
 /* =========================================================
-   INPUT
+   16. INPUT
 ========================================================= */
 
 .input-group input {
@@ -513,7 +534,7 @@ body {
 }
 
 /* =========================================================
-   PASSWORD TOGGLE
+   17. PASSWORD TOGGLE
 ========================================================= */
 
 .password-toggle {
@@ -573,7 +594,7 @@ body {
 }
 
 /* =========================================================
-   FORM OPTIONS
+   18. FORM OPTIONS
 ========================================================= */
 
 .form-options {
@@ -583,13 +604,13 @@ body {
 
   align-items: center;
 
-  margin: 8px 0 8px;
+  margin: 8px 4px 8px;
 
-  font-size: 8px;
+  font-size: 9px;
 }
 
 /* =========================================================
-   REMEMBER ME
+   19. REMEMBER ME
 ========================================================= */
 
 .remember {
@@ -641,7 +662,7 @@ body {
 }
 
 /* =========================================================
-   FORGOT PASSWORD
+   20. FORGOT PASSWORD
 ========================================================= */
 
 .forgot-btn {
@@ -655,7 +676,7 @@ body {
 
   font-family: inherit;
 
-  font-size: 8px;
+  font-size: 9px;
 
   padding: 2px;
 }
@@ -665,17 +686,17 @@ body {
 }
 
 /* =========================================================
-   MESSAGE
+   21. MESSAGE
 ========================================================= */
 
 .form-message {
   min-height: 14px;
 
-  margin: 2px 0 5px;
+  margin: 28px 0 5px;
 
   color: var(--burgundy);
 
-  font-size: 8px;
+  font-size: 9px;
 
   line-height: 1.4;
 
@@ -691,7 +712,7 @@ body {
 }
 
 /* =========================================================
-   MAIN BUTTON
+   22. MAIN BUTTON
 ========================================================= */
 
 .main-btn {
@@ -719,7 +740,7 @@ body {
 
   font-family: inherit;
 
-  font-size: 10px;
+  font-size: 14px;
 
   font-weight: 500;
 
@@ -752,13 +773,25 @@ body {
 }
 
 .main-btn .arrow {
-  font-size: 15px;
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 
   line-height: 1;
 }
 
+.main-btn .arrow svg {
+  width: 15px;
+
+  height: 15px;
+
+  stroke-width: 2;
+}
+
 /* =========================================================
-   SWITCH ACCOUNT
+   23. SWITCH ACCOUNT
 ========================================================= */
 
 .switch-account {
@@ -786,7 +819,7 @@ body {
 
   color: var(--muted);
 
-  font-size: 8px;
+  font-size: 11px;
 }
 
 .switch-account a {
@@ -802,7 +835,7 @@ body {
 }
 
 /* =========================================================
-   SOCIAL AREA
+   24. SOCIAL AREA
 ========================================================= */
 
 .social-area {
@@ -834,6 +867,8 @@ body {
 
   height: 31px;
 
+  padding: 0;
+
   border: 1px solid var(--border);
 
   border-radius: 50%;
@@ -857,6 +892,14 @@ body {
   transition: var(--transition);
 }
 
+.social-buttons button svg {
+  width: 15px;
+
+  height: 15px;
+
+  stroke-width: 1.8;
+}
+
 .social-buttons button:hover {
   background: var(--burgundy);
 
@@ -870,7 +913,245 @@ body {
 }
 
 /* =========================================================
-   DARK MODE
+   25. BACK TO HOME — LIGHT MODE
+========================================================= */
+
+.back-home {
+  position: absolute;
+
+  bottom: 22px;
+
+  left: 28px;
+
+  z-index: 10;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  padding: 6px 9px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 6px;
+
+  background: rgba(255, 255, 255, 0.45);
+
+  color: var(--text);
+
+  font-family: inherit;
+
+  font-size: 9px;
+
+  font-weight: 500;
+
+  text-decoration: none;
+
+  backdrop-filter: blur(10px);
+
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.back-home i,
+.back-home svg {
+  width: 12px;
+
+  height: 12px;
+
+  stroke-width: 1.7;
+
+  flex-shrink: 0;
+}
+
+.back-home:hover {
+  background: var(--burgundy);
+
+  color: #fff;
+
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   26. SWEETALERT2 — LIGHT MODE
+========================================================= */
+
+.eve-swal-popup {
+  width: min(390px, calc(100% - 28px));
+
+  padding: 30px 28px 25px;
+
+  border: 1px solid rgba(255, 255, 255, 0.72);
+
+  border-radius: 18px;
+
+  background: rgba(255, 248, 247, 0.96);
+
+  color: var(--text);
+
+  box-shadow:
+    0 25px 65px rgba(77, 48, 52, 0.18),
+    0 5px 20px rgba(77, 48, 52, 0.08);
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(18px);
+
+  font-family: "Inter", Arial, sans-serif;
+}
+
+.eve-swal-title {
+  margin: 8px 0 10px;
+
+  color: var(--text);
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 27px;
+
+  font-weight: 400;
+
+  line-height: 1.25;
+}
+
+.eve-swal-html {
+  color: var(--muted);
+
+  font-family: "Inter", Arial, sans-serif;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+
+  white-space: pre-line;
+}
+
+.eve-swal-input {
+  width: 100% !important;
+
+  height: 43px;
+
+  margin: 16px auto 5px !important;
+
+  padding: 0 13px !important;
+
+  border: 1px solid var(--border) !important;
+
+  border-radius: 8px !important;
+
+  background: var(--input-bg) !important;
+
+  color: var(--text) !important;
+
+  box-shadow: none !important;
+
+  font-family: "Inter", Arial, sans-serif;
+
+  font-size: 12px !important;
+
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.eve-swal-input::placeholder {
+  color: var(--muted);
+
+  opacity: 0.82;
+}
+
+.eve-swal-input:focus {
+  border-color: var(--burgundy) !important;
+
+  outline: none !important;
+
+  box-shadow: 0 0 0 3px rgba(170, 131, 134, 0.12) !important;
+}
+
+.eve-swal-confirm,
+.eve-swal-cancel {
+  min-height: 39px;
+
+  margin: 6px 4px 0;
+
+  padding: 0 20px;
+
+  border: 1px solid transparent;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-family: "Inter", Arial, sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  transition:
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.eve-swal-confirm {
+  background: var(--burgundy);
+
+  color: #ffffff;
+
+  box-shadow: 0 5px 14px rgba(170, 131, 134, 0.2);
+}
+
+.eve-swal-confirm:hover {
+  background: var(--burgundy-dark);
+
+  transform: translateY(-1px);
+}
+
+.eve-swal-cancel {
+  border-color: var(--border);
+
+  background: rgba(255, 255, 255, 0.45);
+
+  color: var(--text);
+}
+
+.eve-swal-cancel:hover {
+  background: rgba(170, 131, 134, 0.12);
+}
+
+.eve-swal-confirm:focus-visible,
+.eve-swal-cancel:focus-visible {
+  outline: 2px solid var(--burgundy);
+
+  outline-offset: 3px;
+}
+
+.eve-swal-icon {
+  margin: 8px auto 12px;
+}
+
+.eve-swal-popup .swal2-validation-message {
+  border-radius: 7px;
+
+  background: rgba(170, 131, 134, 0.1);
+
+  color: var(--text);
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   27. DARK MODE — GLOBAL VARIABLES
 ========================================================= */
 
 body.dark-mode {
@@ -895,7 +1176,7 @@ body.dark-mode {
 }
 
 /* =========================================================
-   DARK AUTH PAGE
+   28. DARK MODE — AUTH PAGE
 ========================================================= */
 
 body.dark-mode .auth-page {
@@ -907,7 +1188,7 @@ body.dark-mode .auth-page {
 }
 
 /* =========================================================
-   DARK OVERLAY
+   29. DARK MODE — OVERLAY
 ========================================================= */
 
 body.dark-mode .auth-page::after {
@@ -922,7 +1203,7 @@ body.dark-mode .auth-page::after {
 }
 
 /* =========================================================
-   DARK CARD
+   30. DARK MODE — CARD
 ========================================================= */
 
 body.dark-mode .auth-content {
@@ -934,7 +1215,7 @@ body.dark-mode .auth-content {
 }
 
 /* =========================================================
-   DARK THEME TOGGLE
+   31. DARK MODE — THEME TOGGLE
 ========================================================= */
 
 body.dark-mode .theme-toggle {
@@ -956,7 +1237,7 @@ body.dark-mode .theme-btn.active {
 }
 
 /* =========================================================
-   DARK INPUTS
+   32. DARK MODE — INPUTS
 ========================================================= */
 
 body.dark-mode .input-group {
@@ -968,7 +1249,7 @@ body.dark-mode .input-group:focus-within {
 }
 
 /* =========================================================
-   DARK SOCIAL
+   33. DARK MODE — SOCIAL BUTTONS
 ========================================================= */
 
 body.dark-mode .social-buttons button {
@@ -980,10 +1261,70 @@ body.dark-mode .form-message.success {
 }
 
 /* =========================================================
-   TABLET
+   34. DARK MODE — BACK TO HOME
 ========================================================= */
 
-@media (max-width: 1000px) {
+body.dark-mode .back-home {
+  background: rgba(40, 25, 28, 0.65);
+
+  color: var(--text);
+}
+
+body.dark-mode .back-home:hover {
+  background: var(--burgundy);
+
+  color: #fff;
+}
+
+/* =========================================================
+   35. DARK MODE — SWEETALERT2
+========================================================= */
+
+body.dark-mode .eve-swal-popup {
+  border-color: rgba(255, 255, 255, 0.14);
+
+  background: rgba(42, 28, 31, 0.97);
+
+  color: var(--text);
+
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.35),
+    0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .eve-swal-title {
+  color: var(--text);
+}
+
+body.dark-mode .eve-swal-html {
+  color: var(--muted);
+}
+
+body.dark-mode .eve-swal-input {
+  border-color: var(--border) !important;
+
+  background: rgba(20, 12, 14, 0.3) !important;
+
+  color: var(--text) !important;
+}
+
+body.dark-mode .eve-swal-cancel {
+  border-color: var(--border);
+
+  background: rgba(255, 255, 255, 0.06);
+
+  color: var(--text);
+}
+
+body.dark-mode .eve-swal-cancel:hover {
+  background: rgba(170, 131, 134, 0.18);
+}
+
+/* =========================================================
+   36. RESPONSIVE — TABLET
+========================================================= */
+
+@media (min-width: 701px) and (max-width: 1000px) {
   .auth-page {
     width: calc(100% - 36px);
 
@@ -992,6 +1333,10 @@ body.dark-mode .form-message.success {
     margin: 25px auto;
 
     padding: 48px 38px;
+
+    background-size: cover;
+
+    background-position: center;
   }
 
   .auth-content {
@@ -1008,10 +1353,19 @@ body.dark-mode .form-message.success {
       rgba(243, 228, 226, 0.86) 100%
     );
   }
+
+  body.dark-mode .auth-page::after {
+    background: linear-gradient(
+      90deg,
+      rgba(30, 20, 22, 0.12),
+      rgba(30, 20, 22, 0.42) 45%,
+      rgba(30, 20, 22, 0.86) 100%
+    );
+  }
 }
 
 /* =========================================================
-   MOBILE
+   37. RESPONSIVE — MOBILE
 ========================================================= */
 
 @media (max-width: 700px) {
@@ -1032,7 +1386,7 @@ body.dark-mode .form-message.success {
 
     margin: 10px auto;
 
-    padding: 76px 12px 24px;
+    padding: 76px 12px 60px;
 
     align-items: center;
 
@@ -1040,18 +1394,27 @@ body.dark-mode .form-message.success {
 
     border-radius: 18px;
 
+    background-size: cover;
+
     background-position: center;
+
+    background-repeat: no-repeat;
   }
 
   .auth-page::after {
     background: linear-gradient(
+      180deg,
       rgba(243, 228, 226, 0.7),
       rgba(243, 228, 226, 0.92)
     );
   }
 
   body.dark-mode .auth-page::after {
-    background: linear-gradient(rgba(30, 20, 22, 0.58), rgba(30, 20, 22, 0.9));
+    background: linear-gradient(
+      180deg,
+      rgba(30, 20, 22, 0.58),
+      rgba(30, 20, 22, 0.9)
+    );
   }
 
   /* Logo */
@@ -1066,12 +1429,14 @@ body.dark-mode .form-message.success {
     width: 100px;
   }
 
-  /* Theme */
+  /* Theme Toggle */
 
   .theme-toggle {
     top: 14px;
 
     right: 14px;
+
+    margin-bottom: 0;
 
     transform: none;
 
@@ -1092,12 +1457,16 @@ body.dark-mode .form-message.success {
     font-size: 11px;
   }
 
-  /* Card */
+  /* Auth Card */
 
   .auth-content {
     width: 100%;
 
     max-width: 350px;
+
+    min-width: 0;
+
+    margin-top: 30px;
 
     padding: 26px 21px 24px;
 
@@ -1119,9 +1488,9 @@ body.dark-mode .form-message.success {
   }
 
   .intro {
-    font-size: 8px;
-
     max-width: 270px;
+
+    font-size: 8px;
   }
 
   /* Inputs */
@@ -1143,10 +1512,12 @@ body.dark-mode .form-message.success {
   }
 
   .input-group input {
+    min-width: 0;
+
     font-size: 10px;
   }
 
-  /* Button */
+  /* Main Button */
 
   .main-btn {
     height: 42px;
@@ -1154,7 +1525,7 @@ body.dark-mode .form-message.success {
     font-size: 10px;
   }
 
-  /* Switch */
+  /* Switch Account */
 
   .switch-account {
     margin: 16px 0 17px;
@@ -1166,7 +1537,11 @@ body.dark-mode .form-message.success {
     font-size: 7.5px;
   }
 
-  /* Social */
+  /* Social Buttons */
+
+  .social-buttons {
+    flex-wrap: wrap;
+  }
 
   .social-buttons button {
     width: 30px;
@@ -1175,10 +1550,31 @@ body.dark-mode .form-message.success {
 
     font-size: 11px;
   }
+
+  /* Back to Home */
+
+  .back-home {
+    bottom: 14px;
+
+    left: 14px;
+
+    padding: 5px 8px;
+
+    gap: 4px;
+
+    font-size: 8px;
+  }
+
+  .back-home i,
+  .back-home svg {
+    width: 11px;
+
+    height: 11px;
+  }
 }
 
 /* =========================================================
-   SMALL MOBILE
+   38. RESPONSIVE — SMALL MOBILE
 ========================================================= */
 
 @media (max-width: 450px) {
@@ -1187,11 +1583,17 @@ body.dark-mode .form-message.success {
 
     min-height: calc(100svh - 12px);
 
+    height: auto;
+
     margin: 6px auto;
 
-    padding: 72px 8px 18px;
+    padding: 72px 8px 58px;
 
     border-radius: 16px;
+
+    background-size: cover;
+
+    background-position: center;
   }
 
   .auth-logo {
@@ -1221,6 +1623,8 @@ body.dark-mode .form-message.success {
   }
 
   .auth-content {
+    width: 100%;
+
     max-width: 340px;
 
     padding: 23px 17px 21px;
@@ -1257,6 +1661,8 @@ body.dark-mode .form-message.success {
   }
 
   .form-options {
+    gap: 8px;
+
     font-size: 7px;
   }
 
@@ -1284,20 +1690,57 @@ body.dark-mode .form-message.success {
     letter-spacing: 2px;
   }
 
+  .social-buttons {
+    gap: 7px;
+  }
+
   .social-buttons button {
     width: 29px;
 
     height: 29px;
   }
+
+  /* SweetAlert2 */
+
+  .eve-swal-popup {
+    width: calc(100% - 24px);
+
+    padding: 25px 19px 21px;
+
+    border-radius: 15px;
+  }
+
+  .eve-swal-title {
+    font-size: 24px;
+  }
+
+  .eve-swal-html {
+    font-size: 11px;
+  }
+
+  .eve-swal-input {
+    height: 41px;
+
+    font-size: 11px !important;
+  }
+
+  .eve-swal-confirm,
+  .eve-swal-cancel {
+    min-height: 37px;
+
+    padding: 0 15px;
+
+    font-size: 10px;
+  }
 }
 
 /* =========================================================
-   VERY SMALL MOBILE
+   39. RESPONSIVE — VERY SMALL MOBILE
 ========================================================= */
 
 @media (max-width: 360px) {
   .auth-page {
-    padding: 68px 7px 16px;
+    padding: 68px 7px 56px;
   }
 
   .auth-content {
@@ -1312,6 +1755,10 @@ body.dark-mode .form-message.success {
     font-size: 7px;
   }
 
+  .switch-account {
+    gap: 5px;
+  }
+
   .switch-account p {
     font-size: 6.5px;
   }
@@ -1322,7 +1769,7 @@ body.dark-mode .form-message.success {
 }
 
 /* =========================================================
-   SHORT DESKTOP
+   40. RESPONSIVE — SHORT DESKTOP
 ========================================================= */
 
 @media (max-height: 700px) and (min-width: 701px) {
@@ -1336,6 +1783,10 @@ body.dark-mode .form-message.success {
     padding-top: 42px;
 
     padding-bottom: 42px;
+
+    background-size: cover;
+
+    background-position: center;
   }
 
   .auth-content {
@@ -1364,7 +1815,7 @@ body.dark-mode .form-message.success {
 }
 
 /* =========================================================
-   ACCESSIBILITY
+   41. ACCESSIBILITY
 ========================================================= */
 
 button:focus-visible,
@@ -1375,7 +1826,7 @@ input:focus-visible {
 }
 
 /* =========================================================
-   REDUCED MOTION
+   42. REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {

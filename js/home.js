@@ -2,12 +2,12 @@
 
 function initHomePage() {
   /* =========================
-     Shared Cart & Wishlist
-     Synced with Navbar + best-sellers.js
+     MAKING CONST FOR BOTH ICONS BY THEIR ID'S
   ========================= */
 
   const CART_KEY = "eveBeautyCart";
   const WISHLIST_KEY = "eveBeautyWishlist";
+  const CART_CURRENT_USER_KEY = "eveBeautyCartCurrentUser";
 
   /* =========================
      Storage Helpers
@@ -26,109 +26,9 @@ function initHomePage() {
   }
 
   /* =========================
-     Cart
+     SSAVING CART BAG
   ========================= */
 
-  let cartItems = readArray(CART_KEY);
-
-  function saveCart() {
-    try {
-      localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
-
-      return true;
-    } catch (error) {
-      console.error("Could not save cart:", error);
-
-      return false;
-    }
-  }
-
-  /* =========================
-     Wishlist
-  ========================= */
-
-  let wishlistItems = readArray(WISHLIST_KEY);
-
-  function saveWishlist() {
-    try {
-      localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlistItems));
-
-      return true;
-    } catch (error) {
-      console.error("Could not save wishlist:", error);
-
-      return false;
-    }
-  }
-
-  /* =========================
-     Product Data
-  ========================= */
-
-  function getProductId(product) {
-    return product?.id ?? product?.productId ?? product?._id ?? product?.sku;
-  }
-
-  function sameProductId(a, b) {
-    return String(a ?? "") === String(b ?? "");
-  }
-
-  function getProductFromCard(card) {
-    const name =
-      card.querySelector(".product-information h3")?.textContent.trim() ||
-      "Beauty Product";
-
-    const size = card.querySelector(".product-size")?.textContent.trim() || "";
-
-    const image =
-      card.querySelector(".product-pic img")?.getAttribute("src") || "";
-
-    const priceElement = card.querySelector(".product-bottom strong");
-
-    const oldPriceElement = card.querySelector(".product-bottom del");
-
-    const price =
-      Number((priceElement?.textContent || "$0.00").replace(/[^0-9.]/g, "")) ||
-      0;
-
-    const oldPrice =
-      Number((oldPriceElement?.textContent || "").replace(/[^0-9.]/g, "")) ||
-      null;
-
-    const id =
-      card.querySelector(".wishlist-button")?.dataset.productId ||
-      card.querySelector(".add-cart-button")?.dataset.productId ||
-      card.dataset.productId ||
-      name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-
-    const badge =
-      card.querySelector(".product-badge")?.textContent.trim() ||
-      card.querySelector(".discount-badge")?.textContent.trim() ||
-      "";
-
-    const ratingText = card.querySelector(".rating")?.textContent || "";
-
-    const reviewsMatch = ratingText.match(/\((\d+)\)/);
-
-    return {
-      id,
-      name,
-      brand: "EVE Beauty",
-      category: "Beauty",
-      type: "Beauty Product",
-      skin: "",
-      price,
-      oldPrice,
-      discount: badge,
-      rating: 5,
-      reviews: reviewsMatch ? Number(reviewsMatch[1]) : 0,
-      image,
-      size,
-    };
-  }
   function getCurrentUser() {
     try {
       const stored = localStorage.getItem("eveBeautyCurrentUser");
@@ -150,9 +50,202 @@ function initHomePage() {
       return null;
     }
   }
+
+  function getUserCartKey() {
+    const user = getCurrentUser();
+
+    if (!user) {
+      return null;
+    }
+
+    return `${CART_KEY}_${user.id}`;
+  }
+
+  function getUserWishlistKey() {
+    const user = getCurrentUser();
+
+    if (!user) {
+      return null;
+    }
+
+    return `${WISHLIST_KEY}_${user.id}`;
+  }
+
+  let cartItems = readArray(getUserCartKey());
+
+  function saveCart() {
+    const user = getCurrentUser();
+    const userCartKey = getUserCartKey();
+
+    if (!user || !userCartKey) {
+      return false;
+    }
+
+    try {
+      localStorage.setItem(userCartKey, JSON.stringify(cartItems));
+
+      localStorage.setItem(
+        CART_CURRENT_USER_KEY,
+        JSON.stringify({
+          userId: user.id,
+          items: cartItems,
+          updatedAt: new Date().toISOString(),
+        }),
+      );
+
+      localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
+
+      window.dispatchEvent(
+        new CustomEvent("eveBeautyCartChanged", {
+          detail: { cart: cartItems },
+        }),
+      );
+
+      window.dispatchEvent(
+        new CustomEvent("eveBeautyCartUpdated", {
+          detail: { cart: cartItems },
+        }),
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Could not save cart:", error);
+
+      return false;
+    }
+  }
+
+  /* =========================
+     SAVING WISHLIST
+  ========================= */
+
+  let wishlistItems = readArray(getUserWishlistKey());
+
+  function saveWishlist() {
+    const userWishlistKey = getUserWishlistKey();
+
+    if (!getCurrentUser() || !userWishlistKey) {
+      return false;
+    }
+
+    try {
+      localStorage.setItem(userWishlistKey, JSON.stringify(wishlistItems));
+
+      localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlistItems));
+
+      window.dispatchEvent(
+        new CustomEvent("eveBeautyWishlistChanged", {
+          detail: { wishlist: wishlistItems },
+        }),
+      );
+
+      window.dispatchEvent(
+        new CustomEvent("eveBeautyWishlistUpdated", {
+          detail: {
+            wishlist: wishlistItems,
+            count: wishlistItems.length,
+          },
+        }),
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Could not save wishlist:", error);
+
+      return false;
+    }
+  }
+
+  /* =========================
+     GIVING OBJECT PRODUCT ID
+  ========================= */
+
+  function getProductId(product) {
+    return product?.id ?? product?.productId ?? product?._id ?? product?.sku;
+  }
+
+  /* =========================
+     CHANGE A AND B TO STRING 
+  ========================= */
+  function sameProductId(a, b) {
+    return String(a ?? "") === String(b ?? "");
+  }
+
+  function getProductFromCard(card) {
+    const name =
+      card.querySelector(".product-information h3")?.textContent.trim() ||
+      "Beauty Product";
+
+    const size = card.querySelector(".product-size")?.textContent.trim() || "";
+
+    const image =
+      card.querySelector(".product-pic img")?.getAttribute("src") || "";
+
+    const priceElement = card.querySelector(".product-bottom strong");
+
+    const oldPriceElement = card.querySelector(".product-bottom del");
+
+    /*CHANGING PRODUCT PRICE TO NUMBER*/
+
+    const price =
+      Number((priceElement?.textContent || "$0.00").replace(/[^0-9.]/g, "")) ||
+      0;
+
+    /*CHANGING OLD PRODUCT PRICE TO NUMBER*/
+
+    const oldPrice =
+      Number((oldPriceElement?.textContent || "").replace(/[^0-9.]/g, "")) ||
+      null;
+
+    /*FINDING PRODUCT ID FOR EACH ELEMENT */
+
+    const id =
+      card.querySelector(".wishlist-button")?.dataset
+        .productId /*TRY TO FIND WISHLIST BUTTON BY ITS DATASET PRODUCT ID*/ ||
+      card.querySelector(".add-cart-button")?.dataset
+        .productId /*TRY TO FIND CART BUTTON BY ITS DATASET PRODUCT ID*/ ||
+      card.dataset.productId ||
+      name /*TRY TO MAKE ID FRMO THE PRODUCT NAME*/
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
+    /*FINDING THE CONST OF BADGE*/
+    const badge =
+      card.querySelector(".product-badge")?.textContent.trim() ||
+      card.querySelector(".discount-badge")?.textContent.trim() ||
+      "";
+
+    const ratingText = card.querySelector(".rating")?.textContent || "";
+
+    const reviewsMatch =
+      ratingText.match(
+        /\((\d+)\)/,
+      ); /*TRY TO FIND ARE THE RATING TEXT HAS ANY NUMBER INSIDE "" OR NO*/
+
+    /*HERE, JS TRY TO RETURN THE INFO OF ALL PRODUCTS BY OBJECT FORM*/
+    return {
+      id,
+      name,
+      brand: "EVE Beauty",
+      category: "Beauty",
+      type: "Beauty Product",
+      skin: "",
+      price,
+      oldPrice,
+      discount: badge,
+      rating: 5,
+      reviews: reviewsMatch ? Number(reviewsMatch[1]) : 0,
+      image,
+      size,
+    };
+  }
+
   /* =========================
      Cart Quantity
   ========================= */
+
+  /*RETURNING THE TOTAL AMOUNT OF ALL ITEMS CARD*/
 
   function getCartQuantity() {
     return cartItems.reduce((total, item) => {
@@ -163,7 +256,7 @@ function initHomePage() {
   }
 
   /* =========================
-     Cart Total
+     THIS TRY TO FIND THE Cart Total
   ========================= */
 
   function getCartTotal() {
@@ -176,7 +269,7 @@ function initHomePage() {
         Number.isFinite(quantity) && quantity > 0 ? quantity : 1;
 
       return total + price * safeQuantity;
-    }, 0);
+    }, 0); /*THE ADDITION MUST START FROM 0*/
   }
 
   /* =========================
@@ -239,61 +332,76 @@ function initHomePage() {
     updateWishlistCounter();
   }
 
-  /* =========================
-     Toast
-  ========================= */
-
   function showCartMessage(message) {
     let toast = document.getElementById("eveBeautyCartToast");
 
     if (!toast) {
       toast = document.createElement("div");
-
       toast.id = "eveBeautyCartToast";
 
       Object.assign(toast.style, {
         position: "fixed",
-        right: "24px",
-        bottom: "24px",
+        left: "50%",
+        bottom: "3050px",
+        top: "auto",
+        right: "auto",
+        transform: "translateX(-50%)",
         zIndex: "999999",
-        background: "#8f5f5f",
-        color: "#ffffff",
-        padding: "7px 12px",
-        borderRadius: "7px",
-        fontSize: "12px",
-        fontWeight: "500",
-        lineHeight: "1.3",
-        whiteSpace: "nowrap",
-        boxShadow: "0 4px 14px rgba(0,0,0,0.16)",
-        opacity: "0",
-        pointerEvents: "none",
-        transform: "translateY(20px)",
-        transition: "opacity 0.25s ease, transform 0.25s ease",
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        padding: "14px 20px",
+        background: "#fffaf8",
+        color: "#493539",
+        border: "1px solid #eadbd8",
+        borderRadius: "12px",
+        boxShadow: "0 8px 30px rgba(73, 53, 57, 0.14)",
+        fontFamily: "Inter, sans-serif",
+        fontSize: "13px",
+        opacity: "1",
+        visibility: "visible",
       });
 
+      const icon = document.createElement("span");
+      icon.textContent = "✓";
+
+      Object.assign(icon.style, {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "24px",
+        height: "24px",
+        borderRadius: "50%",
+        background: "#a7797d",
+        color: "#ffffff",
+        flexShrink: "0",
+      });
+
+      const text = document.createElement("span");
+      text.id = "eveBeautyCartToastText";
+
+      toast.append(icon, text);
       document.body.appendChild(toast);
     }
 
-    toast.textContent = message;
+    const text = toast.querySelector("#eveBeautyCartToastText");
 
-    toast.style.opacity = "1";
-
-    toast.style.transform = "translateY(0)";
+    if (text) {
+      text.textContent = message;
+    }
 
     clearTimeout(window.eveBeautyToastTimer);
 
     window.eveBeautyToastTimer = setTimeout(() => {
-      toast.style.opacity = "0";
-
-      toast.style.transform = "translateY(20px)";
-    }, 2200);
+      toast.remove();
+    }, 2500);
   }
-
   /* =========================
-     Cart Actions
+    ANALYZE OF PRODUCTS IN CART THAT ARE IT EXIST IN CART OR NO
   ========================= */
 
   function isProductInCart(productId) {
+    /*SOME ANALYZE THE PRODUCTS THAT IS IN CART BAG*/
     return cartItems.some((item) =>
       sameProductId(getProductId(item), productId),
     );
@@ -311,10 +419,10 @@ function initHomePage() {
 
     button.setAttribute("aria-pressed", active ? "true" : "false");
 
-    // مهم: هیچ رنگ inline نگذار
     button.style.removeProperty("color");
   }
 
+  /*THIS FIND THE WISHLIST BUTTONS AND TRY TO CHECK THEIR SITUATION*/
   function updateWishlistButtons() {
     document.querySelectorAll(".wishlist-button").forEach((button) => {
       const productId = button.dataset.productId;
@@ -335,7 +443,6 @@ function initHomePage() {
 
     button.setAttribute("aria-pressed", added ? "true" : "false");
 
-    // SHOPPING BAG ICON
     button.innerHTML = '<i data-lucide="shopping-bag"></i>';
 
     if (window.lucide) {
@@ -343,6 +450,7 @@ function initHomePage() {
     }
   }
 
+  /*THIS ANALYZE THE CONDITIONS OF ALL ADD BUTTONS AND WILL UPDATE THE*/
   function updateAllCartButtons() {
     document.querySelectorAll(".add-cart-button").forEach((button) => {
       const productId = button.dataset.productId;
@@ -351,23 +459,21 @@ function initHomePage() {
     });
   }
 
-  function updateAllCartButtons() {
-    document.querySelectorAll(".add-cart-button").forEach((button) => {
-      const productId = button.dataset.productId;
-
-      updateCartButton(button, isProductInCart(productId));
-    });
-  }
-
+  /*ADDING PRODUCT TO CART BY LOGIN AND WITHOUT IT IT CANT ADD*/
   function addToCart(product) {
     const currentUser = getCurrentUser();
 
     if (!currentUser) {
       localStorage.setItem("eveBeautyLoginRedirect", "index.html");
 
-      alert("Please sign in first to add products to your cart.");
-
-      window.location.href = "login.html";
+      Swal.fire({
+        icon: "warning",
+        title: "Sign in required",
+        text: "Please sign in first to add products to your cart.",
+        confirmButtonText: "Sign in",
+      }).then(() => {
+        window.location.href = "login.html";
+      });
 
       return false;
     }
@@ -382,14 +488,12 @@ function initHomePage() {
       sameProductId(getProductId(item), productId),
     );
 
-    /* =========================
-       Already in cart = REMOVE
-    ========================= */
-
     if (existingIndex !== -1) {
       cartItems.splice(existingIndex, 1);
 
-      saveCart();
+      if (!saveCart()) {
+        return false;
+      }
 
       updateNavbarCounters();
       updateAllCartButtons();
@@ -400,10 +504,6 @@ function initHomePage() {
 
       return true;
     }
-
-    /* =========================
-       Add to cart
-    ========================= */
 
     cartItems.push({
       ...product,
@@ -421,15 +521,20 @@ function initHomePage() {
     updateAllCartButtons();
 
     showCartMessage(`${product.name} added to cart`);
-
+    console.log(
+      "Toast element:",
+      document.getElementById("eveBeautyCartToast"),
+    );
+    console.log(
+      "Toast styles:",
+      document.getElementById("eveBeautyCartToast")?.getAttribute("style"),
+    );
     window.dispatchEvent(new CustomEvent("eveBeautyCartChanged"));
 
     return true;
   }
 
-  /* =========================
-     Wishlist Actions
-  ========================= */
+  /* THIS FUNCTION CHECK THAT ARE THE PRODUCT EXIST IN WISHLISH  */
 
   function isProductInWishlist(productId) {
     return wishlistItems.some((item) =>
@@ -437,6 +542,7 @@ function initHomePage() {
     );
   }
 
+  /*THIS CHANGE THE COLOR OF HEART*/
   function updateWishlistButton(button, active) {
     if (!button) return;
 
@@ -449,7 +555,7 @@ function initHomePage() {
 
     button.setAttribute("aria-pressed", active ? "true" : "false");
 
-    button.style.color = active ? "#e63956" : "";
+    button.style.color = active ? "#aa8386" : "";
 
     const heart = button.querySelector("svg");
 
@@ -458,6 +564,7 @@ function initHomePage() {
     }
   }
 
+  /*update of all heart buttons*/
   function updateWishlistButtons() {
     document.querySelectorAll(".wishlist-button").forEach((button) => {
       const productId = button.dataset.productId;
@@ -476,15 +583,21 @@ function initHomePage() {
     }
   }
 
+  /*ACTIVING OF WISHLIST AND CART BUTTON BY LOGGED IN USER AND WITHOUT LOGGED IN IT MUST NOT WORK*/
   function toggleWishlist(product) {
     const currentUser = getCurrentUser();
 
     if (!currentUser) {
       localStorage.setItem("eveBeautyLoginRedirect", "index.html");
 
-      alert("Please sign in first to add products to your wishlist.");
-
-      window.location.href = "login.html";
+      Swal.fire({
+        icon: "warning",
+        title: "Sign in required",
+        text: "Please sign in first to add products to your wishlist.",
+        confirmButtonText: "Sign in",
+      }).then(() => {
+        window.location.href = "login.html";
+      });
 
       return false;
     }
@@ -499,23 +612,18 @@ function initHomePage() {
       sameProductId(getProductId(item), productId),
     );
 
-    /* =========================
-       Already in wishlist = REMOVE
-    ========================= */
-
     if (existingIndex !== -1) {
       wishlistItems.splice(existingIndex, 1);
 
-      saveWishlist();
+      if (!saveWishlist()) {
+        return false;
+      }
 
       updateNavbarCounters();
       updateWishlistButtons();
 
       showCartMessage(`${product.name} removed from your wishlist`);
     } else {
-      /* =========================
-       Add to wishlist
-    ========================= */
       wishlistItems.push({
         id: productId,
         name: product.name,
@@ -542,9 +650,7 @@ function initHomePage() {
     return true;
   }
 
-  /* =========================
-     Product Buttons
-  ========================= */
+  /* THIS LINE FIND THE PRODUCTS CARDS */
 
   document.querySelectorAll(".product-card").forEach((card) => {
     const product = getProductFromCard(card);
@@ -568,139 +674,56 @@ function initHomePage() {
     });
   });
 
-  /* =========================
-     Initial State
-  ========================= */
+  /*Initial State*/
 
   updateWishlistButtons();
   updateAllCartButtons();
   updateNavbarCounters();
 
-  /* =========================
-     Same Page Cart Sync
-  ========================= */
+  /* THIS WIL SYNC THE Same Page Car */
 
   window.addEventListener("eveBeautyCartChanged", () => {
-    cartItems = readArray(CART_KEY);
+    cartItems = readArray(getUserCartKey());
 
     updateCartCounter();
     updateAllCartButtons();
   });
 
-  /* =========================
-     Same Page Wishlist Sync
-  ========================= */
+  /* Same Page Wishlist Sync */
 
   window.addEventListener("eveBeautyWishlistChanged", () => {
-    wishlistItems = readArray(WISHLIST_KEY);
+    wishlistItems = readArray(getUserWishlistKey());
 
     updateWishlistCounter();
     updateWishlistButtons();
   });
 
-  /* =========================
-     Other Tabs Sync
-  ========================= */
+  /* THIS WILL SYNC THE CART PRODUCT INFO FROM STORAGE */
 
   window.addEventListener("storage", (event) => {
-    if (event.key === CART_KEY) {
-      cartItems = readArray(CART_KEY);
+    const userCartKey = getUserCartKey();
+    const userWishlistKey = getUserWishlistKey();
+
+    if (
+      event.key === userCartKey ||
+      event.key === CART_KEY ||
+      event.key === CART_CURRENT_USER_KEY
+    ) {
+      cartItems = readArray(getUserCartKey());
 
       updateCartCounter();
       updateAllCartButtons();
     }
 
-    if (event.key === WISHLIST_KEY) {
-      wishlistItems = readArray(WISHLIST_KEY);
+    if (event.key === userWishlistKey || event.key === WISHLIST_KEY) {
+      wishlistItems = readArray(getUserWishlistKey());
 
       updateWishlistCounter();
       updateWishlistButtons();
     }
   });
-  /* =========================
-     Product Slider
-  ========================= */
 
-  const productsGrid = document.getElementById("productsGrid");
-
-  const productNext = document.querySelector(".product-next");
-
-  const productPrev = document.querySelector(".product-prev");
-
-  productNext?.addEventListener("click", () => {
-    window.location.href = "shop.html";
-  });
-
-  productPrev?.addEventListener("click", () => {
-    window.location.href = "shop.html";
-  });
-
-  /*
-    If collection navigation uses
-    buttons directly inside the section,
-    remove arrow buttons too.
-  */
-
-  document.querySelectorAll(".collection-section button").forEach((button) => {
-    const icon = button.querySelector("[data-lucide]");
-
-    const text = button.textContent.trim();
-
-    if (
-      icon &&
-      (icon.getAttribute("data-lucide") === "chevron-left" ||
-        icon.getAttribute("data-lucide") === "chevron-right")
-    ) {
-      button.remove();
-
-      return;
-    }
-
-    if (text === "<" || text === ">" || text === "‹" || text === "›") {
-      button.remove();
-    }
-  });
-
-  /* =========================
-     Collection
-     Only 3 Collections
-  ========================= */
-
-  const collectionCards = document.querySelectorAll(
-    ".collection-section .collection-card",
-  );
-
-  collectionCards.forEach((card) => {
-    const title =
-      card
-        .querySelector(".collection-details span")
-        ?.textContent.trim()
-        .toLowerCase() || "";
-
-    const allowed = ["best sellers", "trending", "exclusive"].includes(title);
-
-    if (!allowed) {
-      card.remove();
-    }
-  });
-
-  /* =========================
-     Discount Links
-  ========================= */
-
-  document
-    .querySelectorAll('a[href="offers.html"], a[href="#"]')
-    .forEach((link) => {
-      const text = link.textContent.trim().toLowerCase();
-
-      if (text.includes("view all discounts")) {
-        link.setAttribute("href", "discount.html");
-      }
-    });
-
-  /* =========================
-     Newsletter
-  ========================= */
+  /* THE NEWSLETTER PLACE */
 
   const newsletterForm = document.getElementById("newsletterForm");
 
@@ -728,35 +751,31 @@ function initHomePage() {
     emailInput.value = "";
   });
 
-  /* =========================
-     Initial Counters
-  ========================= */
+  /* INITIAL COUNTERS */
 
   updateNavbarCounters();
 
-  /* =========================
-     Same Page Cart Sync
-  ========================= */
+  /* SAME PAGE CART SYNC */
 
   window.addEventListener("eveBeautyCartUpdated", () => {
+    cartItems = readArray(getUserCartKey());
+
     updateCartCounter();
 
     updateAllCartButtons();
   });
 
-  /* =========================
-     Same Page Wishlist Sync
-  ========================= */
+  /*SAME PAGE WISHLIST COUNTER*/
 
   window.addEventListener("eveBeautyWishlistUpdated", () => {
+    wishlistItems = readArray(getUserWishlistKey());
+
     updateWishlistCounter();
 
     updateWishlistButtons();
   });
 
-  /* =========================
-     Other Tabs / Pages Sync
-  ========================= */
+  /* OTHER TABS PAGE SYNC */
 
   window.addEventListener("storage", (event) => {
     const user = getCurrentUser();
@@ -765,30 +784,32 @@ function initHomePage() {
       return;
     }
 
-    const userCartKey = `${CART_KEY}_${user.id}`;
+    const userCartKey = getUserCartKey();
 
-    const userWishlistKey = `${WISHLIST_KEY}_${user.id}`;
+    const userWishlistKey = getUserWishlistKey();
 
     if (
       event.key === userCartKey ||
       event.key === CART_KEY ||
       event.key === CART_CURRENT_USER_KEY
     ) {
+      cartItems = readArray(getUserCartKey());
+
       updateCartCounter();
 
       updateAllCartButtons();
     }
 
     if (event.key === userWishlistKey || event.key === WISHLIST_KEY) {
+      wishlistItems = readArray(getUserWishlistKey());
+
       updateWishlistCounter();
 
       updateWishlistButtons();
     }
   });
 
-  /* =========================
-     Image Error Handling
-  ========================= */
+  /*  Image Error Handling */
 
   const images = document.querySelectorAll("img");
 
@@ -798,206 +819,300 @@ function initHomePage() {
     });
   });
 
-  /* =========================
-     Lucide Icons
-  ========================= */
+  /* Lucide Icons*/
 
   if (window.lucide) {
     lucide.createIcons();
   }
 }
-initHomePage();
-
 /* =========================
-   Beauty Journal Read More Modal
-========================= */
+     BEAUTY JOURNAL MODAL
+  ========================= */
 
-document.addEventListener(
-  "click",
-  function (event) {
-    const link = event.target.closest(
-      ".beauty-journal-card .beauty-journal-content a",
-    );
+const journalModal = document.getElementById("journalModal");
+const journalModalClose = document.getElementById("journalModalClose");
+const journalModalDone = document.getElementById("journalModalDone");
 
-    if (!link) {
-      return;
+const journalModalImage = document.getElementById("journalModalImage");
+const journalModalCategory = document.getElementById("journalModalCategory");
+const journalModalTitle = document.getElementById("journalModalTitle");
+const journalModalDescription = document.getElementById(
+  "journalModalDescription",
+);
+const journalModalExtra = document.getElementById("journalModalExtra");
+
+let previousJournalFocus = null;
+
+/* FULL INFORMATION FOR EACH ARTICLE */
+
+const journalArticles = {
+  "Simple Steps for Beautiful Skin": {
+    description:
+      "Beautiful-looking skin starts with a consistent routine. You do not need dozens of products to care for your skin. Focus on gentle cleansing, hydration, sun protection, and choosing products that suit your skin's needs.",
+    heading: "Your Everyday Skincare Routine",
+    tips: [
+      "Cleanse your face gently in the morning and evening.",
+      "Apply a moisturizer suitable for your skin type.",
+      "Use broad-spectrum SPF 30 or higher during the day.",
+      "Introduce new skincare products one at a time.",
+    ],
+  },
+
+  "Everyday Makeup Made Easy": {
+    description:
+      "An everyday makeup look can be simple, elegant, and effortless. Start with moisturized skin, choose lightweight products, and build coverage gradually. A few carefully selected essentials can help you create a fresh look for any occasion.",
+    heading: "Create Your Everyday Look",
+    tips: [
+      "Prepare your skin with moisturizer and sunscreen.",
+      "Use foundation or concealer only where you need coverage.",
+      "Add blush and softly define your brows.",
+      "Finish with mascara and your favorite lip color.",
+    ],
+  },
+
+  "Little Beauty Secrets": {
+    description:
+      "Small beauty habits can make your daily routine feel more enjoyable. From keeping your makeup tools clean to finding shades that complement your personal style, the best beauty routine is one that feels comfortable and works for you.",
+    heading: "Little Habits, Lovely Results",
+    tips: [
+      "Clean makeup brushes regularly.",
+      "Keep your skincare routine simple and consistent.",
+      "Choose makeup shades that make you feel confident.",
+      "Remove makeup gently before going to bed.",
+    ],
+  },
+};
+
+/* OPEN MODAL */
+
+function openJournalModal(card) {
+  if (!journalModal || !card) return;
+
+  const title =
+    card.querySelector("h3")?.textContent.trim() || "Beauty Journal";
+
+  const category =
+    card.querySelector(".beauty-journal-content > span")?.textContent.trim() ||
+    "BEAUTY TIPS";
+
+  const image = card.querySelector(".beauty-journal-image img");
+
+  const article = journalArticles[title];
+
+  if (journalModalImage) {
+    journalModalImage.src = image?.getAttribute("src") || "";
+    journalModalImage.alt = image?.getAttribute("alt") || title;
+  }
+
+  if (journalModalCategory) {
+    journalModalCategory.textContent = category;
+  }
+
+  if (journalModalTitle) {
+    journalModalTitle.textContent = title;
+  }
+
+  if (journalModalDescription) {
+    journalModalDescription.textContent =
+      article?.description ||
+      card.querySelector("p")?.textContent.trim() ||
+      "Discover more beauty tips and inspiration from EVE Beauty.";
+  }
+
+  /* BUILD THE ARTICLE TIPS SAFELY */
+
+  if (journalModalExtra) {
+    journalModalExtra.replaceChildren();
+
+    if (article) {
+      const heading = document.createElement("h3");
+      heading.textContent = article.heading;
+
+      const list = document.createElement("ul");
+
+      article.tips.forEach((tip) => {
+        const item = document.createElement("li");
+        item.textContent = tip;
+        list.appendChild(item);
+      });
+
+      journalModalExtra.append(heading, list);
     }
+  }
 
-    /* Stop the # link from doing anything else */
+  previousJournalFocus = document.activeElement;
+
+  journalModal.classList.add("is-open");
+  journalModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+
+  journalModalClose?.focus();
+}
+
+/* CLOSE MODAL */
+
+function closeJournalModal() {
+  if (!journalModal || !journalModal.classList.contains("is-open")) {
+    return;
+  }
+
+  journalModal.classList.remove("is-open");
+  journalModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  document.documentElement.style.overflow = "";
+
+  if (previousJournalFocus instanceof HTMLElement) {
+    previousJournalFocus.focus();
+  }
+}
+
+/* HANDLE ALL READ MORE LINKS */
+
+document.querySelectorAll(".beauty-journal-card").forEach((card) => {
+  const readMoreLink = card.querySelector("a");
+
+  readMoreLink?.addEventListener("click", (event) => {
     event.preventDefault();
-    event.stopImmediatePropagation();
+    openJournalModal(card);
+  });
+});
 
-    const card = link.closest(".beauty-journal-card");
+/* CLOSE BUTTONS */
 
-    if (!card) {
-      return;
-    }
+journalModalClose?.addEventListener("click", closeJournalModal);
 
-    const category =
-      card
-        .querySelector(".beauty-journal-content > span")
-        ?.textContent.trim() || "";
+journalModalDone?.addEventListener("click", closeJournalModal);
 
-    const title =
-      card.querySelector(".beauty-journal-content h3")?.textContent.trim() ||
-      "";
+/* CLOSE WHEN CLICKING THE BACKDROP */
 
-    const description =
-      card.querySelector(".beauty-journal-content p")?.textContent.trim() || "";
+journalModal?.addEventListener("click", (event) => {
+  if (event.target === journalModal) {
+    closeJournalModal();
+  }
+});
 
-    const image =
-      card.querySelector(".beauty-journal-image img")?.getAttribute("src") ||
-      "";
+/* CLOSE WITH ESCAPE KEY */
 
-    const currentScrollY = window.scrollY;
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && journalModal?.classList.contains("is-open")) {
+    closeJournalModal();
+  }
+});
 
-    /* Remove old modal if it exists */
+// ==========================================
+// EVE BEAUTY - HOME PAGE SCROLL ANIMATIONS
+// ==========================================
 
-    const oldModal = document.getElementById("beautyJournalModal");
+document.addEventListener("DOMContentLoaded", function () {
+  // Select elements that should appear on scroll
+  const revealElements = document.querySelectorAll(`
+    .hero-content,
+    .hero-image,
+    .benefit,
+    .category-item,
+    .about-eve-image,
+    .about-eve-content,
+    .section-heading,
+    .collection-card,
+    .product-card,
+    .special-occasions-content,
+    .special-occasions-visual,
+    .occasion-card,
+    .large-benefit,
+    .why-choose-heading,
+    .why-choose-item,
+    .beauty-journal-heading,
+    .beauty-journal-card,
+    .newsletter-pic,
+    .newsletter-details
+  `);
 
-    if (oldModal) {
-      oldModal.remove();
-    }
+  // Avoid adding the same animation styles more than once
+  if (!document.getElementById("home-scroll-animation-style")) {
+    const style = document.createElement("style");
 
-    /* Create modal */
+    style.id = "home-scroll-animation-style";
 
-    const modal = document.createElement("div");
+    style.textContent = `
+      .home-page .scroll-reveal {
+        opacity: 0;
+        transform: translateY(35px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
 
-    modal.id = "beautyJournalModal";
-    modal.className = "beauty-journal-modal";
+      .home-page .scroll-reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-    modal.innerHTML = `
-      <div
-        class="beauty-journal-modal-box"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="beautyJournalModalTitle"
-      >
-
-        <button
-          type="button"
-          class="beauty-journal-modal-close"
-          aria-label="Close"
-        >
-          <i data-lucide="x"></i>
-        </button>
-
-        <div class="beauty-journal-modal-image">
-          <img
-            src="${image}"
-            alt="${title}"
-          />
-        </div>
-
-        <div class="beauty-journal-modal-content">
-
-          <span class="beauty-journal-modal-category">
-            ${category}
-          </span>
-
-          <h3 id="beautyJournalModalTitle">
-            ${title}
-          </h3>
-
-          <div class="beauty-journal-modal-text">
-
-            <p>
-              ${description}
-            </p>
-
-            <p>
-              Discover simple beauty ideas and everyday tips
-              designed to make your beauty routine easier,
-              more enjoyable, and more effective.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
+      @media (prefers-reduced-motion: reduce) {
+        .home-page .scroll-reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
     `;
 
-    document.body.appendChild(modal);
+    document.head.appendChild(style);
+  }
 
-    /* Force modal visible */
-
-    modal.style.opacity = "1";
-    modal.style.visibility = "visible";
-    modal.style.pointerEvents = "auto";
-
-    const modalBox = modal.querySelector(".beauty-journal-modal-box");
-
-    if (modalBox) {
-      modalBox.style.opacity = "1";
-      modalBox.style.visibility = "visible";
-      modalBox.style.transform = "none";
-    }
-
-    if (window.lucide) {
-      lucide.createIcons();
-    }
-
-    /* Lock page */
-
-    document.documentElement.style.overflow = "hidden";
-
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${currentScrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
-
-    /* =========================
-       Close Modal
-    ========================= */
-
-    const closeModal = () => {
-      document.documentElement.style.overflow = "";
-
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
-
-      window.scrollTo(0, currentScrollY);
-
-      modal.remove();
-
-      document.removeEventListener("keydown", closeWithEscape);
-    };
-
-    /* Close button */
-
-    const closeButton = modal.querySelector(".beauty-journal-modal-close");
-
-    closeButton?.addEventListener("click", function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      closeModal();
+  // Check browser support
+  if (!("IntersectionObserver" in window)) {
+    revealElements.forEach(function (element) {
+      element.classList.add("is-visible");
     });
 
-    /* Click outside */
+    return;
+  }
 
-    modal.addEventListener("click", function (event) {
-      if (event.target === modal) {
-        closeModal();
-      }
-    });
+  // Reveal elements when they enter the viewport
+  const observer = new IntersectionObserver(
+    function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        } else {
+          entry.target.classList.remove("is-visible");
+        }
+      });
+    },
 
-    /* Escape */
+    {
+      threshold: 0.1,
 
-    const closeWithEscape = (event) => {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    };
+      rootMargin: "0px 0px -30px 0px",
+    },
+  );
 
-    document.addEventListener("keydown", closeWithEscape);
-  },
-  true,
-);
+  revealElements.forEach(function (element, index) {
+    element.classList.add("scroll-reveal");
+
+    // Stagger cards slightly for a natural effect
+    if (
+      element.matches(
+        ".category-item, .collection-card, .product-card, " +
+          ".occasion-card, .large-benefit, .why-choose-item, " +
+          ".beauty-journal-card",
+      )
+    ) {
+      element.style.transitionDelay = `${(index % 4) * 100}ms`;
+    }
+
+    observer.observe(element);
+  });
+
+  console.log(
+    "Home scroll animations initialized:",
+    revealElements.length,
+    "elements",
+  );
+});
+
+initHomePage();

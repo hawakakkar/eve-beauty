@@ -1,21 +1,8 @@
-/* =========================================================
-
-   EVE BEAUTY
-
-   SHOP.JS
-
-   PRODUCTS + FILTERS + CART + WISHLIST
-
-   LOCAL STORAGE VERSION
-
-========================================================= */
+/* EVE BEAUTY SHOP.JS */
+/*THIS FUNCTION SAY THAT THE HTML MUST APPLY FIRST COMPLETELY THEN APPLY THE CODE OF THIS FUNCTION*/
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* =========================================================
-
-     STORAGE KEYS
-
-  ========================================================= */
+  /* STORAGE KEYS*/
 
   const USERS_KEY = "eveBeautyUsers";
 
@@ -27,11 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const WISHLIST_KEY = "eveBeautyWishlist";
 
-  /* =========================================================
-
-     PRODUCT DATA
-
-  ========================================================= */
+  /* CREATING PRODUCT DATA ARRAYS*/
 
   const products = [
     /* ===================== MAKEUP ===================== */
@@ -53,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       oldPrice: 39.99,
 
-      discount: 20,
+      discount: 25,
 
       rating: 4.8,
 
@@ -1163,11 +1146,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  /* =========================================================
-
-     SETTINGS
-
-  ========================================================= */
+  /* THE TRUE SHOPPING SETTINGS*/
 
   const productsPerPage = 12;
 
@@ -1177,11 +1156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let filteredProducts = [...products];
 
-  /* =========================================================
-
-     ELEMENTS
-
-  ========================================================= */
+  /* ELEMENTS*/
 
   const productsGrid = document.getElementById("productsGrid");
 
@@ -1206,11 +1181,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const listView = document.getElementById("listView");
   const shopNowButton = document.getElementById("shopNowButton");
 
-  /* =========================================================
-
-     CURRENT USER
-
-  ========================================================= */
+  /* THIS RXECUTE CURRENT USER*/
 
   function getCurrentUser() {
     try {
@@ -1234,11 +1205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-
-     CART KEY
-
-  ========================================================= */
+  /* WHEN THE USER DIDNT REGISTER CART KEY CANTBE IN  ACESS TO */
 
   function getUserCartKey() {
     const user = getCurrentUser();
@@ -1250,11 +1217,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${CART_KEY}_${user.id}`;
   }
 
-  /* =========================================================
-
-     READ CART
-
-  ========================================================= */
+  /* READING CART */
 
   function getCart() {
     const user = getCurrentUser();
@@ -1296,7 +1259,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!Number.isFinite(productId)) {
           return;
         }
-
+        /*THIS ASK ARE THIS ID IS IN CART ALREADY*/
         if (usedIds.has(productId)) {
           return;
         }
@@ -1319,17 +1282,13 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error reading cart:", error);
 
       localStorage.setItem(userCartKey, JSON.stringify([]));
-      localStorage.setItem(CART_KEY, JSON.stringify([]));
+      localStorage.setItem(CART_KEY, JSON.stringify([])); //SHOW THE CART IS WHITE
 
       return [];
     }
   }
 
-  /* =========================================================
-
-     SAVE CART
-
-  ========================================================= */
+  /*  SAVING CART */
 
   function saveCart(cart) {
     const user = getCurrentUser();
@@ -1378,15 +1337,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }),
     );
 
-    // Navbar
+    /* Navbar CAN READ THIS*/
     localStorage.setItem(CART_KEY, JSON.stringify(uniqueCart));
   }
 
-  /* =========================================================
-
-     CART QUANTITY
-
-  ========================================================= */
+  /* CART QUANTITY*/
+  /*THIS COUNT ALLQUANTITY OF ITEMS*/
 
   function getCartQuantity(cart = getCart()) {
     return cart.reduce((total, item) => {
@@ -1394,11 +1350,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 0);
   }
 
-  /* =========================================================
-
-     CART TOTAL
-
-  ========================================================= */
+  /* CART TOTAL  COUNT*/
 
   function getCartTotal(cart = getCart()) {
     return cart.reduce((total, item) => {
@@ -1406,11 +1358,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 0);
   }
 
-  /* =========================================================
-
-     CART COUNTER
-
-  ========================================================= */
+  /* UPDATE CART COUNTER IN NAVBAR */
 
   function updateCartCounter() {
     const cart = getCart();
@@ -1436,6 +1384,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    /*THIS WANT TRANFORMATION OF EVENT IN WINDOW*/
     window.dispatchEvent(
       new CustomEvent("eveBeautyCartUpdated", {
         detail: {
@@ -1462,49 +1411,27 @@ document.addEventListener("DOMContentLoaded", () => {
       toast = document.createElement("div");
 
       toast.id = "eveBeautyCartToast";
-
       toast.style.position = "fixed";
-
       toast.style.right = "24px";
-
-      toast.style.bottom = "24px";
-
+      toast.style.bottom = "300px";
       toast.style.left = "auto";
-
       toast.style.top = "auto";
-
       toast.style.transform = "translateY(20px)";
-
       toast.style.zIndex = "999999";
-
-      toast.style.background = "#8f5f5f";
-
+      toast.style.background = "#aa8386";
       toast.style.color = "#ffffff";
-
       toast.style.padding = "7px 12px";
-
       toast.style.borderRadius = "7px";
-
       toast.style.fontSize = "12px";
-
       toast.style.fontWeight = "500";
-
       toast.style.lineHeight = "1.3";
-
       toast.style.whiteSpace = "nowrap";
-
       toast.style.boxShadow = "0 4px 14px rgba(0,0,0,0.16)";
-
       toast.style.opacity = "0";
-
       toast.style.pointerEvents = "none";
-
       toast.style.transition = "opacity 0.25s ease, transform 0.25s ease";
-
       toast.style.maxWidth = "calc(100vw - 32px)";
-
       toast.style.overflow = "hidden";
-
       toast.style.textOverflow = "ellipsis";
 
       document.body.appendChild(toast);
@@ -1513,45 +1440,47 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.textContent = message;
 
     toast.style.opacity = "1";
-
     toast.style.transform = "translateY(0)";
+
+    // اسکرول صفحه به پایین
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
 
     clearTimeout(window.eveBeautyToastTimer);
 
     window.eveBeautyToastTimer = setTimeout(() => {
       toast.style.opacity = "0";
-
       toast.style.transform = "translateY(20px)";
     }, 2200);
   }
 
-  /* =========================================================
-
-     IS PRODUCT IN CART
-
-  ========================================================= */
+  /* THIS CHECK THAT ARE THE PRODUCT IS IN CART*/
 
   function isProductInCart(productId) {
     const cart = getCart();
-
+    /*THIS CHECK THAT ARE ID OF CART IS EXACTLY EQUAL TO THE ID WE SEARCH*/
     return cart.some((item) => Number(item.id) === Number(productId));
   }
 
-  /* =========================================================
-
-     ADD TO CART
-
-  ========================================================= */
-
+  /*ADD TO CART*/
+  /*HERE, THIS FUNCTION TRY TO ADD PRODUCT TO CART*/
   function addToCart(productId) {
+    /*CHEKING THE ACTIVE USER*/
     const currentUser = getCurrentUser();
 
     if (!currentUser) {
       localStorage.setItem("eveBeautyLoginRedirect", "shop.html");
 
-      alert("Please sign in first to add products to your cart.");
-
-      window.location.href = "login.html";
+      Swal.fire({
+        icon: "warning",
+        title: "Sign in required",
+        text: "Please sign in first to add products to your cart.",
+        confirmButtonText: "Sign in",
+      }).then(() => {
+        window.location.href = "login.html";
+      });
 
       return false;
     }
@@ -1570,11 +1499,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const existingIndex = cart.findIndex(
       (item) => Number(item.id) === Number(product.id),
     );
-
+    /*IF THE PRODUCT EXIST*/
     if (existingIndex !== -1) {
       return removeFromCart(product.id);
     }
-
+    /*IF PRODUCT DONT BE INTO CARD THIS WILL CREATE A NEW OBJECT FOR CART*/
     const newProduct = {
       id: product.id,
       name: product.name,
@@ -1595,9 +1524,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cart.push(newProduct);
 
-    /*
-   CART LOCALLSTORAGE
-  */
+    /*FINDING CART LOCALLSTORAGE KEY*/
     const userCartKey = getUserCartKey();
 
     if (!userCartKey) {
@@ -1641,11 +1568,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  /* =========================================================
-
-     REMOVE FROM CART
-
-  ========================================================= */
+  /* REMOVing product FROM CART*/
 
   function removeFromCart(productId) {
     const currentUser = getCurrentUser();
@@ -1659,7 +1582,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const newCart = cart.filter(
       (item) => Number(item.id) !== Number(productId),
     );
-
+    /*IF THE LENGHT OF OLD PRODUCT AND NEW PRODUCT AFTER REMOVE WAS EQUAL IT MEAN NOT PRODUCT REMOVED*/
     if (newCart.length === cart.length) {
       return false;
     }
@@ -1694,6 +1617,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.dispatchEvent(
       new CustomEvent("eveBeautyCartChanged", {
+        /*THE DETAILS THAT TRANSFORM WITH EVENT*/
         detail: {
           cart: newCart,
           quantity: getCartQuantity(newCart),
@@ -1706,11 +1630,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  /* =========================================================
-
-     CHANGE CART QUANTITY
-
-  ========================================================= */
+  /*  HERE CHANGE THE CART QUANTITY*/
 
   function changeCartQuantity(productId, amount) {
     const cart = getCart();
@@ -1732,7 +1652,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     item.updatedAt = new Date().toISOString();
-
+    /*IT SAVE THE NEW CART IN LOCAL STORAGE*/
     saveCart(cart);
 
     updateCartCounter();
@@ -1740,11 +1660,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateAllCartButtons();
   }
 
-  /* =========================================================
-
-     CHECKED FILTER VALUES
-
-  ========================================================= */
+  /* THIS CHECK THE FILTER VALUES OF SHOP*/
 
   function getCheckedValues(selector) {
     return [...document.querySelectorAll(selector + ":checked")].map(
@@ -1752,23 +1668,22 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* =========================================================
-
-     CATEGORY FROM URL
-
-  ========================================================= */
+  /* CREATING CATAGORY THAT CHOSING PRODUCTS FROM IT BY EXISTING PAGE URL/
+  /*THIS FUNCTION SAY GO AND CHECK THAT USER CHECKED WHICH CATAGORY*/
 
   function applyCategoryFromURL() {
+    /*GIVE THE CURRENTLY ADDRESS QUERY AND MAKE A TOOLS FOR READING IT*/
     const params = new URLSearchParams(window.location.search);
-
+    /*HERE THE CONST SAY THAT GIVE THE KEY THAT ITS NAME IS CATEGORY*/
     const categoryFromURL = params.get("category");
 
     if (!categoryFromURL) {
       return false;
     }
-
+    /*FIND THE ALL ELEMENTS OF HTML THAT HAVE SELECTOR BY NAME OF .catagory-filter*/
     const categoryInput = [
       ...document.querySelectorAll(".category-filter"),
+      /*CHECK THE CATEGORY FILTER AND FINAD AN INPUT THAT ITS VALUE BE EQUAL TO URL OF CATAGORY*/
     ].find(
       (input) => input.value.toLowerCase() === categoryFromURL.toLowerCase(),
     );
@@ -1776,17 +1691,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!categoryInput) {
       return false;
     }
-
+    /*FIND THE ALL CATEGORY FILTER*/
     document
-
       .querySelectorAll(".category-filter")
-
+      /*WORK ON EACH CATEGORY FILTER AND PUT THE CURRENTLY CATEGORY INTO INPUT CONST*/
       .forEach((input) => {
         input.checked = false;
       });
 
     categoryInput.checked = true;
-
+    /*FIND THE CLOSEST ELEMENT THAT HAVE THE FILTER-GROUP CLASS*/
     const categoryGroup = categoryInput.closest(".filter-group");
 
     if (categoryGroup) {
@@ -1804,11 +1718,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  /* =========================================================
-
-     SCROLL
-
-  ========================================================= */
+  /* THIS WILL TRANFORM THE PAGE INTO PART OF PRODUCTS  BY CLICKING INTO SHOP NOW BUTTON*/
 
   function scrollToProducts() {
     const productsSection =
@@ -1830,6 +1740,7 @@ document.addEventListener("DOMContentLoaded", () => {
         navbarHeight;
 
       window.scrollTo({
+        /*THIS DONT PREVENT TO REACH THE QUANTITY INTO "-" QUANTITY*/
         top: Math.max(top, 0),
 
         behavior: "smooth",
@@ -1842,11 +1753,7 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollToProducts();
     });
   }
-  /* =========================================================
-
-     APPLY FILTERS
-
-  ========================================================= */
+  /* THIS FUNCTION TRY TO APPLY FILTERS*/
 
   function applyFilters() {
     const categories = getCheckedValues(".category-filter");
@@ -1859,7 +1766,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const types = getCheckedValues(".type-filter");
 
+    /*CHECK THE ALL PRODUCTS ONE BY ONE AND JUST KEEP THE PRODUCTS THAT ACCEPT THE CONDITIONS*/
     filteredProducts = products.filter((product) => {
+      /*IF THE USER HASNT CHOSEN THE CATEGORY ACCEPT IT BUT IF HE ACCEPTED THE PRODUCTS CATEGORYMUST CHOOSE*/
       const categoryMatch =
         categories.length === 0 || categories.includes(product.category);
 
@@ -1869,6 +1778,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const typeMatch = types.length === 0 || types.includes(product.type);
 
+      /*SUPPOSE THAT THE QUANTITY IS CORRECT*/
       let priceMatch = true;
 
       if (prices.length > 0) {
@@ -1893,25 +1803,24 @@ document.addEventListener("DOMContentLoaded", () => {
         categoryMatch && brandMatch && skinMatch && typeMatch && priceMatch
       );
     });
-
+    /*THIS MAKE THE PRODUCTS REGULAR AFTER FILTER*/
     sortProducts();
 
     currentPage = 1;
 
     renderProducts();
 
+    /*THIS MAKE THE NUMBER OF PAGE AGAIN*/
     renderPagination();
 
+    /*THIS SHOW THE FILTERS THAT CHOOSEN USER IN ACTIVE FILTER*/
     renderActiveFilters();
   }
 
-  /* =========================================================
-
-     SORT PRODUCTS
-
-  ========================================================= */
+  /* SORT PRODUCTS*/
 
   function sortProducts() {
+    /*IF SORT SELECT EXIST GIVE THE SORT SELECT VALUE QUANTITY OTHERWISE USE FEATURED AS AN AUTO*/
     const sort = sortSelect ? sortSelect.value : "featured";
 
     if (sort === "low-high") {
@@ -1927,17 +1836,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-
-     RENDER PRODUCTS
-
-  ========================================================= */
+  /*RENDER PRODUCTS INSIDE THE HTML PAGE*/
 
   function renderProducts() {
     if (!productsGrid) {
       return;
     }
-
+    /*THE INSIDE OF IT WILL BE EMPTY*/
     productsGrid.innerHTML = "";
 
     const start = (currentPage - 1) * productsPerPage;
@@ -2021,6 +1926,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="product-info">
 
+
           <p class="product-brand">
 
             ${product.brand}
@@ -2099,13 +2005,10 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProductsCount();
 
     setupProductButtons();
+
+    setupShopScrollAnimations();
   }
-
-  /* =========================================================
-
-     UPDATE CART BUTTONS
-
-  ========================================================= */
+  /* UPDATE CART BUTTONS*/
 
   function updateAllCartButtons() {
     const cart = getCart();
@@ -2129,17 +2032,13 @@ document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
     }
   }
-  /* =========================================================
-
-     PRODUCT COUNT
-
-  ========================================================= */
+  /*  PRODUCT COUNT*/
 
   function updateProductsCount() {
     if (!productsCount) {
       return;
     }
-
+    /*GIVING ALL FILTERED PRODUCTS*/
     const total = filteredProducts.length;
 
     if (total === 0) {
@@ -2147,6 +2046,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return;
     }
+    /*HERE, THIS START THE PAGE FROM 1 THEN 13..*/
 
     const start = (currentPage - 1) * productsPerPage + 1;
 
@@ -2159,18 +2059,17 @@ document.addEventListener("DOMContentLoaded", () => {
     productsCount.textContent = `Showing ${start}–${end} of ${total} products`;
   }
 
-  /* =========================================================
-
-     PAGINATION
-
-  ========================================================= */
+  /* PAGINATION*/
 
   function renderPagination() {
     if (!pagination) {
       return;
     }
+    /*ERASE ALL ALREADY THINGS OF PAGENATION*/
 
     pagination.innerHTML = "";
+
+    /*COUNT OF TOTAL PAGES*/
 
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -2202,8 +2101,9 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     );
 
+    /*PUT THE PERVIOUSE BUTTON INTO PAGINATION ELEMENT*/
     pagination.appendChild(previous);
-
+    /*START FROM PAGE 1 AND GO UNTIL LAST PAGE*/
     for (let page = 1; page <= totalPages; page++) {
       const button = document.createElement("button");
 
@@ -2212,7 +2112,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (page === currentPage) {
         button.classList.add("active");
       }
-
+      /*PUTING THE PAGE NUMBER FOR EX IF PAGE BE 3 THE TEXTCONTENT OF BUTTON WILL BECOM 3*/
       button.textContent = page;
 
       button.addEventListener(
@@ -2228,7 +2128,7 @@ document.addEventListener("DOMContentLoaded", () => {
           scrollToProducts();
         },
       );
-
+      /*ADDING NUMBER OF BUTTON INTO PAGINATION*/
       pagination.appendChild(button);
     }
 
@@ -2263,11 +2163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-
-     ACTIVE FILTERS
-
-  ========================================================= */
+  /* ACTIVE FILTERS */
 
   function renderActiveFilters() {
     if (!activeFilters) {
@@ -2297,9 +2193,9 @@ document.addEventListener("DOMContentLoaded", () => {
           const chip = document.createElement("div");
 
           chip.className = "filter-chip";
-
+          /*SHOW THE QUANTITY OF INPUT*/
           chip.innerHTML = `
-
+         
             ${input.value}
 
             <button
@@ -2324,22 +2220,19 @@ document.addEventListener("DOMContentLoaded", () => {
               "click",
 
               () => {
+                /*EXIT THIS CHECKBOX FROM CHOOSEN SITUATION*/
                 input.checked = false;
 
                 applyFilters();
               },
             );
-
+          /*PUT THIS CHIP INTO ACTIVEFILTERS*/
           activeFilters.appendChild(chip);
         });
     });
   }
 
-  /* =========================================================
-
-     WISHLIST
-
-  ========================================================= */
+  /* WISHLIST */
 
   function getWishlistKey() {
     const user = getCurrentUser();
@@ -2357,13 +2250,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${WISHLIST_KEY}_${user.id}`;
   }
 
-  /* =========================================================
-
-     READ WISHLIST
-
-  ========================================================= */
+  /* READ WISHLIST*/
 
   function getWishlist() {
+    /*THIS TRY TO READ THE WISHLIST FROM CURRENT USER LOCALSTORAGE*/
     const key = getWishlistKey();
 
     if (!key) {
@@ -2391,11 +2281,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-
-     SYNC WISHLIST WITH NAVBAR
-
-  ========================================================= */
+  /* SYNC WISHLIST WITH NAVBAR*/
 
   function syncWishlistWithNavbar(wishlist = getWishlist()) {
     try {
@@ -2422,15 +2308,11 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 
-    /*
-
-      IMPORTANT:
-
-      storage events do not fire in the
+    /* storage events do not fire in the
 
       same browser tab that changed localStorage.
 
-      Therefore we send our own event.
+      Therefore IT send our own event.
 
     */
 
@@ -2449,11 +2331,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* =========================================================
-
-     SAVE WISHLIST
-
-  ========================================================= */
+  /*  SAVE WISHLIST*/
 
   function saveWishlist(wishlist) {
     const key = getWishlistKey();
@@ -2495,11 +2373,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-
-     UPDATE NAVBAR WISHLIST UI
-
-  ========================================================= */
+  /*  UPDATE NAVBAR WISHLIST UI */
 
   function updateNavbarWishlistUI(wishlist = getWishlist()) {
     const count = wishlist.length;
@@ -2570,13 +2444,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    dropdownList.innerHTML = "";
-
     /*
 
       Empty Wishlist
 
     */
+    dropdownList.innerHTML = "";
 
     if (wishlist.length === 0) {
       if (dropdownEmpty) {
@@ -2628,7 +2501,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             .toUpperCase();
         };
-
+        /*PUT THE IMAGE ELEMENT INTO IMAGEWRAPPER*/
         imageWrapper.appendChild(image);
       } else {
         imageWrapper.textContent = String(item.name || "P")
@@ -2644,6 +2517,7 @@ document.addEventListener("DOMContentLoaded", () => {
       */
 
       const info = document.createElement("div");
+      /*PUT THE NAME INTO INFO PLACE*/
 
       info.className = "quick-dropdown-item-info";
 
@@ -2672,7 +2546,7 @@ document.addEventListener("DOMContentLoaded", () => {
         PRICE
 
       */
-
+      /*IF THE PRICE DONT BE UNDEFINED AND NULL*/
       if (item.price !== undefined && item.price !== null) {
         const price = document.createElement("span");
 
@@ -2693,11 +2567,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-
-     TOGGLE WISHLIST
-
-  ========================================================= */
+  /* TOGGLE WISHLIST */
 
   function toggleWishlist(productId) {
     const user = getCurrentUser();
@@ -2723,7 +2593,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const wishlist = getWishlist();
-
+    /*FINDING TNE FIRST PRODUCT INTO WISHLIST*/
     const index = wishlist.findIndex(
       (item) => Number(item.id) === Number(productId),
     );
@@ -2756,6 +2626,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      /*THIS ADD AN ELEMENT IN THE END OF ARRAYS*/
       wishlist.push({
         id: product.id,
 
@@ -2830,11 +2701,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* =========================================================
-
-     UPDATE WISHLIST BUTTONS
-
-  ========================================================= */
+  /*  UPDATE WISHLIST BUTTONS */
 
   function updateWishlistButtons() {
     const wishlist = getWishlist();
@@ -2868,11 +2735,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  /* =========================================================
-
-     PRODUCT BUTTONS
-
-  ========================================================= */
+  /*  PRODUCT BUTTONS */
 
   function setupProductButtons() {
     if (!productsGrid) {
@@ -2967,11 +2830,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
-  /* =========================================================
-
-     SORT EVENT
-
-  ========================================================= */
+  /* SORT EVENT*/
 
   if (sortSelect) {
     sortSelect.addEventListener(
@@ -2989,11 +2848,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* =========================================================
-
-     CLEAR FILTERS
-
-  ========================================================= */
+  /*  CLEAR FILTERS */
 
   if (clearFilters) {
     clearFilters.addEventListener(
@@ -3041,11 +2896,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* =========================================================
-
-     FILTER GROUP COLLAPSE
-
-  ========================================================= */
+  /*FILTER GROUP COLLAPSE*/
 
   document
 
@@ -3075,11 +2926,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
-  /* =========================================================
-
-     MOBILE FILTER
-
-  ========================================================= */
+  /* MOBILE FILTER */
 
   if (mobileFilterButton) {
     mobileFilterButton.addEventListener(
@@ -3105,11 +2952,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* =========================================================
-
-     GRID / LIST VIEW
-
-  ========================================================= */
+  /* GRID / LIST VIEW */
 
   if (gridView) {
     gridView.addEventListener(
@@ -3151,11 +2994,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* =========================================================
-
-     CART UPDATE EVENT
-
-  ========================================================= */
+  /* CART UPDATE EVENT */
 
   window.addEventListener(
     "eveBeautyCartUpdated",
@@ -3175,7 +3014,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener(
     "eveBeautyWishlistUpdated",
-
+    /*THE INFO WILL FIND THE EVENT*/
     (event) => {
       const wishlist = event.detail?.wishlist || getWishlist();
 
@@ -3185,11 +3024,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   );
 
-  /* =========================================================
-
-     STORAGE EVENT
-
-  ========================================================= */
+  /* STORAGE EVENT*/
 
   window.addEventListener(
     "storage",
@@ -3237,11 +3072,8 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   );
 
-  /* =========================================================
-
-     INITIALIZE
-
-  ========================================================= */
+  /*  INITIALIZE*/
+  /*FIRST CHECK ARE ANY URL INCLUDE IN CATEGORY OR NO*/
 
   const hasURLCategory = applyCategoryFromURL();
 
@@ -3285,12 +3117,8 @@ document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
   }
 
-  /* =========================================================
-
-     GLOBAL DEBUG HELPERS
-
-  ========================================================= */
-
+  /* GLOBAL DEBUG HELPERS */
+  /*THIS MAKE AN OBJECT IN WINDOW*/
   window.eveBeautyShop = {
     getCurrentUser,
 
@@ -3347,3 +3175,145 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("=================================");
 });
+
+/* ==========================================
+   EVE BEAUTY - SHOP SCROLL ANIMATIONS
+========================================== */
+
+// Add animation styles only once
+if (!document.getElementById("shop-scroll-animation-style")) {
+  const style = document.createElement("style");
+
+  style.id = "shop-scroll-animation-style";
+
+  style.textContent = `
+    .shop-scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+      will-change: opacity, transform;
+    }
+
+    .shop-scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .shop-scroll-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        will-change: auto;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+// Create the observer only when the browser supports it
+const shopScrollObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+
+              // Animate once and stop observing this element
+              shopScrollObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.08,
+          rootMargin: "0px 0px -25px 0px",
+        },
+      )
+    : null;
+
+// Apply scroll animations to shop page elements
+function setupShopScrollAnimations(root = document) {
+  const revealSelectors = [
+    // Main page areas
+    "main > *",
+    "main section",
+    "main article",
+    "main aside",
+
+    // Shop introduction and headings
+    "h1",
+    "h2",
+    "h3",
+    ".breadcrumb",
+    ".page-header",
+
+    // Shop controls and filters
+    "#shopSidebar",
+    ".filter-group",
+    "#mobileFilterButton",
+    ".shop-toolbar",
+    "#productsCount",
+    "#sortSelect",
+    "#gridView",
+    "#listView",
+    "#activeFilters",
+    "#clearFilters",
+
+    // Products and pagination
+    "#productsGrid .product-card",
+    "#productsGrid .no-products",
+    "#shopPagination",
+
+    // Common content sections
+    ".shop-banner",
+    ".shop-category-card",
+    ".shop-newsletter",
+    "footer > *",
+  ];
+
+  const elements = new Set();
+
+  revealSelectors.forEach(function (selector) {
+    root.querySelectorAll(selector).forEach(function (element) {
+      elements.add(element);
+    });
+  });
+
+  if (
+    root instanceof Element &&
+    revealSelectors.some(function (selector) {
+      return root.matches(selector);
+    })
+  ) {
+    elements.add(root);
+  }
+
+  elements.forEach(function (element, index) {
+    if (element.classList.contains("shop-scroll-reveal")) {
+      return;
+    }
+
+    element.classList.add("shop-scroll-reveal");
+
+    element.style.transitionDelay = `${(index % 4) * 70}ms`;
+
+    if (shopScrollObserver) {
+      shopScrollObserver.observe(element);
+    } else {
+      element.classList.add("is-visible");
+    }
+  });
+}
+
+// Initialize animations after the page has loaded
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", function () {
+    setupShopScrollAnimations();
+  });
+} else {
+  setupShopScrollAnimations();
+}

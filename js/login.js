@@ -1,12 +1,8 @@
-/* =========================================================
-   EVE BEAUTY
-   LOGIN - LOCAL STORAGE DATABASE
-========================================================= */
+/* EVE BEAUTY
+   LOGIN - LOCAL STORAGE DATABASE */
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* =======================================================
-     ELEMENTS
-  ======================================================= */
+  /*  ELEMENTS */
 
   const signInForm = document.getElementById("signInForm");
 
@@ -27,10 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const darkModeBtn = document.getElementById("darkModeBtn");
 
   const socialButtons = document.querySelectorAll(".social-buttons button");
+  const RESET_KEY = "eveBeautyPasswordReset";
 
-  /* =======================================================
-     STORAGE KEYS
-  ======================================================= */
+  /* STORAGE KEYS*/
 
   const USERS_KEY = "eveBeautyUsers";
 
@@ -40,9 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const THEME_KEY = "eveBeautyTheme";
 
-  /* =======================================================
-     USERS DATABASE
-  ======================================================= */
+  /* PASSWORD HASHING USING PBKDF2 AND SHA-256 */
+
+  const HASH_ITERATIONS = 600000;
+
+  /* STORING USERS DATABASE IN LOCALSTORAGE*/
 
   function getUsers() {
     try {
@@ -74,12 +71,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =======================================================
-     CURRENT USER
-  ======================================================= */
+  /* SAVING OF CURRENT USER*/
 
   function saveCurrentUser(user) {
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+    try {
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+
+      return true;
+    } catch (error) {
+      console.error("Could not save current user:", error);
+
+      return false;
+    }
   }
 
   function getCurrentUser() {
@@ -96,9 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =======================================================
-     HELPERS
-  ======================================================= */
+  /*  HELPER */
+  /*THIS FUNCTION MAKE THE EMAIL STANDARD*/
 
   function normalizeEmail(email) {
     return String(email || "")
@@ -112,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showMessage(message, type = "error") {
     if (!loginMessage) return;
+    /*THIS PUT THE MESSAGE IN HTML*/
 
     loginMessage.textContent = message;
 
@@ -128,9 +131,133 @@ document.addEventListener("DOMContentLoaded", () => {
     loginMessage.classList.remove("success", "error");
   }
 
-  /* =======================================================
-     THEME
-  ======================================================= */
+  /* THIS CONVERTS BINARY DATA INTO HEXADECIMAL TEXT */
+
+  function toHex(buffer) {
+    return Array.from(new Uint8Array(buffer))
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  /* THIS CONVERTS HEXADECIMAL TEXT INTO BINARY DATA */
+
+  function fromHex(hex) {
+    if (
+      typeof hex !== "string" ||
+      hex.length === 0 ||
+      hex.length % 2 !== 0 ||
+      !/^[0-9a-f]+$/i.test(hex)
+    ) {
+      throw new Error("Invalid stored hash.");
+    }
+
+    const bytes = new Uint8Array(hex.length / 2);
+
+    for (let i = 0; i < hex.length; i += 2) {
+      bytes[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+    }
+
+    return bytes;
+  }
+
+  /* THIS HASHES PASSWORDS */
+
+  async function hashSecret(secret) {
+    if (!window.crypto?.subtle || !window.crypto?.getRandomValues) {
+      throw new Error("Secure hashing is unavailable.");
+    }
+
+    const salt = window.crypto.getRandomValues(new Uint8Array(16));
+
+    const key = await window.crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      "PBKDF2",
+      false,
+      ["deriveBits"],
+    );
+
+    const result = await window.crypto.subtle.deriveBits(
+      {
+        name: "PBKDF2",
+        salt,
+        iterations: HASH_ITERATIONS,
+        hash: "SHA-256",
+      },
+      key,
+      256,
+    );
+
+    return `pbkdf2$${HASH_ITERATIONS}$${toHex(salt)}$${toHex(result)}`;
+  }
+
+  /* THIS CHECKS A PASSWORD AGAINST ITS STORED HASH */
+
+  async function verifySecret(secret, storedHash) {
+    if (!window.crypto?.subtle) {
+      throw new Error("Secure hashing is unavailable.");
+    }
+
+    const parts = String(storedHash || "").split("$");
+
+    if (parts.length !== 4 || parts[0] !== "pbkdf2") {
+      return false;
+    }
+
+    const iterations = Number(parts[1]);
+
+    if (
+      !Number.isSafeInteger(iterations) ||
+      iterations < 1 ||
+      iterations > 1000000
+    ) {
+      return false;
+    }
+
+    const salt = fromHex(parts[2]);
+    const expectedHash = fromHex(parts[3]);
+
+    if (salt.length !== 16 || expectedHash.length !== 32) {
+      return false;
+    }
+
+    const key = await window.crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      "PBKDF2",
+      false,
+      ["deriveBits"],
+    );
+
+    const result = await window.crypto.subtle.deriveBits(
+      {
+        name: "PBKDF2",
+        salt,
+        iterations,
+        hash: "SHA-256",
+      },
+      key,
+      256,
+    );
+
+    const actualHash = new Uint8Array(result);
+
+    let difference = 0;
+
+    for (let i = 0; i < expectedHash.length; i++) {
+      difference |= actualHash[i] ^ expectedHash[i];
+    }
+
+    return difference === 0;
+  }
+
+  /* THIS CHECKS IF SECURE HASHING IS AVAILABLE */
+
+  function secureHashingAvailable() {
+    return Boolean(window.crypto?.subtle && window.crypto?.getRandomValues);
+  }
+
+  /* THEME */
 
   function setTheme(theme) {
     const isDark = theme === "dark";
@@ -154,15 +281,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   darkModeBtn?.addEventListener("click", () => setTheme("dark"));
 
-  /* =======================================================
-     PASSWORD SHOW / HIDE
-  ======================================================= */
+  /* PASSWORD SHOW / HIDE */
 
   passwordToggle?.addEventListener("click", () => {
     if (!passwordInput) return;
 
     const isPassword = passwordInput.type === "password";
 
+    /*IF IT BE PASSWORD IT CAN CHANGE INTO TEXT TO BECOME VISIBLE OR 
+    IF IT BE TEXT IT CAN CHANGE INTO PASSWORD TO BECOME UNVISIBLE*/
     passwordInput.type = isPassword ? "text" : "password";
 
     passwordToggle.setAttribute(
@@ -171,9 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   });
 
-  /* =======================================================
-     REMEMBER EMAIL
-  ======================================================= */
+  /* REMEMBER EMAIL*/
 
   function loadRememberedEmail() {
     const rememberedEmail = localStorage.getItem(REMEMBERED_EMAIL_KEY);
@@ -187,9 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =======================================================
-     REGISTERED MESSAGE
-  ======================================================= */
+  /*  REGISTERED MESSAGE*/
 
   const params = new URLSearchParams(window.location.search);
 
@@ -199,11 +322,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({}, document.title, "login.html");
   }
 
-  /* =======================================================
-     LOGIN
-  ======================================================= */
+  /* LOGIN */
 
-  signInForm?.addEventListener("submit", (event) => {
+  signInForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     clearMessage();
@@ -219,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!email) {
       showMessage("Please enter your email address.");
 
+      /*THIS WIll TRANSFORM THE CURSOR INTO EMAIL INPUT*/
       emailInput?.focus();
 
       return;
@@ -240,9 +362,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* ---------------------------------------------------
-         GET USERS
-      --------------------------------------------------- */
+    if (!secureHashingAvailable()) {
+      showMessage("Secure sign in requires HTTPS or localhost.");
+
+      return;
+    }
+
+    /* GET USERS FROM LOCAL STORAGE*/
 
     const users = getUsers();
 
@@ -252,23 +378,61 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* ---------------------------------------------------
-         FIND USER
-      --------------------------------------------------- */
+    /* FIND USER */
 
-    const user = users.find((item) => normalizeEmail(item.email) === email);
+    const userIndex = users.findIndex(
+      (item) => normalizeEmail(item.email) === email,
+    );
 
-    if (!user) {
+    if (userIndex === -1) {
       showMessage("No account found with this email.");
 
       return;
     }
 
-    /* ---------------------------------------------------
-         PASSWORD
-      --------------------------------------------------- */
+    const user = users[userIndex];
 
-    if (String(user.password) !== String(password)) {
+    /* THIS COMPRISON THE SAVED PASSWORD WITH EMTERED PASSWORD*/
+
+    let passwordIsCorrect = false;
+
+    try {
+      if (
+        typeof user.password === "string" &&
+        user.password.startsWith("pbkdf2$")
+      ) {
+        passwordIsCorrect = await verifySecret(password, user.password);
+      } else if (
+        typeof user.password === "string" &&
+        user.password.length > 0
+      ) {
+        /* THIS UPGRADES AN OLD PLAIN-TEXT PASSWORD AFTER SUCCESSFUL LOGIN */
+
+        passwordIsCorrect = user.password === password;
+
+        if (passwordIsCorrect) {
+          user.password = await hashSecret(password);
+
+          user.updatedAt = new Date().toISOString();
+
+          users[userIndex] = user;
+
+          if (!saveUsers(users)) {
+            showMessage("Could not update your account securely.");
+
+            return;
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Could not verify password:", error);
+
+      showMessage("Could not verify your password. Please try again.");
+
+      return;
+    }
+
+    if (!passwordIsCorrect) {
       showMessage("Incorrect password. Please try again.");
 
       passwordInput?.focus();
@@ -276,9 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* ---------------------------------------------------
-         REMEMBER ME
-      --------------------------------------------------- */
+    /* REMEMBER ME*/
 
     if (rememberMe?.checked) {
       localStorage.setItem(REMEMBERED_EMAIL_KEY, email);
@@ -286,9 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem(REMEMBERED_EMAIL_KEY);
     }
 
-    /* ---------------------------------------------------
-         CURRENT USER
-      --------------------------------------------------- */
+    /* CURRENT USER */
 
     const currentUser = {
       id: user.id,
@@ -302,33 +462,28 @@ document.addEventListener("DOMContentLoaded", () => {
       loginAt: new Date().toISOString(),
     };
 
-    saveCurrentUser(currentUser);
+    if (!saveCurrentUser(currentUser)) {
+      showMessage("Could not save your sign-in session.");
 
-    /* ---------------------------------------------------
-         UPDATE USER LAST LOGIN
-      --------------------------------------------------- */
-
-    const userIndex = users.findIndex((item) => item.id === user.id);
-
-    if (userIndex !== -1) {
-      users[userIndex] = {
-        ...users[userIndex],
-
-        lastLoginAt: new Date().toISOString(),
-      };
-
-      saveUsers(users);
+      return;
     }
 
-    /* ---------------------------------------------------
-         SUCCESS
-      --------------------------------------------------- */
+    /* UPDATE USER LAST LOGIN*/
+    /*THIS TRY TO FIND TO PUT THE PLACE OF USER INTO ARRAY*/
+
+    users[userIndex] = {
+      ...users[userIndex],
+
+      lastLoginAt: new Date().toISOString(),
+    };
+
+    saveUsers(users);
+
+    /* SUCCESS MESSAGE*/
 
     showMessage("Login successful. Welcome back!", "success");
 
-    /* ---------------------------------------------------
-         BUTTON
-      --------------------------------------------------- */
+    /* BUTTON*/
 
     const submitButton = signInForm.querySelector(".main-btn");
 
@@ -354,99 +509,412 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 700);
   });
 
-  /* =======================================================
-     FORGOT PASSWORD
-  ======================================================= */
+  /*FORGOT PASSWORD*/
 
-  forgotPassword?.addEventListener("click", () => {
-    const email = normalizeEmail(emailInput?.value);
+  forgotPassword?.addEventListener("click", async () => {
+    clearMessage();
 
-    if (!email) {
-      showMessage("Enter your email first.");
-
-      emailInput?.focus();
-
+    if (typeof Swal === "undefined") {
+      showMessage("SweetAlert2 is not loaded. Please check your script.");
       return;
     }
 
-    if (!validEmail(email)) {
-      showMessage("Please enter a valid email address.");
-
-      emailInput?.focus();
-
+    if (!secureHashingAvailable()) {
+      await Swal.fire({
+        title: "Security Error",
+        text: "Secure password recovery requires HTTPS or localhost.",
+        icon: "error",
+        customClass: {
+          popup: "eve-swal-popup",
+          title: "eve-swal-title",
+          htmlContainer: "eve-swal-html",
+          confirmButton: "eve-swal-confirm",
+          cancelButton: "eve-swal-cancel",
+          icon: "eve-swal-icon",
+        },
+        buttonsStyling: false,
+      });
       return;
     }
 
-    const users = getUsers();
+    const swalStyle = {
+      customClass: {
+        popup: "eve-swal-popup",
+        title: "eve-swal-title",
+        htmlContainer: "eve-swal-html",
+        input: "eve-swal-input",
+        confirmButton: "eve-swal-confirm",
+        cancelButton: "eve-swal-cancel",
+        icon: "eve-swal-icon",
+      },
+      buttonsStyling: false,
+      showCancelButton: true,
+      confirmButtonText: "Continue",
+      cancelButtonText: "Cancel",
+    };
 
-    const user = users.find((item) => normalizeEmail(item.email) === email);
+    try {
+      /* ASK FOR ACCOUNT EMAIL */
 
-    if (!user) {
-      showMessage("No account was found with this email.");
+      const emailResult = await Swal.fire({
+        ...swalStyle,
+        title: "Forgot Password?",
+        text: "Enter your registered email address.",
+        input: "email",
+        inputPlaceholder: "Enter your email",
+        inputValidator: (value) => {
+          if (!value || !validEmail(normalizeEmail(value))) {
+            return "Please enter a valid email address.";
+          }
+        },
+      });
 
-      return;
+      if (!emailResult.isConfirmed) return;
+
+      const email = normalizeEmail(emailResult.value);
+
+      /* FIND ACCOUNT */
+
+      const users = getUsers();
+
+      const userIndex = users.findIndex(
+        (user) => normalizeEmail(user.email) === email,
+      );
+
+      if (userIndex === -1) {
+        await Swal.fire({
+          ...swalStyle,
+          title: "Account Not Found",
+          text: "No account was found with this email address.",
+          icon: "error",
+          showCancelButton: false,
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+
+      /* GENERATE A SIX-DIGIT DEMO VERIFICATION CODE */
+
+      const randomValues = new Uint32Array(1);
+
+      window.crypto.getRandomValues(randomValues);
+
+      const verificationCode = String(randomValues[0] % 1000000).padStart(
+        6,
+        "0",
+      );
+
+      /* STORE ONLY THE HASHED CODE */
+
+      const resetData = {
+        email,
+        codeHash: await hashSecret(verificationCode),
+        expiresAt: Date.now() + 10 * 60 * 1000,
+        attempts: 0,
+      };
+
+      localStorage.setItem(RESET_KEY, JSON.stringify(resetData));
+
+      /* DEMO ONLY: DISPLAY CODE INSTEAD OF SENDING AN EMAIL */
+
+      await Swal.fire({
+        ...swalStyle,
+        title: "Demo Verification Code",
+        text:
+          `Your verification code is: ${verificationCode}\n\n` +
+          "This is a local demo. No email was sent. " +
+          "The code expires in 10 minutes.",
+        icon: "info",
+        showCancelButton: false,
+        confirmButtonText: "Enter Code",
+      });
+
+      /* VERIFY CODE */
+
+      let codeIsCorrect = false;
+
+      for (let attempt = 0; attempt < 5; attempt++) {
+        const savedReset = JSON.parse(
+          localStorage.getItem(RESET_KEY) || "null",
+        );
+
+        if (
+          !savedReset ||
+          savedReset.email !== email ||
+          Date.now() > savedReset.expiresAt
+        ) {
+          localStorage.removeItem(RESET_KEY);
+
+          await Swal.fire({
+            ...swalStyle,
+            title: "Code Expired",
+            text: "Please start the password recovery process again.",
+            icon: "error",
+            showCancelButton: false,
+            confirmButtonText: "OK",
+          });
+
+          return;
+        }
+
+        const codeResult = await Swal.fire({
+          ...swalStyle,
+          title: "Verify Your Code",
+          text: `Enter the six-digit code. Attempt ${attempt + 1} of 5.`,
+          input: "text",
+          inputPlaceholder: "000000",
+          inputAttributes: {
+            maxlength: "6",
+            inputmode: "numeric",
+            autocomplete: "one-time-code",
+            "aria-label": "Six-digit verification code",
+          },
+          confirmButtonText: "Verify",
+          inputValidator: (value) => {
+            if (!/^\d{6}$/.test(value || "")) {
+              return "Please enter a valid six-digit code.";
+            }
+          },
+        });
+
+        if (!codeResult.isConfirmed) return;
+
+        try {
+          codeIsCorrect = await verifySecret(
+            codeResult.value.trim(),
+            savedReset.codeHash,
+          );
+        } catch (error) {
+          console.error("Could not verify recovery code:", error);
+
+          await Swal.fire({
+            ...swalStyle,
+            title: "Verification Failed",
+            text: "Could not verify the code. Please try again.",
+            icon: "error",
+            showCancelButton: false,
+            confirmButtonText: "OK",
+          });
+
+          return;
+        }
+
+        if (codeIsCorrect) break;
+
+        savedReset.attempts = attempt + 1;
+
+        if (savedReset.attempts >= 5) {
+          localStorage.removeItem(RESET_KEY);
+
+          await Swal.fire({
+            ...swalStyle,
+            title: "Too Many Attempts",
+            text: "Please start the recovery process again.",
+            icon: "error",
+            showCancelButton: false,
+            confirmButtonText: "OK",
+          });
+
+          return;
+        }
+
+        localStorage.setItem(RESET_KEY, JSON.stringify(savedReset));
+
+        await Swal.fire({
+          ...swalStyle,
+          title: "Incorrect Code",
+          text: `You have ${5 - savedReset.attempts} attempts remaining.`,
+          icon: "error",
+          showCancelButton: false,
+          confirmButtonText: "Try Again",
+        });
+      }
+
+      if (!codeIsCorrect) return;
+
+      /* ASK FOR NEW PASSWORD */
+
+      const passwordResult = await Swal.fire({
+        ...swalStyle,
+        title: "Create New Password",
+        text: "Your password must contain at least 6 characters.",
+        input: "password",
+        inputPlaceholder: "New password",
+        inputAttributes: {
+          autocomplete: "new-password",
+          minlength: "6",
+          "aria-label": "New password",
+        },
+        inputValidator: (value) => {
+          if (!value || value.length < 6) {
+            return "Your password must contain at least 6 characters.";
+          }
+        },
+      });
+
+      if (!passwordResult.isConfirmed) return;
+
+      const newPassword = passwordResult.value;
+
+      /* CONFIRM NEW PASSWORD */
+
+      const confirmResult = await Swal.fire({
+        ...swalStyle,
+        title: "Confirm Password",
+        text: "Enter your new password again.",
+        input: "password",
+        inputPlaceholder: "Confirm new password",
+        inputAttributes: {
+          autocomplete: "new-password",
+          "aria-label": "Confirm new password",
+        },
+        confirmButtonText: "Reset Password",
+        inputValidator: (value) => {
+          if (!value) {
+            return "Please confirm your new password.";
+          }
+
+          if (value !== newPassword) {
+            return "Passwords do not match.";
+          }
+        },
+      });
+
+      if (!confirmResult.isConfirmed) return;
+
+      /* CHECK CODE EXPIRATION AGAIN */
+
+      const finalReset = JSON.parse(localStorage.getItem(RESET_KEY) || "null");
+
+      if (
+        !finalReset ||
+        finalReset.email !== email ||
+        Date.now() > finalReset.expiresAt
+      ) {
+        localStorage.removeItem(RESET_KEY);
+
+        await Swal.fire({
+          ...swalStyle,
+          title: "Code Expired",
+          text: "Please start the recovery process again.",
+          icon: "error",
+          showCancelButton: false,
+          confirmButtonText: "OK",
+        });
+
+        return;
+      }
+
+      /* HASH NEW PASSWORD AND UPDATE ACCOUNT */
+
+      const newPasswordHash = await hashSecret(newPassword);
+
+      const latestUsers = getUsers();
+
+      const latestUserIndex = latestUsers.findIndex(
+        (user) => normalizeEmail(user.email) === email,
+      );
+
+      if (latestUserIndex === -1) {
+        localStorage.removeItem(RESET_KEY);
+
+        await Swal.fire({
+          ...swalStyle,
+          title: "Account Not Found",
+          text: "Please check your account and try again.",
+          icon: "error",
+          showCancelButton: false,
+          confirmButtonText: "OK",
+        });
+
+        return;
+      }
+
+      latestUsers[latestUserIndex].password = newPasswordHash;
+      latestUsers[latestUserIndex].updatedAt = new Date().toISOString();
+
+      if (!saveUsers(latestUsers)) {
+        await Swal.fire({
+          ...swalStyle,
+          title: "Save Failed",
+          text: "Could not save your new password.",
+          icon: "error",
+          showCancelButton: false,
+          confirmButtonText: "OK",
+        });
+
+        return;
+      }
+
+      /* REMOVE USED RECOVERY CODE */
+
+      localStorage.removeItem(RESET_KEY);
+
+      if (passwordInput) {
+        passwordInput.value = "";
+      }
+
+      showMessage(
+        "Password reset successfully. You can now sign in.",
+        "success",
+      );
+
+      await Swal.fire({
+        ...swalStyle,
+        title: "Password Reset Successfully!",
+        text: "You can now sign in using your new password.",
+        icon: "success",
+        showCancelButton: false,
+        confirmButtonText: "Go to Login",
+      });
+    } catch (error) {
+      console.error("Password recovery failed:", error);
+
+      await Swal.fire({
+        title: "Something Went Wrong",
+        text: "Password recovery failed. Please try again.",
+        icon: "error",
+        customClass: {
+          popup: "eve-swal-popup",
+          title: "eve-swal-title",
+          htmlContainer: "eve-swal-html",
+          confirmButton: "eve-swal-confirm",
+          cancelButton: "eve-swal-cancel",
+          icon: "eve-swal-icon",
+        },
+        buttonsStyling: false,
+        showCancelButton: false,
+        confirmButtonText: "OK",
+      });
     }
-
-    /*
-     local version simple local reset flow
-     */
-
-    const newPassword = window.prompt(
-      "Enter your new password (minimum 6 characters):",
-    );
-
-    if (newPassword === null) {
-      return;
-    }
-
-    if (newPassword.length < 6) {
-      showMessage("Password must be at least 6 characters.");
-
-      return;
-    }
-
-    const index = users.findIndex((item) => item.id === user.id);
-
-    if (index === -1) {
-      return;
-    }
-
-    users[index].password = newPassword;
-
-    users[index].updatedAt = new Date().toISOString();
-
-    saveUsers(users);
-
-    showMessage(
-      "Password changed successfully. You can now sign in.",
-      "success",
-    );
   });
 
-  /* =======================================================
-     SOCIAL / PROVIDER LOGIN
-  ======================================================= */
+  /*SOCIAL / PROVIDER LOGIN*/
 
   socialButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const provider = getProviderFromButton(button);
-      
+
       localProviderLogin(provider);
     });
   });
 
   function getProviderFromButton(button) {
-    const label = (button.getAttribute("aria-label") || "").toLowerCase();
+    const label = (
+      button.getAttribute("aria-label") ||
+      button.textContent ||
+      ""
+    ).toLowerCase();
 
-    if (label.includes("google")) {
+    if (label.includes("google") || label.trim() === "g") {
       return "google";
     }
 
-    if (label.includes("apple")) {
+    if (label.includes("apple") || label.includes("")) {
       return "apple";
     }
 
-    if (label.includes("facebook")) {
+    if (label.includes("facebook") || label.trim() === "f") {
       return "facebook";
     }
 
@@ -478,14 +946,12 @@ document.addEventListener("DOMContentLoaded", () => {
       (item) => normalizeEmail(item.email) === normalizedEmail,
     );
 
-    /* ---------------------------------------------------
-       CREATE PROVIDER ACCOUNT
-    --------------------------------------------------- */
+    /* CREATE PROVIDER ACCOUNT*/
 
     if (!user) {
       const name = window.prompt("Enter your name:");
 
-      if (!name) {
+      if (!name || !name.trim()) {
         return;
       }
 
@@ -507,20 +973,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       users.push(user);
 
-      saveUsers(users);
+      if (!saveUsers(users)) {
+        showMessage("Could not save your account.");
+
+        return;
+      }
     } else {
       user.lastLoginAt = new Date().toISOString();
 
       user.provider = user.provider || provider;
 
-      saveUsers(users);
+      if (!saveUsers(users)) {
+        showMessage("Could not update your account.");
+
+        return;
+      }
     }
 
-    /* ---------------------------------------------------
-       SESSION
-    --------------------------------------------------- */
+    /* THIS SESSION HAS LINK WITH SHOP PAGE AND ANOTHER PAGE THAT SHOPPING AN WISHLIST OPTION*/
 
-    saveCurrentUser({
+    const sessionSaved = saveCurrentUser({
       id: user.id,
 
       name: user.name,
@@ -532,32 +1004,32 @@ document.addEventListener("DOMContentLoaded", () => {
       loginAt: new Date().toISOString(),
     });
 
-    showMessage(`Signed in with ${providerName}.`, "success");
+    if (!sessionSaved) {
+      showMessage("Could not save your sign-in session.");
+
+      return;
+    }
+
+    showMessage(`Signed in with ${providerName} local demo.`, "success");
 
     setTimeout(() => {
       window.location.href = "index.html";
     }, 700);
   }
 
-  /* =======================================================
-     INPUT EVENTS
-  ======================================================= */
+  /* INPUT EVENTS*/
 
   emailInput?.addEventListener("input", clearMessage);
 
   passwordInput?.addEventListener("input", clearMessage);
 
-  /* =======================================================
-     INITIALIZATION
-  ======================================================= */
+  /* INITIALIZATION*/
 
   loadRememberedEmail();
 
   loadTheme();
 
-  /* =======================================================
-     EXISTING SESSION
-  ======================================================= */
+  /* EXISTING SESSION */
 
   const currentUser = getCurrentUser();
 

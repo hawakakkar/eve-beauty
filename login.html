@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Eve Beauty | Sign In</title>
-
     <!-- CSS -->
     <link rel="stylesheet" href="css/login-signup.css" />
   </head>
@@ -24,7 +23,9 @@
           id="lightModeBtn"
           aria-label="Light mode"
         >
-          <span class="icon">☼</span>
+          <span class="icon">
+            <i data-lucide="sun"></i>
+          </span>
           <span>Light</span>
         </button>
 
@@ -34,7 +35,9 @@
           id="darkModeBtn"
           aria-label="Dark mode"
         >
-          <span class="icon">☾</span>
+          <span class="icon">
+            <i data-lucide="moon"></i>
+          </span>
           <span>Dark</span>
         </button>
       </div>
@@ -136,9 +139,11 @@
 
             <!-- Submit -->
             <button type="submit" class="main-btn">
-              <span>Sign In</span>
+              <span> Login</span>
 
-              <span class="arrow"> → </span>
+              <span class="arrow">
+                <i data-lucide="arrow-right"></i>
+              </span>
             </button>
           </form>
 
@@ -148,7 +153,6 @@
 
             <p>
               Don't have an account?
-              
 
               <a href="signup.html"> Sign up </a>
             </p>
@@ -161,18 +165,35 @@
             <p>OR CONTINUE WITH</p>
 
             <div class="social-buttons">
-              <button type="button">G</button>
+              <button type="button" aria-label="Globe">
+                <i data-lucide="globe"></i>
+              </button>
 
-              <button type="button"></button>
+              <button type="button" aria-label="Mail">
+                <i data-lucide="mail"></i>
+              </button>
 
-              <button type="button">f</button>
+              <button type="button" aria-label="Phone">
+                <i data-lucide="phone"></i>
+              </button>
             </div>
           </div>
         </div>
-
-        
+      </section>
+      <a href="index.html" class="back-home">
+        <i data-lucide="arrow-left"></i>
+        <span>Back to Home</span>
+      </a>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- JavaScript -->
     <script src="js/login.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>

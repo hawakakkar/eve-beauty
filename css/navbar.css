@@ -137,7 +137,7 @@ body.page-transition-out {
 ========================================================= */
 
 .my-logo {
-  width: 145px;
+  width: 120px;
   height: 100%;
 
   display: flex;
@@ -161,8 +161,8 @@ body.page-transition-out {
 }
 
 .site-logo-image {
-  width: 145px;
-  height: 68px;
+  width: 100px;
+  height: 50px;
 
   max-width: none;
   max-height: none;
@@ -1555,25 +1555,28 @@ body.dark-mode .moon-icon {
 
 .search-overlay {
   position: fixed;
-
   inset: 0;
-
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
   z-index: 110000;
-
-  background: rgba(30, 10, 15, 0.64);
-
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  padding: 20px;
+  box-sizing: border-box;
+
+  background: rgba(30, 10, 15, 0.64);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+
   opacity: 0;
-
   visibility: hidden;
-
   pointer-events: none;
+
+  overflow-y: auto;
 
   transition:
     opacity 0.28s ease,
@@ -1582,10 +1585,44 @@ body.dark-mode .moon-icon {
 
 .search-overlay.active {
   opacity: 1;
-
   visibility: visible;
-
   pointer-events: auto;
+}
+
+.search-box {
+  position: relative;
+  flex: 0 0 auto;
+
+  width: 100%;
+  max-width: 650px;
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  margin: auto;
+  padding: 48px;
+
+  background: linear-gradient(145deg, #ffffff, #fffafa);
+  border-radius: 8px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
+
+  transform: translateY(15px) scale(0.98);
+  transition: transform 0.3s ease;
+}
+
+.search-overlay.active .search-box {
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 600px) {
+  .search-overlay {
+    padding: 14px;
+  }
+
+  .search-box {
+    padding: 38px 20px 24px;
+    max-height: calc(100dvh - 28px);
+  }
 }
 
 .search-box {
@@ -1735,7 +1772,105 @@ body.dark-mode .moon-icon {
 
   color: var(--burgundy);
 }
+/* Beautiful navbar search suggestions */
+.navbar-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  max-height: 280px;
+  margin-top: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
 
+  background: #fff;
+  border: 1px solid #eadde0;
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(60, 20, 30, 0.1);
+}
+
+.navbar-search-results[hidden] {
+  display: none !important;
+}
+
+.navbar-search-result-item {
+  display: block;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 13px 17px;
+
+  border: 0;
+  border-bottom: 1px solid #f1e8ea;
+  border-radius: 0;
+
+  background: #fff;
+  color: #443238;
+
+  text-align: left;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 400;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.navbar-search-result-item:last-child {
+  border-bottom: none;
+}
+
+.navbar-search-result-item:hover,
+.navbar-search-result-item:focus-visible {
+  background: #fbf2f4;
+  color: var(–burgundy);
+  padding-left: 22px;
+  outline: none;
+}
+
+.navbar-search-result-item:focus-visible {
+  box-shadow: inset 3px 0 0 var(–burgundy);
+}
+
+/* Elegant scrollbar */
+.navbar-search-results::-webkit-scrollbar {
+  width: 5px;
+}
+
+.navbar-search-results::-webkit-scrollbar-thumb {
+  background: #d8b8c0;
+  border-radius: 10px;
+}
+
+.navbar-search-results::-webkit-scrollbar-track {
+  background: #fffafa;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+  .navbar-search-results {
+    max-height: 220px;
+    margin-top: 10px;
+  }
+
+  .navbar-search-result-item {
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .navbar-search-result-item:hover,
+  .navbar-search-result-item:focus-visible {
+    padding-left: 16px;
+  }
+}
 /* =========================================================
    DARK MODE
 ========================================================= */

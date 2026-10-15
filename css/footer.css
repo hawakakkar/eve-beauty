@@ -33,24 +33,6 @@
   line-height: 1;
 }
 
-.brand-logo span {
-  font-family: var(--serif);
-
-  font-size: 34px;
-
-  letter-spacing: 4px;
-}
-
-.brand-logo small {
-  font-size: 12px;
-
-  letter-spacing: 3px;
-
-  text-align: center;
-
-  margin-top: 4px;
-}
-
 .brand-part p {
   margin-top: 12px;
 

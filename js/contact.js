@@ -1,10 +1,6 @@
-/* =========================================================
-   EVE BEAUTY — CONTACT PAGE
-   FUNCTIONAL JAVASCRIPT
-========================================================= */
+/* EVE BEAUTY — CONTACT PAGE */
 
 document.addEventListener("DOMContentLoaded", () => {
-
   /* =======================================================
      ELEMENTS
   ======================================================= */
@@ -26,61 +22,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let toastTimer;
 
-
-  /* =======================================================
-     DARK MODE
-     -------------------------------------------------------
-     Uses the same dark-mode classes as the rest of EVE BEAUTY.
-  ======================================================= */
-
-  function applySavedTheme() {
-
-    const savedTheme = localStorage.getItem("eveBeautyTheme");
-
-    if (savedTheme === "dark") {
-      document.documentElement.classList.add("dark-mode");
-      document.body.classList.add("dark-mode");
-    }
-
-  }
-
-  applySavedTheme();
-
-
-  /* =======================================================
-     GLOBAL THEME EVENT
-     -------------------------------------------------------
+  /*  GLOBAL THEME EVENT
      If another page/script changes the theme, this page
-     can react to the same localStorage value.
-  ======================================================= */
+     can react to the same localStorage value. */
 
   window.addEventListener("storage", (event) => {
-
     if (event.key !== "eveBeautyTheme") {
       return;
     }
 
     if (event.newValue === "dark") {
-
       document.documentElement.classList.add("dark-mode");
       document.body.classList.add("dark-mode");
-
     } else {
-
       document.documentElement.classList.remove("dark-mode");
       document.body.classList.remove("dark-mode");
-
     }
-
   });
 
-
-  /* =======================================================
-     TOAST
-  ======================================================= */
+  /* TOAST */
 
   function showToast(text) {
-
     toastMessage.textContent = text;
 
     toast.classList.add("show");
@@ -90,16 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
     toastTimer = setTimeout(() => {
       toast.classList.remove("show");
     }, 3500);
-
   }
 
-
-  /* =======================================================
-     ERROR HELPERS
-  ======================================================= */
+  /* ERROR HELPERS */
 
   function setError(input, errorId, messageText) {
-
     const errorElement = document.getElementById(errorId);
 
     input.classList.add("invalid");
@@ -107,12 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (errorElement) {
       errorElement.textContent = messageText;
     }
-
   }
-
-
+  /*WHEN THE USER ENTER THE CORRECT FORM OF CONTENT THE ERROR WILL ERASE*/
   function clearError(input, errorId) {
-
     const errorElement = document.getElementById(errorId);
 
     input.classList.remove("invalid");
@@ -120,36 +74,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (errorElement) {
       errorElement.textContent = "";
     }
-
   }
 
-
-  /* =======================================================
-     VALIDATION
-  ======================================================= */
+  /* VALIDATION FORM */
 
   function validateName(input, errorId, label) {
-
     const value = input.value.trim();
 
     if (!value) {
-
-      setError(
-        input,
-        errorId,
-        `${label} is required.`
-      );
+      setError(input, errorId, `${label} is required.`);
 
       return false;
     }
 
     if (value.length < 2) {
-
-      setError(
-        input,
-        errorId,
-        `${label} must contain at least 2 characters.`
-      );
+      setError(input, errorId, `${label} must contain at least 2 characters.`);
 
       return false;
     }
@@ -159,32 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-
   function validateEmail() {
-
     const value = email.value.trim();
 
-    const emailPattern =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!value) {
-
-      setError(
-        email,
-        "emailError",
-        "Email address is required."
-      );
+      setError(email, "emailError", "Email address is required.");
 
       return false;
     }
 
     if (!emailPattern.test(value)) {
-
-      setError(
-        email,
-        "emailError",
-        "Please enter a valid email address."
-      );
+      setError(email, "emailError", "Please enter a valid email address.");
 
       return false;
     }
@@ -194,16 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-
   function validateSubject() {
-
     if (!subject.value) {
-
-      setError(
-        subject,
-        "subjectError",
-        "Please select a subject."
-      );
+      setError(subject, "subjectError", "Please select a subject.");
 
       return false;
     }
@@ -213,28 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-
   function validateMessage() {
-
     const value = message.value.trim();
 
     if (!value) {
-
-      setError(
-        message,
-        "messageError",
-        "Please enter your message."
-      );
+      setError(message, "messageError", "Please enter your message.");
 
       return false;
     }
 
     if (value.length < 10) {
-
       setError(
         message,
         "messageError",
-        "Message must contain at least 10 characters."
+        "Message must contain at least 10 characters.",
       );
 
       return false;
@@ -245,17 +156,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-
   function validateConsent() {
-
-    const errorElement =
-      document.getElementById("consentError");
+    const errorElement = document.getElementById("consentError");
 
     if (!consent.checked) {
-
       if (errorElement) {
-        errorElement.textContent =
-          "Please confirm before sending.";
+        errorElement.textContent = "Please confirm before sending.";
       }
 
       return false;
@@ -268,51 +174,25 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-
-  /* =======================================================
-     CHARACTER COUNTER
-  ======================================================= */
+  /* CHARACTER COUNTER */
 
   function updateCharacterCount() {
-
     const currentLength = message.value.length;
 
-    characterCount.textContent =
-      `${currentLength} / 1000`;
-
+    characterCount.textContent = `${currentLength} / 1000`;
   }
 
-  message.addEventListener(
-    "input",
-    updateCharacterCount
-  );
+  message.addEventListener("input", updateCharacterCount);
 
-
-  /* =======================================================
-     LIVE VALIDATION
-  ======================================================= */
+  /* LIVE VALIDATION*/
 
   firstName.addEventListener("blur", () => {
-
-    validateName(
-      firstName,
-      "firstNameError",
-      "First name"
-    );
-
+    validateName(firstName, "firstNameError", "First name");
   });
-
 
   lastName.addEventListener("blur", () => {
-
-    validateName(
-      lastName,
-      "lastNameError",
-      "Last name"
-    );
-
+    validateName(lastName, "lastNameError", "Last name");
   });
-
 
   email.addEventListener("blur", validateEmail);
 
@@ -322,27 +202,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   consent.addEventListener("change", validateConsent);
 
-
-  /* =======================================================
-     FORM SUBMIT
-  ======================================================= */
+  /* = FORM SUBMIT */
 
   form.addEventListener("submit", async (event) => {
-
     event.preventDefault();
-
 
     const validFirstName = validateName(
       firstName,
       "firstNameError",
-      "First name"
+      "First name",
     );
 
-    const validLastName = validateName(
-      lastName,
-      "lastNameError",
-      "Last name"
-    );
+    const validLastName = validateName(lastName, "lastNameError", "Last name");
 
     const validEmail = validateEmail();
 
@@ -352,7 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const validConsent = validateConsent();
 
-
     const isValid =
       validFirstName &&
       validLastName &&
@@ -361,50 +231,32 @@ document.addEventListener("DOMContentLoaded", () => {
       validMessage &&
       validConsent;
 
-
     if (!isValid) {
-
-      showToast(
-        "Please check the highlighted fields."
-      );
+      showToast("Please check the highlighted fields.");
 
       return;
     }
 
-
-    /* =====================================================
-       LOADING
-    ===================================================== */
+    /* LOADING*/
 
     submitButton.disabled = true;
 
     submitButton.classList.add("loading");
 
-
     /*
       Small delay to give the user visual feedback.
 
-      IMPORTANT:
-      This is currently a FRONT-END form.
-
-      When your backend/API is ready, replace the
-      localStorage section below with fetch().
     */
 
     await new Promise((resolve) => {
       setTimeout(resolve, 900);
     });
 
+    /* SAVE MESSAGE LOCALLY */
 
-    /* =====================================================
-       SAVE MESSAGE LOCALLY
-    ===================================================== */
-
-    const savedMessages =
-      JSON.parse(
-        localStorage.getItem("eveBeautyContactMessages") || "[]"
-      );
-
+    const savedMessages = JSON.parse(
+      localStorage.getItem("eveBeautyContactMessages") || "[]",
+    );
 
     const newMessage = {
       id: Date.now(),
@@ -418,23 +270,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       message: message.value.trim(),
 
-      createdAt:
-        new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
-
 
     savedMessages.push(newMessage);
 
-
     localStorage.setItem(
       "eveBeautyContactMessages",
-      JSON.stringify(savedMessages)
+      JSON.stringify(savedMessages),
     );
 
-
-    /* =====================================================
-       SUCCESS
-    ===================================================== */
+    /* SUCCESS*/
 
     form.reset();
 
@@ -444,24 +290,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     submitButton.classList.remove("loading");
 
-
-    showToast(
-      "Thank you! Your message has been received."
-    );
-
+    showToast("Thank you! Your message has been received.");
   });
 
-
-  /* =======================================================
-     PREVENT ACCIDENTAL DOUBLE SUBMIT
-  ======================================================= */
+  /* PREVENT ACCIDENTAL DOUBLE SUBMIT */
 
   window.addEventListener("beforeunload", () => {
-
     submitButton.disabled = false;
-
   });
-
 
   /* =======================================================
      FAQ
@@ -469,35 +305,197 @@ document.addEventListener("DOMContentLoaded", () => {
      Allows only one FAQ item to stay open at a time.
   ======================================================= */
 
-  const faqItems =
-    document.querySelectorAll(".faq-list details");
-
+  const faqItems = document.querySelectorAll(".faq-list details");
 
   faqItems.forEach((item) => {
-
     item.addEventListener("toggle", () => {
-
       if (!item.open) {
         return;
       }
 
       faqItems.forEach((otherItem) => {
-
         if (otherItem !== item) {
           otherItem.removeAttribute("open");
         }
-
       });
-
     });
-
   });
+  setupContactScrollAnimations();
 
-
-  /* =======================================================
-     INITIAL STATE
-  ======================================================= */
+  /* INITIAL STATE*/
 
   updateCharacterCount();
-
 });
+
+/* =======================================================
+     EVE BEAUTY — CONTACT PAGE SCROLL REVEAL
+     Animates page sections and their individual elements.
+  ======================================================= */
+
+if (!document.getElementById("contact-scroll-reveal-style")) {
+  const style = document.createElement("style");
+
+  style.id = "contact-scroll-reveal-style";
+
+  style.textContent = `
+      .contact-scroll-reveal {
+        opacity: 0;
+        transform: translateY(24px);
+
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+
+        will-change: opacity, transform;
+      }
+
+      .contact-scroll-reveal.contact-reveal-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .contact-scroll-reveal,
+        .contact-scroll-reveal.contact-reveal-visible {
+          opacity: 1;
+          transform: none;
+          transition: none;
+          will-change: auto;
+        }
+      }
+    `;
+
+  document.head.appendChild(style);
+}
+
+const contactRevealObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("contact-reveal-visible");
+            } else {
+              entry.target.classList.remove("contact-reveal-visible");
+            }
+          });
+        },
+        {
+          threshold: 0.08,
+          rootMargin: "0px 0px -30px 0px",
+        },
+      )
+    : null;
+
+function setupContactScrollAnimations(root = document) {
+  const revealSelectors = [
+    /* Page structure */
+    "header",
+    "main",
+    "footer",
+
+    /* Contact page sections */
+    ".contact-hero",
+    ".contact-section",
+    ".contact-container",
+    ".contact-content",
+    ".contact-info",
+    ".contact-details",
+    ".contact-form-container",
+    ".contact-form-wrapper",
+
+    /* Common headings and text */
+    ".section-title",
+    ".section-heading",
+    ".section-subtitle",
+    ".section-description",
+    ".contact-title",
+    ".contact-subtitle",
+    ".contact-description",
+
+    /* Hero content */
+    ".hero-content",
+    ".hero-title",
+    ".hero-description",
+    ".hero-image",
+    ".hero-buttons",
+
+    /* Contact information and cards */
+    ".contact-card",
+    ".contact-info-card",
+    ".contact-method",
+    ".contact-item",
+    ".contact-icon",
+    ".contact-address",
+    ".contact-email",
+    ".contact-phone",
+
+    /* Contact form */
+    "#contactForm",
+    "#contactForm label",
+    "#contactForm input",
+    "#contactForm select",
+    "#contactForm textarea",
+    "#contactForm button",
+    "#firstName",
+    "#lastName",
+    "#email",
+    "#subject",
+    "#message",
+    "#consent",
+    "#characterCount",
+    "#contactSubmit",
+
+    /* FAQ */
+    ".faq-section",
+    ".faq-container",
+    ".faq-list",
+    ".faq-list details",
+    ".faq-list summary",
+    ".faq-list details p",
+    ".faq-item",
+    ".faq-question",
+    ".faq-answer",
+
+    /* Other common page elements */
+    ".feature-card",
+    ".feature-item",
+    ".category-card",
+    ".contact-banner",
+    ".contact-map",
+    ".social-links",
+    ".social-link",
+
+    /* Direct children of common grids */
+    ".contact-grid > *",
+    ".contact-cards > *",
+    ".contact-details > *",
+    ".faq-grid > *",
+    ".features-grid > *",
+
+    /* Buttons and links */
+    "a.contact-button",
+    "button.contact-button",
+  ];
+
+  const elements = root.querySelectorAll(revealSelectors.join(", "));
+
+  elements.forEach((element, index) => {
+    if (element.classList.contains("contact-scroll-reveal")) {
+      return;
+    }
+
+    element.classList.add("contact-scroll-reveal");
+
+    element.style.transitionDelay = `${(index % 4) * 70}ms`;
+
+    if (contactRevealObserver) {
+      contactRevealObserver.observe(element);
+    } else {
+      element.classList.add("contact-reveal-visible");
+    }
+  });
+}
+
+/* Initialize animations for the existing page */
+setupContactScrollAnimations();

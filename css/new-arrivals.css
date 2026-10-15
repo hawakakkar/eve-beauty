@@ -1339,7 +1339,7 @@ body.dark-mode .new-arrivals-hero {
 }
 
 body.dark-mode .new-arrivals-hero h1 {
-  color: #f4e8ea;
+  color: #090909;
 }
 
 body.dark-mode .new-arrivals-hero-content > p {
@@ -1348,6 +1348,9 @@ body.dark-mode .new-arrivals-hero-content > p {
 
 body.dark-mode .arrival-categories {
   background: #171315;
+}
+body.dark-mode .arrival-wishlist {
+  background-color: #090909;
 }
 
 body.dark-mode .featured-arrivals {

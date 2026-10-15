@@ -1,7 +1,7 @@
+/*EVE BEAUTY-- BEST-SELLERS.JS*/
+
 document.addEventListener("DOMContentLoaded", () => {
-  /* =========================================================
-     ELEMENTS
-  ========================================================= */
+  /* ELEMENTS */
 
   const cartButtons = document.querySelectorAll("[data-add-cart]");
 
@@ -23,9 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const galleryImage3 = document.getElementById("galleryImage3");
 
-  /* =========================================================
-   CURRENT USER
-========================================================= */
+  /*CURRENT USER*/
 
   function getCurrentUser() {
     try {
@@ -48,11 +46,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return null;
     }
   }
-  /* =========================================================
-     GALLERY DATA
 
-     هر نقطه = سه عکس جدید
-  ========================================================= */
+  function getUserCartKey() {
+    const user = getCurrentUser();
+
+    return user ? `eveBeautyCart_${user.id}` : "eveBeautyCart";
+  }
+
+  function getUserWishlistKey() {
+    const user = getCurrentUser();
+
+    return user ? `eveBeautyWishlist_${user.id}` : "eveBeautyWishlist";
+  }
+
+  /*GALLERY DATA*/
 
   const gallerySlides = [
     [
@@ -80,43 +87,66 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
   ];
 
-  /* =========================================================
-     CART STORAGE
-  ========================================================= */
+  /*  CART STORAGE*/
 
   let cartItems = [];
 
-  try {
-    const savedCart = localStorage.getItem("eveBeautyCart");
+  function loadCart() {
+    try {
+      const userCartKey = getUserCartKey();
+      const savedCart = localStorage.getItem(userCartKey);
 
-    if (savedCart) {
-      cartItems = JSON.parse(savedCart);
+      const cart = JSON.parse(
+        savedCart !== null
+          ? savedCart
+          : localStorage.getItem("eveBeautyCart") || "[]",
+      );
+
+      return Array.isArray(cart) ? cart : [];
+    } catch (error) {
+      console.warn("Could not load cart:", error);
+
+      return [];
     }
-
-    if (!Array.isArray(cartItems)) {
-      cartItems = [];
-    }
-  } catch (error) {
-    console.warn("Could not load cart:", error);
-
-    cartItems = [];
   }
 
-  /* =========================================================
-     SAVE CART
-  ========================================================= */
+  cartItems = loadCart();
+
+  /*SAVING CART PRODUCT IN BROWSER UNTIL THE INFO DONT REMOVE DURING REFRESH */
 
   function saveCart() {
     try {
+      const user = getCurrentUser();
+
+      if (user) {
+        localStorage.setItem(
+          `eveBeautyCart_${user.id}`,
+          JSON.stringify(cartItems),
+        );
+
+        localStorage.setItem(
+          "eveBeautyCartCurrentUser",
+          JSON.stringify({
+            userId: user.id,
+            items: cartItems,
+            updatedAt: new Date().toISOString(),
+          }),
+        );
+      }
+
       localStorage.setItem("eveBeautyCart", JSON.stringify(cartItems));
+
+      window.dispatchEvent(new CustomEvent("eveBeautyCartUpdated"));
+
+      return true;
     } catch (error) {
       console.warn("Could not save cart:", error);
+
+      return false;
     }
   }
 
-  /* =========================================================
-     TOAST
-  ========================================================= */
+  /* TOAST*/
 
   let toastTimer = null;
 
@@ -134,9 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1800);
   }
 
-  /* =========================================================
-     GET PRODUCT DATA
-  ========================================================= */
+  /* GET PRODUCT DATA FROM HTML*/
 
   function getProductFromCard(card) {
     if (!card) return null;
@@ -152,17 +180,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  /* =========================================================
-     CHECK CART
-  ========================================================= */
+  /* CHECK CART*/
 
   function isProductInCart(productId) {
-    return cartItems.some((item) => item.id === productId);
+    return cartItems.some((item) => String(item.id) === String(productId));
   }
 
-  /* =========================================================
-     UPDATE CART BUTTON
-  ========================================================= */
+  /* UPDATE CART BUTTON */
 
   function updateCartButton(button, added) {
     if (!button) return;
@@ -199,9 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =========================================================
-     SYNC CART BUTTONS
-  ========================================================= */
+  /* SYNC CART BUTTONS*/
 
   function syncCartButtons() {
     cartButtons.forEach((button) => {
@@ -215,9 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     ADD / REMOVE CART
-  ========================================================= */
+  /* ADD / REMOVE CART */
 
   cartButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
@@ -240,16 +260,18 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      cartItems = loadCart();
+
       const existingIndex = cartItems.findIndex(
         (item) => String(item.id) === String(product.id),
       );
 
-      // اگر قبلاً در Cart است → حذف شود
+      // IF THE PRODUCT WAS ALREADY EXIST IT WILL REMOVE*/
       if (existingIndex !== -1) {
         cartItems.splice(existingIndex, 1);
 
-        saveCart();
-
+        if (!saveCart()) return;
+        /*THIS CHANGE THE BUTTON TO ITS FIRST FORM*/
         updateCartButton(button, false);
 
         if (typeof updateNavbarCounts === "function") {
@@ -267,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // اگر در Cart نیست → اضافه شود
+      /*THIS ADD A NEW OBJECT TO CART ITEMS ARRAYS*/
       cartItems.push({
         id: product.id,
         name: product.name,
@@ -276,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
         quantity: 1,
       });
 
-      saveCart();
+      if (!saveCart()) return;
 
       updateCartButton(button, true);
 
@@ -294,57 +316,89 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* =========================================================
-     INITIAL CART STATE
-  ========================================================= */
+  /* INITIAL CART STATE*/
 
   syncCartButtons();
 
-  /* =========================================================
-   WISHLIST
-========================================================= */
+  window.addEventListener("eveBeautyCartUpdated", () => {
+    cartItems = loadCart();
+    syncCartButtons();
+  });
+
+  window.addEventListener("eveBeautyCartChanged", () => {
+    cartItems = loadCart();
+    syncCartButtons();
+  });
+
+  window.addEventListener("storage", (event) => {
+    if (
+      event.key === "eveBeautyCart" ||
+      event.key === "eveBeautyCartCurrentUser" ||
+      event.key === getUserCartKey()
+    ) {
+      cartItems = loadCart();
+      syncCartButtons();
+    }
+  });
+
+  /* 
+   WISHLIST */
 
   let wishlistItems = [];
 
-  try {
-    const savedWishlist = localStorage.getItem("eveBeautyWishlist");
+  function loadWishlist() {
+    try {
+      const userWishlistKey = getUserWishlistKey();
+      const savedWishlist = localStorage.getItem(userWishlistKey);
 
-    if (savedWishlist) {
-      wishlistItems = JSON.parse(savedWishlist);
+      const wishlist = JSON.parse(
+        savedWishlist !== null
+          ? savedWishlist
+          : localStorage.getItem("eveBeautyWishlist") || "[]",
+      );
+
+      return Array.isArray(wishlist) ? wishlist : [];
+    } catch (error) {
+      console.warn("Could not load wishlist:", error);
+
+      return [];
     }
-
-    if (!Array.isArray(wishlistItems)) {
-      wishlistItems = [];
-    }
-  } catch (error) {
-    console.warn("Could not load wishlist:", error);
-
-    wishlistItems = [];
   }
 
-  /* =========================================================
-   SAVE WISHLIST
-========================================================= */
+  wishlistItems = loadWishlist();
+
+  /*SAVE WISHLIST */
 
   function saveWishlist() {
     try {
+      const user = getCurrentUser();
+
+      if (user) {
+        localStorage.setItem(
+          `eveBeautyWishlist_${user.id}`,
+          JSON.stringify(wishlistItems),
+        );
+      }
+
       localStorage.setItem("eveBeautyWishlist", JSON.stringify(wishlistItems));
+
+      window.dispatchEvent(new CustomEvent("eveBeautyWishlistUpdated"));
+
+      return true;
     } catch (error) {
       console.warn("Could not save wishlist:", error);
+
+      return false;
     }
   }
 
-  /* =========================================================
-   CHECK WISHLIST
-========================================================= */
+  /*CHECK WISHLIST */
 
   function isProductInWishlist(productId) {
     return wishlistItems.some((item) => String(item.id) === String(productId));
   }
 
-  /* =========================================================
-   UPDATE WISHLIST BUTTON
-========================================================= */
+  /*UPDATE WISHLIST BUTTON */
 
   function updateWishlistButton(button, active) {
     if (!button) return;
@@ -374,9 +428,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
-  /* =========================================================
-   SYNC WISHLIST BUTTONS
-========================================================= */
+
+  /*SYNC WISHLIST BUTTONS */
 
   function syncWishlistButtons() {
     wishlistButtons.forEach((button) => {
@@ -390,9 +443,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-   ADD / REMOVE WISHLIST
-========================================================= */
+  /*ADD / REMOVE WISHLIST*/
 
   wishlistButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
@@ -410,9 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const currentUser = getCurrentUser();
 
-      /* =====================================================
-       LOGIN CHECK
-    ===================================================== */
+      /*  LOGIN CHECK */
 
       if (!currentUser) {
         localStorage.setItem("eveBeautyLoginRedirect", "best-sellers.html");
@@ -424,25 +473,24 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      /* =====================================================
-       FIND PRODUCT
-    ===================================================== */
+      wishlistItems = loadWishlist();
+
+      /*FIND PRODUCT*/
 
       const existingIndex = wishlistItems.findIndex(
         (item) => String(item.id) === String(product.id),
       );
 
-      /* =====================================================
-       REMOVE FROM WISHLIST
-    ===================================================== */
+      /*REMOVE FROM WISHLIST*/
 
       if (existingIndex !== -1) {
         wishlistItems.splice(existingIndex, 1);
 
-        saveWishlist();
-
+        if (!saveWishlist()) return;
+        /*THIS MAKE THE HEART UNACTIVE*/
         updateWishlistButton(button, false);
-
+        /*THIS CHECK THAT ARE THE updateWishlistButton FUNCTION DEFINED OR NO
+        AND IF IT DEFINED THE NAVBAR COUNTS OF WISHLISH WILL CHANGE*/
         if (typeof updateNavbarCounts === "function") {
           updateNavbarCounts();
         }
@@ -458,9 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      /* =====================================================
-       ADD TO WISHLIST
-    ===================================================== */
+      /* ADD TO WISHLIST*/
 
       wishlistItems.push({
         id: product.id,
@@ -470,7 +516,7 @@ document.addEventListener("DOMContentLoaded", () => {
         category: "Beauty",
       });
 
-      saveWishlist();
+      if (!saveWishlist()) return;
 
       updateWishlistButton(button, true);
 
@@ -488,16 +534,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* =========================================================
-   INITIAL WISHLIST STATE
-========================================================= */
+  /* INITIAL WISHLIST STATE */
 
   syncWishlistButtons();
 
-  /* =========================================================
-     GALLERY
-  ========================================================= */
+  window.addEventListener("eveBeautyWishlistUpdated", () => {
+    wishlistItems = loadWishlist();
+    syncWishlistButtons();
+  });
 
+  window.addEventListener("eveBeautyWishlistChanged", () => {
+    wishlistItems = loadWishlist();
+    syncWishlistButtons();
+  });
+
+  window.addEventListener("storage", (event) => {
+    if (
+      event.key === "eveBeautyWishlist" ||
+      event.key === getUserWishlistKey()
+    ) {
+      wishlistItems = loadWishlist();
+      syncWishlistButtons();
+    }
+  });
+
+  /* GALLERY */
+  /*THIS FUNCTION GIVE NUMBER BYNTHE NAME OF SLIDEINDEX AND IT WILL DISPLAY THAT SLIDES*/
   function changeGallery(slideIndex) {
     if (
       !gallerySlides[slideIndex] ||
@@ -531,13 +593,13 @@ document.addEventListener("DOMContentLoaded", () => {
     /* active dot */
 
     galleryDots.forEach((dot, index) => {
+      /*THIS GIVE THE ACTIVE FOR THE CHOOSEN SLIDE AND
+      THE index === slideIndex CHECK THAT ARE THE CURRENTLY SLIDE FOR DOTS OR NO*/
       dot.classList.toggle("active", index === slideIndex);
     });
   }
 
-  /* =========================================================
-     GALLERY DOT EVENTS
-  ========================================================= */
+  /* GALLERY DOT EVENTS */
 
   galleryDots.forEach((dot) => {
     dot.addEventListener("click", () => {
@@ -547,17 +609,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* =========================================================
-     AUTO GALLERY
-     
-     هر 5 ثانیه خودش تغییر می‌کند
-  ========================================================= */
+  /* AUTO CHANGE GALLERY EACH 5 SECOND */
 
   let currentGallerySlide = 0;
-
+  /*THIS EXECUTE ITS INNER CODE REPETATIVE*/
   setInterval(() => {
     currentGallerySlide++;
-
+    /*IF THE LENGTH REACH TO LAST SLIDE AGAIN IT BECOME 0*/
     if (currentGallerySlide >= gallerySlides.length) {
       currentGallerySlide = 0;
     }
@@ -565,9 +623,7 @@ document.addEventListener("DOMContentLoaded", () => {
     changeGallery(currentGallerySlide);
   }, 5000);
 
-  /* =========================================================
-     MODAL PRODUCT DATA
-  ========================================================= */
+  /* MODAL PRODUCT DATA*/
 
   const modalProductData = [
     {
@@ -650,10 +706,8 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  /* =========================================================
-     ESCAPE HTML
-  ========================================================= */
-
+  /*ESCAPE HTML*/
+  /*THIS CHANGE THE ENTER VALUE TO TEXT AND MAKE THE SPECIAL HTML CHARACTERISTICS SAFER*/
   function escapeHTML(value) {
     return String(value)
       .replace(/&/g, "&amp;")
@@ -667,15 +721,16 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
-  /* =========================================================
-     BUILD MODAL PRODUCTS
-  ========================================================= */
+  /* BUILD MODAL PRODUCTS*/
 
   function buildModalProducts() {
     if (!modalProducts) return;
-
+    /*THIS MAKE FOR EACH PRODUCT A HTML SNIPPET*/
     modalProducts.innerHTML = modalProductData
       .map((product) => {
+        /*THE HTML STRUCTURE PRODUCE AS A STRING BY USING TEMPLATE LITTERAL*/
+        /* ${escapeHTML(product.image)} Puts the path of the product image in the src attribute.
+         ALSO, escapeHTML() Escapes the path before inserting it into the HTML.*/
         return `
 
             <article class="modal-product">
@@ -713,47 +768,42 @@ document.addEventListener("DOMContentLoaded", () => {
       .join("");
   }
 
-  /* =========================================================
-     OPEN MODAL
-  ========================================================= */
+  /*  OPEN MODAL*/
 
   function openModal() {
     if (!modal) return;
-
+    /*THIS EXECUTE THE FUNCTION OF buildModalProducts() TILL THE INNER PRODUCTS OF MODAL MAKE AND DISPLAY*/
     buildModalProducts();
-
+    setupBestScrollAnimations(modal);
+    /*THIS EXTRACT THE MODAL FROM HIDDEN CONDITION*/
     modal.hidden = false;
-
+    /*THIS SAY THAT THIS FEATURE ISNT HIDE*/
     modal.setAttribute("aria-hidden", "false");
-
+    /*WHEN THE MODAL IS OPEN THE USE CANT SCROLL THE MAIN PAGE*/
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
   }
 
-  /* =========================================================
-     CLOSE MODAL
-  ========================================================= */
+  /*CLOSE MODAL*/
 
   function closeModal() {
     if (!modal) return;
-
+    /*THIS MAKE THE MODAL HIDE*/
     modal.hidden = true;
-
+    /*THIS SAY THAT THIS FEATURE IS HIDE*/
     modal.setAttribute("aria-hidden", "true");
-
+    /*THIS RETURN THE OVERFLOW VALUE TILL THE PAGE SCROLL*/
     document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
   }
 
-  /* =========================================================
-     EXPLORE BUTTON
-  ========================================================= */
+  /* EXPLORE BUTTON*/
 
   if (exploreButton) {
     exploreButton.addEventListener("click", openModal);
   }
 
-  /* =========================================================
-     CLOSE MODAL
-  ========================================================= */
+  /* CLOSE MODAL */
 
   if (modal) {
     modal.querySelectorAll("[data-modal-close]").forEach((element) => {
@@ -761,26 +811,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     ESC CLOSE MODAL
-  ========================================================= */
+  /* ESC CLOSE MODAL */
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && modal && !modal.hidden) {
+      /*IF THREE CONDITION BE TRUE THE BELOW FUNCTION WILL EXECUTE*/
       closeModal();
     }
   });
 
-  /* =========================================================
-     VIEW ALL
-  ========================================================= */
+  /* VIEW ALL*/
 
   const viewAllButtons = document.querySelectorAll(".best-view-all");
 
   viewAllButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       event.preventDefault();
-
+      /*THE CATEGORY OF PRODUCT WILL GIVE FROM button.dataset.category OR BEAUTY*/
       const category = button.dataset.category || "beauty";
 
       if (category === "skincare") {
@@ -791,14 +838,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* =========================================================
-     HERO SHOP BUTTON
-  ========================================================= */
+  /* HERO SHOP BUTTON*/
 
   const heroButton = document.querySelector(".best-hero-button");
 
   if (heroButton) {
     heroButton.addEventListener("click", () => {
+      /*THIS setTimeout(() DELAY THE EXECUTE OF FUNCTION SHORTLY*/
       setTimeout(() => {
         const products = document.getElementById("best-products");
 
@@ -812,9 +858,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =========================================================
-     INITIAL GALLERY
-  ========================================================= */
+  /* INITIAL GALLERY */
 
   changeGallery(0);
 
@@ -829,3 +873,102 @@ document.addEventListener("DOMContentLoaded", () => {
     syncCartButtons();
   }
 });
+
+/* =========================================================
+     BEST SELLERS - SCROLL REVEAL ANIMATIONS
+  ========================================================= */
+
+// Add animation styles only once
+if (!document.getElementById("best-sellers-scroll-style")) {
+  const style = document.createElement("style");
+
+  style.id = "best-sellers-scroll-style";
+
+  style.textContent = `
+      .best-scroll-reveal {
+        opacity: 0;
+        transform: translateY(35px);
+
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .best-scroll-reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .best-scroll-reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+    `;
+
+  document.head.appendChild(style);
+}
+
+// Observe elements as they enter or leave the viewport
+const bestScrollObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            } else {
+              entry.target.classList.remove("is-visible");
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -30px 0px",
+        },
+      )
+    : null;
+
+// Apply scroll animations to page elements
+function setupBestScrollAnimations(root = document) {
+  const revealSelectors = [
+    ".best-product-card",
+    ".best-category-card",
+    ".best-feature-card",
+    ".best-section",
+    ".best-products-grid > *",
+    ".best-products-grid",
+    ".best-hero-content",
+    ".best-hero-image",
+    ".best-gallery",
+    ".best-gallery-section",
+    "#best-products",
+    "#best-sellers",
+    ".modal-product",
+  ];
+
+  const revealElements = root.querySelectorAll(revealSelectors.join(", "));
+
+  revealElements.forEach(function (element, index) {
+    // Do not observe the same element twice
+    if (element.classList.contains("best-scroll-reveal")) {
+      return;
+    }
+
+    element.classList.add("best-scroll-reveal");
+
+    // Stagger elements for a natural appearance
+    element.style.transitionDelay = `${(index % 4) * 100}ms`;
+
+    if (bestScrollObserver) {
+      bestScrollObserver.observe(element);
+    } else {
+      element.classList.add("is-visible");
+    }
+  });
+}
+
+// Initialize animations for existing page elements
+setupBestScrollAnimations();

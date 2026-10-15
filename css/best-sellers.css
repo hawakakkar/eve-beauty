@@ -511,7 +511,7 @@ a {
 .best-product-image {
   position: relative;
 
-  height: 190px;
+  height: 300px;
 
   overflow: hidden;
 
@@ -559,55 +559,82 @@ a {
 }
 
 /* =========================================================
-   WISHLIST
+   WISHLIST — LUCIDE HEART ICON
 ========================================================= */
 
 .best-wishlist {
   position: absolute;
-
   top: 9px;
   right: 9px;
-
   z-index: 4;
 
   width: 30px;
   height: 30px;
+  min-width: 30px;
+  min-height: 30px;
 
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   padding: 0;
-
   border: 1px solid rgba(166, 111, 116, 0.15);
-
   border-radius: 50%;
 
   background: rgba(255, 255, 255, 0.9);
-
   color: #9b6c72;
 
-  font-size: 14px;
+  cursor: pointer;
 
   transition:
     background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease;
 }
 
+/* ثابت نگه‌داشتن اندازه آیکن Lucide */
+.best-wishlist svg {
+  display: block;
+
+  width: 15px !important;
+  height: 15px !important;
+
+  min-width: 15px;
+  min-height: 15px;
+
+  flex-shrink: 0;
+
+  stroke: currentColor;
+  stroke-width: 1.8;
+
+  fill: none;
+
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Hover — without scaling */
 .best-wishlist:hover {
-  background: rgba(255, 255, 255, 0.9);
+  background: #fff;
   color: #9b6c72;
-  transform: scale(1.05);
 }
 
+/* Active wishlist */
 .best-wishlist.active {
-  background: rgba(255, 255, 255, 0.9);
-  color: #9b6c72;
-  transform: scale(1.05);
+  background: #fff;
+  color: #aa8386;
 }
 
-.best-wishlist.active i {
-  color: #aa8386 !important;
+/* Filled heart when selected */
+.best-wishlist.active svg {
+  fill: #aa8386;
+  stroke: #aa8386;
+}
+
+/* Prevent enlargement on click */
+.best-wishlist:active,
+.best-wishlist.active,
+.best-wishlist:hover {
+  transform: none !important;
 }
 
 /* =========================================================
@@ -693,21 +720,18 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 5px;
 
   padding: 0 11px;
 
   border: 0;
   outline: none;
-
   border-radius: 5px;
 
   background: var(--best-rose);
   color: #fff;
 
   font-family: var(--best-sans);
-
   font-size: 9px;
   font-weight: 600;
 
@@ -718,13 +742,36 @@ a {
     transform 0.2s ease;
 }
 
-.best-cart-button i {
-  font-size: 10px;
+/* Lucide SVG icon */
+.best-cart-button svg {
+  display: block;
+
+  width: 12px;
+  height: 12px;
+
+  min-width: 12px;
+  min-height: 12px;
+
+  flex-shrink: 0;
+
+  stroke-width: 2;
+  color: inherit;
+
+  transform: none !important;
+}
+
+/* Prevent icon size changes after clicking */
+.best-cart-button:active svg,
+.best-cart-button.added svg,
+.best-cart-button:hover svg {
+  width: 12px;
+  height: 12px;
+
+  transform: none !important;
 }
 
 .best-cart-button:hover {
   background: var(--best-rose-dark);
-
   transform: translateY(-1px);
 }
 
@@ -868,50 +915,222 @@ a {
    GALLERY
 ========================================================= */
 
+/* =========================================================
+   BEAUTY THAT SPEAKS FOR ITSELF — GALLERY
+========================================================= */
+
 .best-gallery-section {
-  padding: 22px 0 0;
-  margin-top: 30px;
-  border-radius: 12px;
+  position: relative;
+
+  width: 100%;
+
+  margin-top: 40px;
+  padding: 48px 35px 32px;
+
+  border-radius: 16px;
+
   background-color: #f5e2e2;
-  height: 400px;
+
+  overflow: hidden;
 }
 
-.gallery-caption {
-  margin-bottom: auto;
-  margin-top: 30px;
-  text-align: center;
+/* Elegant decorative glow */
 
-  color: black;
+.best-gallery-section::before {
+  content: "";
+
+  position: absolute;
+
+  top: -90px;
+  left: 50%;
+
+  width: 260px;
+  height: 260px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: rgba(170, 131, 134, 0.08);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   BEAUTY THAT SPEAKS FOR ITSELF
+========================================================= */
+
+.gallery-caption {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+
+  margin: 0 auto 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 22px;
+
+  color: #30272a;
 
   font-family: var(--best-serif);
 
-  font-size: 40px;
+  font-size: clamp(32px, 4vw, 52px);
+
+  font-weight: 500;
+
   font-style: italic;
+
+  line-height: 1;
+
+  text-align: center;
+
+  letter-spacing: 0.3px;
 }
+
+/* Decorative lines beside the title */
+
+.gallery-caption::before,
+.gallery-caption::after {
+  content: "";
+
+  width: 55px;
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: var(--best-rose);
+
+  opacity: 0.7;
+}
+
+/* =========================================================
+   GALLERY CONTENT
+========================================================= */
 
 .gallery-layout {
+  position: relative;
+  z-index: 2;
+
   display: flex;
 
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
+
+  gap: 22px;
+
+  width: 100%;
 }
 
-.gallery-dots {
-  display: flex;
+/* =========================================================
+   GALLERY IMAGES
+========================================================= */
+
+.gallery-images {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 200px));
+
+  justify-content: center;
+
   align-items: center;
 
-  gap: 5px;
-  margin-top: 300px;
-  margin-left: 50%;
+  gap: 24px;
 
-  transform: translateX(-50%);
+  transform: none;
+}
+
+/* Middle image slightly elevated */
+
+.gallery-image-card:nth-child(2) {
+  transform: translateY(-12px);
+}
+
+/* =========================================================
+   GALLERY IMAGE CARD
+========================================================= */
+
+.gallery-image-card {
+  width: 200px;
+  height: 200px;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  background: #f3e3df;
+
+  border: 3px solid rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    0 10px 25px rgba(79, 45, 49, 0.08),
+    0 2px 8px rgba(79, 45, 49, 0.05);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.gallery-image-card:hover {
+  transform: translateY(-7px);
+
+  box-shadow:
+    0 16px 32px rgba(79, 45, 49, 0.15),
+    0 3px 10px rgba(79, 45, 49, 0.08);
+}
+
+.gallery-image-card:nth-child(2):hover {
+  transform: translateY(-19px);
+}
+
+.gallery-image-card img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.35s ease;
+}
+
+.gallery-image-card:hover img {
+  transform: scale(1.06);
+}
+
+/* =========================================================
+   GALLERY DOTS
+   — NOW DIRECTLY UNDER THE IMAGES
+========================================================= */
+
+.gallery-dots {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  width: 100%;
+
+  margin-top: 15px;
+  margin-left: 0;
+
+  transform: none;
+
+  order: 2;
 }
 
 .gallery-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 
   padding: 0;
 
@@ -935,41 +1154,8 @@ a {
   height: 8px;
 
   background: var(--best-rose);
-}
 
-.gallery-images {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-
-  transform: translateX(-60%);
-}
-
-.gallery-image-card {
-  width: 200px;
-  height: 200px;
-
-  overflow: hidden;
-
-  border-radius: 8px;
-
-  background: #f3e3df;
-}
-
-.gallery-image-card img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.3s ease;
-}
-
-.gallery-image-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.15);
 }
 
 /* =========================================================
@@ -1015,6 +1201,7 @@ a {
 
   transform: translateY(0);
 }
+
 /* =========================================================
    BEST SELLERS MODAL
 ========================================================= */
@@ -1029,7 +1216,7 @@ a {
   align-items: center !important;
   justify-content: center;
 
-  padding: 25px;
+  padding: 630px 25px 25px !important;
 
   overflow: hidden;
 
@@ -1058,11 +1245,11 @@ a {
 
   z-index: 2;
 
-  width: min(1180px, 100%);
+  width: min(1100px, 100%);
 
-  max-height: 90vh;
+  max-height: 80vh;
 
-  padding: 38px 42px 42px;
+  padding: 50px 42px 42px;
 
   overflow-y: auto;
   overflow-x: hidden;
@@ -1526,16 +1713,19 @@ body.dark-mode .best-product-bottom > strong {
 
 body.dark-mode .best-wishlist {
   background: rgba(35, 27, 29, 0.94);
-
   border-color: #503b3f;
-
   color: #d09da2;
 }
 
 body.dark-mode .best-wishlist:hover,
 body.dark-mode .best-wishlist.active {
-  background: #aa8386;
+  background: rgba(35, 27, 29, 0.94);
   color: #fff;
+}
+
+body.dark-mode .best-wishlist.active svg {
+  fill: #fff;
+  stroke: #fff;
 }
 
 /* =========================================================
@@ -1567,8 +1757,21 @@ body.dark-mode .favorites-image::before {
    DARK — GALLERY
 ========================================================= */
 
+body.dark-mode .best-gallery-section {
+  background-color: #2a2023;
+}
+
+body.dark-mode .best-gallery-section::before {
+  background: rgba(199, 150, 155, 0.08);
+}
+
 body.dark-mode .gallery-caption {
-  color: #d09da2;
+  color: #f1e4e5;
+}
+
+body.dark-mode .gallery-caption::before,
+body.dark-mode .gallery-caption::after {
+  background: #c7969b;
 }
 
 body.dark-mode .gallery-dot {
@@ -1581,6 +1784,12 @@ body.dark-mode .gallery-dot.active {
 
 body.dark-mode .gallery-image-card {
   background: #2b2023;
+
+  border-color: rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 /* =========================================================
@@ -1873,27 +2082,37 @@ body.dark-mode .best-cart-toast {
   }
 
   /* =======================================================
-     GALLERY
-  ======================================================= */
+   GALLERY — RESPONSIVE
+======================================================= */
 
   .best-gallery-section {
-    padding-top: 20px;
+    margin-top: 28px;
+    padding: 35px 16px 25px;
+
+    border-radius: 14px;
+  }
+
+  .gallery-caption {
+    margin-bottom: 25px;
+
+    gap: 12px;
+
+    font-size: clamp(27px, 7vw, 38px);
+
+    line-height: 1.05;
+  }
+
+  .gallery-caption::before,
+  .gallery-caption::after {
+    width: 28px;
   }
 
   .gallery-layout {
     flex-direction: column;
 
-    align-items: stretch;
+    align-items: center;
 
-    gap: 12px;
-  }
-
-  .gallery-dots {
-    margin-left: 0;
-
-    transform: none;
-
-    justify-content: center;
+    gap: 17px;
   }
 
   .gallery-images {
@@ -1901,14 +2120,40 @@ body.dark-mode .best-cart-toast {
 
     grid-template-columns: repeat(3, minmax(0, 1fr));
 
-    gap: 7px;
+    gap: 9px;
+
+    justify-content: center;
   }
 
   .gallery-image-card {
     width: 100%;
-    height: 75px;
+    height: 105px;
+
+    border-radius: 9px;
   }
 
+  .gallery-image-card:nth-child(2) {
+    transform: translateY(-7px);
+  }
+
+  .gallery-image-card:nth-child(2):hover {
+    transform: translateY(-11px);
+  }
+
+  .gallery-dots {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    margin: 0;
+
+    transform: none;
+  }
   /* =======================================================
      TOAST
   ======================================================= */
@@ -2032,9 +2277,26 @@ body.dark-mode .best-cart-toast {
   }
 
   /* GALLERY */
+  .gallery-images {
+    gap: 7px;
+  }
 
   .gallery-image-card {
-    height: 68px;
+    height: 92px;
+  }
+
+  .gallery-caption {
+    font-size: 29px;
+    gap: 9px;
+  }
+
+  .gallery-caption::before,
+  .gallery-caption::after {
+    width: 20px;
+  }
+
+  .gallery-dots {
+    gap: 5px;
   }
 }
 
@@ -2131,8 +2393,25 @@ body.dark-mode .best-cart-toast {
 
   /* GALLERY */
 
+  .gallery-images {
+    gap: 5px;
+  }
+
   .gallery-image-card {
-    height: 60px;
+    height: 82px;
+  }
+
+  .gallery-caption {
+    font-size: 27px;
+  }
+
+  .gallery-caption::before,
+  .gallery-caption::after {
+    width: 16px;
+  }
+
+  .gallery-dots {
+    gap: 4px;
   }
 }
 

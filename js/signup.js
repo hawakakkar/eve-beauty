@@ -1,12 +1,7 @@
-/* =========================================================
-   EVE BEAUTY
-   SIGN UP - LOCAL STORAGE DATABASE
-========================================================= */
+/*EVE BEAUTY SIGN UP LOCAL STORAGE DATABASE*/
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* =======================================================
-     ELEMENTS
-  ======================================================= */
+  /* ELEMENTS*/
 
   const createAccountForm = document.getElementById("createAccountForm");
 
@@ -18,24 +13,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const signupPasswordToggle = document.getElementById("signupPasswordToggle");
 
+  const signupConfirmPassword = document.getElementById(
+    "signupConfirmPassword",
+  );
+
+  const signupConfirmPasswordToggle = document.getElementById(
+    "signupConfirmPasswordToggle",
+  );
+
   const signupMessage = document.getElementById("signupMessage");
 
   const lightModeBtn = document.getElementById("lightModeBtn");
 
   const darkModeBtn = document.getElementById("darkModeBtn");
 
-  /* =======================================================
-     STORAGE
-  ======================================================= */
+  /* THE SAVING INFO IN LOCALSTORAGE*/
 
   const USERS_KEY = "eveBeautyUsers";
   const CURRENT_USER_KEY = "eveBeautyCurrentUser";
   const THEME_KEY = "eveBeautyTheme";
 
-  /* =======================================================
-     USERS DATABASE
-  ======================================================= */
-
+  /* CONTROL OF USERS DATABASE */
+  /*THIS FUNCTION WILL READ THE LIST OF USERS THAT SAVED IN LOCALSTORAGE*/
   function getUsers() {
     try {
       const stored = localStorage.getItem(USERS_KEY);
@@ -54,8 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /*SAVING USERS*/
   function saveUsers(users) {
     try {
+      /*THIS CHANGE THE ARRAYS OR OBJECT OF JS TO JSON STRING THEN SAVE THIS STRING BY USER KEY IN LOCALSTORAGE*/
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
 
       return true;
@@ -66,9 +67,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =======================================================
-     HELPERS
-  ======================================================= */
+  /* PASSWORD HASHING USING PBKDF2 AND SHA-256 */
+
+  const HASH_ITERATIONS = 600000;
+
+  /* THIS CONVERTS BINARY DATA INTO HEXADECIMAL TEXT */
+
+  function toHex(buffer) {
+    return Array.from(new Uint8Array(buffer))
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  /* THIS HASHES PASSWORDS */
+
+  async function hashSecret(secret) {
+    if (!window.crypto?.subtle || !window.crypto?.getRandomValues) {
+      throw new Error("Secure hashing is unavailable.");
+    }
+
+    const salt = window.crypto.getRandomValues(new Uint8Array(16));
+
+    const key = await window.crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      "PBKDF2",
+      false,
+      ["deriveBits"],
+    );
+
+    const result = await window.crypto.subtle.deriveBits(
+      {
+        name: "PBKDF2",
+        salt,
+        iterations: HASH_ITERATIONS,
+        hash: "SHA-256",
+      },
+      key,
+      256,
+    );
+
+    return `pbkdf2$${HASH_ITERATIONS}$${toHex(salt)}$${toHex(result)}`;
+  }
+
+  /* HELPERS FUNCTIONS */
 
   function normalizeEmail(email) {
     return String(email || "")
@@ -76,10 +118,12 @@ document.addEventListener("DOMContentLoaded", () => {
       .toLowerCase();
   }
 
+  /*CHECKING THE VALIDATION OF EMAIL*/
   function validEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
+  /*THIS SHOWING THE MESSAGE TO USER*/
   function showMessage(message, type = "error") {
     if (!signupMessage) return;
 
@@ -98,9 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     signupMessage.classList.remove("success", "error");
   }
 
-  /* =======================================================
-     THEME
-  ======================================================= */
+  /* THIS CHANGE THE THEME OF SITE */
 
   function setTheme(theme) {
     const isDark = theme === "dark";
@@ -114,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
   }
 
+  /*THIS FUNCTION IS FOR THE THEME THAT ALREADY HAS BEEN STORED*/
   function loadTheme() {
     const savedTheme = localStorage.getItem(THEME_KEY);
 
@@ -124,9 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   darkModeBtn?.addEventListener("click", () => setTheme("dark"));
 
-  /* =======================================================
-     PASSWORD SHOW / HIDE
-  ======================================================= */
+  /* HIDING AND SHOWING ICON FOR PASSWORD */
 
   signupPasswordToggle?.addEventListener("click", () => {
     if (!signupPassword) return;
@@ -141,9 +182,28 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   });
 
-  /* =======================================================
-     SIGN UP
-  ======================================================= */
+  /* HIDING AND SHOWING ICON FOR CONFIRM PASSWORD */
+
+  signupConfirmPasswordToggle?.addEventListener("click", () => {
+    if (!signupConfirmPassword) return;
+
+    const isPassword = signupConfirmPassword.type === "password";
+
+    signupConfirmPassword.type = isPassword ? "text" : "password";
+
+    signupConfirmPasswordToggle.setAttribute(
+      "aria-label",
+      isPassword ? "Hide password" : "Show password",
+    );
+  });
+
+  /* THIS CHECKS IF SECURE HASHING IS AVAILABLE */
+
+  function secureHashingAvailable() {
+    return Boolean(window.crypto?.subtle && window.crypto?.getRandomValues);
+  }
+
+  /* STARTING SIGN UP METHOD*/
 
   createAccountForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -156,9 +216,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const password = signupPassword?.value || "";
 
-    /* ---------------------------------------------------
-         VALIDATION
-      --------------------------------------------------- */
+    const confirmPassword = signupConfirmPassword?.value || "";
+
+    /* THE VALIDATION INFO */
 
     if (!name) {
       showMessage("Please enter your full name.");
@@ -200,15 +260,37 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* ---------------------------------------------------
-         GET DATABASE
-      --------------------------------------------------- */
+    /* THIS CHECKS THAT BOTH PASSWORDS ARE THE SAME */
+
+    if (!confirmPassword) {
+      showMessage("Please confirm your password.");
+
+      signupConfirmPassword?.focus();
+
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showMessage("Passwords do not match.");
+
+      signupConfirmPassword?.focus();
+
+      return;
+    }
+
+    /* THIS CHECKS SECURE HASHING SUPPORT */
+
+    if (!secureHashingAvailable()) {
+      showMessage("Secure hashing requires HTTPS or localhost.");
+
+      return;
+    }
+
+    /* THIS EXECUTE THE GETUSERS() AND STORE THE LIST OF USERS*/
 
     const users = getUsers();
 
-    /* ---------------------------------------------------
-         CHECK DUPLICATE EMAIL
-      --------------------------------------------------- */
+    /* CHECK DUPLICATE EMAIL */
 
     const existingUser = users.find(
       (user) => normalizeEmail(user.email) === email,
@@ -220,9 +302,21 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* ---------------------------------------------------
-         CREATE USER
-      --------------------------------------------------- */
+    /* HASHING PASSWORD BEFORE SAVING */
+
+    let passwordHash;
+
+    try {
+      passwordHash = await hashSecret(password);
+    } catch (error) {
+      console.error("Could not hash account password:", error);
+
+      showMessage("Could not securely create your account.");
+
+      return;
+    }
+
+    /* CREATING USER*/
 
     const account = {
       id: "user_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8),
@@ -231,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       email,
 
-      password,
+      password: passwordHash,
 
       provider: "local",
 
@@ -240,9 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updatedAt: new Date().toISOString(),
     };
 
-    /* ---------------------------------------------------
-         SAVE USER
-      --------------------------------------------------- */
+    /* SAVING USER */
 
     users.push(account);
 
@@ -254,9 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* ---------------------------------------------------
-         REMOVE OLD / INCONSISTENT STORAGE
-      --------------------------------------------------- */
+    /*  REMOVE OLD / INCONSISTENT STORAGE */
 
     localStorage.removeItem("eveBeautyAccount");
 
@@ -264,24 +354,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.removeItem("eveBeautyLoggedIn");
 
-    /* ---------------------------------------------------
-         SUCCESS
-      --------------------------------------------------- */
+    /*SUCCESS */
 
     showMessage("Account created successfully! Redirecting...", "success");
 
-    /* ---------------------------------------------------
-         REDIRECT TO LOGIN
-      --------------------------------------------------- */
+    /*REDIRECT TO LOGIN PAGE */
 
     setTimeout(() => {
       window.location.href = "login.html?registered=1";
     }, 800);
   });
 
-  /* =======================================================
-     INITIALIZATION
-  ======================================================= */
+  /* THIS CLEARS OLD VALIDATION MESSAGES */
+
+  signupConfirmPassword?.addEventListener("input", clearMessage);
+
+  signupPassword?.addEventListener("input", clearMessage);
+
+  /* INITIALIZATION */
 
   loadTheme();
 });

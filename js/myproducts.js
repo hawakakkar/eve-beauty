@@ -1,76 +1,10 @@
-/* =========================================================
-   EVE BEAUTY — DASHBOARD
-
-   Single Page Dashboard
-
-   USER SYSTEM
-   ---------------------------------------------------------
-   New:
-   eveBeautyCurrentUser
-
-   Backward compatibility:
-   eveBeautyUser
-   eveBeautyLoggedIn
-
-   PROFILE IMAGE
-   ---------------------------------------------------------
-   eveBeautyProfileImage_<user-id>
-
-   DASHBOARD PAGES
-   ---------------------------------------------------------
-   dashboard
-   orders
-   wishlist
-   addresses
-   settings
-   cart
-   checkout
-
-   SHOP
-   ---------------------------------------------------------
-   shop.html
-
-   CART / CHECKOUT FLOW
-   ---------------------------------------------------------
-   Product
-      ↓
-   Add to Cart
-      ↓
-   eveBeautyCart
-      ↓
-   Cart
-      ↓
-   Checkout
-      ├── Shipping Information
-      ├── Payment Method
-      │      ├── COD
-      │      └── Card
-      │             ↓
-      │        Card Information
-      │             ↓
-      │        Demo Validation
-      │             ↓
-      │        Payment Successful
-      │             ↓
-      └──────── Place Order
-                   ↓
-            eveBeautyOrders
-                   ↓
-              Orders Page
-
-   IMPORTANT
-   ---------------------------------------------------------
-   Full card number and CVV are NEVER saved to localStorage.
-   Only payment status and cardLast4 are stored with the order.
-========================================================= */
-
+/*EVE BEAUTY -- MY PRODUCTS*/
+/*THE INITIAL VALUE IS FALSE BECAUSE IN THE BEGINNING THE PAYMENT CONFIRMATION CARD NOT REGISTERD*/
 let cardPaymentVerified = false;
-
 let currentCardLast4 = "";
 
-/* =========================================================
-   DOM READY
-========================================================= */
+/* DOM READY*/
+/*EXECUTE OF CODE AFTER PERPARING OF PAGE*/
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeStorage();
@@ -82,24 +16,22 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeAddresses();
   initializeNotifications();
   initializeLogout();
-  initializeSearch();
   initializeCart();
   initializeCheckout();
 
   refreshIcons();
-
+  /*CHECKING THE BROWSER ADRESS TO OPEN THE CORRECT PAGE*/
   openDashboardPageFromURL();
 });
 
-/* =========================================================
-   STORAGE
-========================================================= */
+/*READING OF INFO FROM STORAGE */
 
 function readStorage(key, fallback = []) {
   try {
     const value = localStorage.getItem(key);
 
     if (!value) {
+      /*THIS RETURN THE SUBSTITUTE*/
       return fallback;
     }
 
@@ -111,6 +43,7 @@ function readStorage(key, fallback = []) {
   }
 }
 
+/*CREATING OF SPECIFIC KEYS FOR USERS*/
 function writeStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -124,7 +57,71 @@ function writeStorage(key, value) {
     return false;
   }
 }
+function getUserOrdersStorageKey() {
+  const currentUserData = localStorage.getItem("eveBeautyCurrentUser");
+  const oldLoggedIn = localStorage.getItem("eveBeautyLoggedIn") === "true";
+  const oldUserData = localStorage.getItem("eveBeautyUser");
 
+  let user = null;
+
+  /*USER IDENTIFICATION*/
+  try {
+    if (currentUserData) {
+      user = JSON.parse(currentUserData);
+    } else if (oldLoggedIn && oldUserData) {
+      user = JSON.parse(oldUserData);
+    }
+  } catch (error) {
+    console.error("Unable to identify current user:", error);
+    return null;
+  }
+
+  if (!user || typeof user !== "object") {
+    return null;
+  }
+  /*CHOSSING USER ID*/
+  const identifier =
+    user.id ||
+    user.userId ||
+    user.email ||
+    user.username ||
+    user.name ||
+    user.fullName ||
+    "guest";
+
+  const userId = String(identifier).trim().toLowerCase().replace(/\s+/g, "_");
+
+  if (!userId || userId === "guest") {
+    return null;
+  }
+
+  return "eveBeautyOrders_" + encodeURIComponent(userId);
+}
+/*READING THE ORDERS OF CURRENT USER*/
+function readCurrentUserOrders() {
+  const key = getUserOrdersStorageKey();
+
+  if (!key) {
+    return [];
+  }
+  /*READ THE ORDERS FROM BROWSER*/
+  const orders = readStorage(key, []);
+  /*CHECK THAT ARE THE READING INFO IS ARRAY THAT IF IT IS ARRAY ORDERS WILL RETURN*/
+  return Array.isArray(orders) ? orders : [];
+}
+
+function saveCurrentUserOrders(orders) {
+  const key = getUserOrdersStorageKey();
+
+  if (!key) {
+    alert("Please sign in before accessing your orders.");
+    return false;
+  }
+
+  return writeStorage(key, Array.isArray(orders) ? orders : []);
+}
+
+/*CREATING STORADE SPACE*/
 function initializeStorage() {
   if (!localStorage.getItem("eveBeautyWishlist")) {
     writeStorage("eveBeautyWishlist", []);
@@ -147,9 +144,7 @@ function initializeStorage() {
   }
 }
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
+/* CREATING NAVIGATION SYSTEM*/
 
 function initializeNavigation() {
   document.addEventListener("click", (event) => {
@@ -162,18 +157,16 @@ function initializeNavigation() {
     event.preventDefault();
 
     const page = button.dataset.page;
-
+    /*THIS CHECK THAT ARE THE URL OF PAGE HAS  0F URL*/
     openPage(page);
   });
 }
 
-/* =========================================================
-   OPEN DASHBOARD PAGE FROM URL
-========================================================= */
+/* OPEN MY PROJECT PAGE FROM URL */
 
 function openDashboardPageFromURL() {
   const params = new URLSearchParams(window.location.search);
-
+  /*THIS WILL GIVE THE VALUE OF PAGE PARAMETER */
   const page = params.get("page");
 
   if (!page) {
@@ -181,7 +174,7 @@ function openDashboardPageFromURL() {
   }
 
   const allowedPages = [
-    "dashboard",
+    "my products",
     "orders",
     "wishlist",
     "addresses",
@@ -190,6 +183,8 @@ function openDashboardPageFromURL() {
     "checkout",
   ];
 
+  /*THIS CHECK THAT THE NAME OF PAGE BE IN WHITELIST*/
+
   if (!allowedPages.includes(page)) {
     return;
   }
@@ -197,9 +192,7 @@ function openDashboardPageFromURL() {
   openPage(page);
 }
 
-/* =========================================================
-   OPEN DASHBOARD PAGE
-========================================================= */
+/*OPEN MY PRODUCTS PAGE*/
 
 function openPage(page) {
   if (!page) {
@@ -210,10 +203,12 @@ function openPage(page) {
     section.classList.remove("active-page");
   });
 
+  /*THIS TRY TO FIND THE ELEMENT THAT ITS ID IS PAGE */
+
   const target = document.getElementById(`page-${page}`);
 
   if (!target) {
-    console.warn(`Dashboard page not found: page-${page}`);
+    console.warn(`MyProjects page not found: page-${page}`);
 
     return;
   }
@@ -264,9 +259,7 @@ function openPage(page) {
 
   refreshIcons();
 }
-/* =========================================================
-   CURRENT USER
-========================================================= */
+/* CURRENT USER*/
 
 function getCurrentUser() {
   const currentUserData = localStorage.getItem("eveBeautyCurrentUser");
@@ -305,9 +298,7 @@ function getCurrentUser() {
   };
 }
 
-/* =========================================================
-   SAVE USER
-========================================================= */
+/* SAVE USER*/
 
 function saveUser(user) {
   if (!user || typeof user !== "object") {
@@ -325,9 +316,7 @@ function saveUser(user) {
   window.dispatchEvent(new Event("eveBeautyUserChanged"));
 }
 
-/* =========================================================
-   USER
-========================================================= */
+/* USER */
 
 function initializeUser() {
   const user = getCurrentUser();
@@ -351,9 +340,7 @@ function initializeUser() {
   updateDashboardProfileImage();
 }
 
-/* =========================================================
-   PER USER PROFILE IMAGE
-========================================================= */
+/* \PER USER PROFILE IMAGE*/
 
 function getUserStorageId(user = getCurrentUser()) {
   if (!user || typeof user !== "object") {
@@ -379,9 +366,7 @@ function getProfileImageStorageKey(user = getCurrentUser()) {
   return `eveBeautyProfileImage_${getUserStorageId(user)}`;
 }
 
-/* =========================================================
-   PROFILE IMAGE
-========================================================= */
+/* PROFILE IMAGE*/
 
 function updateDashboardProfileImage() {
   const user = getCurrentUser();
@@ -443,9 +428,7 @@ function updateDashboardProfileImage() {
   }
 }
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
+/*  DASHBOARD */
 
 function initializeDashboard() {
   initializeUser();
@@ -453,16 +436,12 @@ function initializeDashboard() {
   updateStatistics();
 
   renderRecentOrders();
-
-  renderRecentlyViewed();
 }
 
-/* =========================================================
-   STATISTICS
-========================================================= */
+/* THIS CALCULATE THE STATISTICS OF HOME PAGE*/
 
 function updateStatistics() {
-  const orders = readStorage("eveBeautyOrders", []);
+  const orders = readCurrentUserOrders();
 
   const wishlist = readStorage("eveBeautyWishlist", []);
 
@@ -490,9 +469,7 @@ function updateStatistics() {
   setText("headerCartCount", formatCount(cartCount));
 }
 
-/* =========================================================
-   RECENT ORDERS
-========================================================= */
+/* RECENT ORDERS*/
 
 function renderRecentOrders() {
   const container = document.getElementById("recentOrders");
@@ -503,7 +480,7 @@ function renderRecentOrders() {
     return;
   }
 
-  const orders = readStorage("eveBeautyOrders", []);
+  const orders = readCurrentUserOrders();
 
   container.innerHTML = "";
 
@@ -543,7 +520,7 @@ function renderOrdersPage() {
     return;
   }
 
-  const orders = readStorage("eveBeautyOrders", []);
+  const orders = readCurrentUserOrders();
 
   container.innerHTML = "";
 
@@ -662,9 +639,7 @@ function createLargeOrder(order) {
   return wrapper;
 }
 
-/* =========================================================
-   WISHLIST
-========================================================= */
+/* WISHLIST*/
 
 function renderWishlist() {
   const grid = document.getElementById("wishlistGrid");
@@ -700,9 +675,7 @@ function renderWishlist() {
   refreshIcons();
 }
 
-/* =========================================================
-   PRODUCT CARD
-========================================================= */
+/*PRODUCT CARD*/
 
 function createProductCard(product, wishlistMode = false) {
   const card = document.createElement("article");
@@ -808,9 +781,7 @@ function createProductCard(product, wishlistMode = false) {
   return card;
 }
 
-/* =========================================================
-   WISHLIST ACTIONS
-========================================================= */
+/*WISHLIST ACTIONS */
 
 function removeWishlist(id) {
   let wishlist = readStorage("eveBeautyWishlist", []);
@@ -852,9 +823,7 @@ function addToWishlist(product) {
   window.dispatchEvent(new Event("eveBeautyWishlistChanged"));
 }
 
-/* =========================================================
-   CART
-========================================================= */
+/* CART*/
 
 function addToCart(product) {
   let cart = readStorage("eveBeautyCart", []);
@@ -885,17 +854,13 @@ function addToCart(product) {
   alert("Product added to cart successfully.");
 }
 
-/* =========================================================
-   CART SHIPPING
-========================================================= */
+/*  CART SHIPPING*/
 
 function getCartShipping() {
   return 0;
 }
 
-/* =========================================================
-   CART RENDER
-========================================================= */
+/* CART RENDER*/
 
 function renderCart() {
   const container = document.getElementById("cartPageList");
@@ -1028,12 +993,13 @@ function renderCart() {
       </button>
     `;
 
+    /*connect of all cart button*/
     row.querySelectorAll("[data-cart-action]").forEach((button) => {
       button.addEventListener("click", () => {
         changeCartQuantity(getProductId(item), button.dataset.cartAction);
       });
     });
-
+    /*THIS PUT THE ROW OF OF HTML PRODUCT IN THE SHOPPING CART*/
     container.appendChild(row);
   });
 
@@ -1056,10 +1022,8 @@ function renderCart() {
   refreshIcons();
 }
 
-/* =========================================================
-   CART QUANTITY
-========================================================= */
-
+/* CART QUANTITY*/
+/*THIS FUNC MAKE LESS AND MORE THE PRODUCTAND REOMVE*/
 function changeCartQuantity(id, action) {
   let cart = readStorage("eveBeautyCart", []);
 
@@ -1082,7 +1046,7 @@ function changeCartQuantity(id, action) {
   if (action === "minus") {
     quantity--;
   }
-
+  /*cart.indexOf(item) TRY TO FIND THE PLACE OF PRODUCT IN ARRAY*/
   if (action === "remove") {
     const index = cart.indexOf(item);
 
@@ -1108,9 +1072,8 @@ function changeCartQuantity(id, action) {
   window.dispatchEvent(new Event("eveBeautyCartChanged"));
 }
 
-/* =========================================================
-   CART INITIALIZATION
-========================================================= */
+/* CART INITIALIZATION*/
+/*THIS BUTTON FUNC ACTIVE THE TRANFORMING OF US INTO PAYMENT PAGE*/
 
 function initializeCart() {
   const checkoutButton = document.getElementById("proceedToCheckoutBtn");
@@ -1128,9 +1091,7 @@ function initializeCart() {
   });
 }
 
-/* =========================================================
-   CHECKOUT INITIALIZATION
-========================================================= */
+/* CHECKOUT INITIALIZATION*/
 
 function initializeCheckout() {
   const form = document.getElementById("checkoutForm");
@@ -1138,15 +1099,13 @@ function initializeCheckout() {
   if (!form) {
     return;
   }
-
+  /*THIS COONECT THE handleCheckoutSubmit INTO SENDING OF FORM*/
   form.addEventListener("submit", handleCheckoutSubmit);
 
   initializeCardPaymentUI();
 }
 
-/* =========================================================
-   CARD PAYMENT UI
-========================================================= */
+/* CARD PAYMENT UI*/
 
 function initializeCardPaymentUI() {
   const cardRadio = document.querySelector(
@@ -1175,6 +1134,7 @@ function initializeCardPaymentUI() {
 
   const cardCvv = document.getElementById("cardCvv");
 
+  /*BY filter(Boolean); REMOVE THE NON-EXISTENT ITEMS*/
   const cardInputs = [cardholderName, cardNumber, cardExpiry, cardCvv].filter(
     Boolean,
   );
@@ -1246,9 +1206,8 @@ function initializeCardPaymentUI() {
 
   payButton?.addEventListener("click", processDemoCardPayment);
 
-  /* =====================================================
-     CARD NUMBER FORMAT
-  ====================================================== */
+  /* CARD NUMBER FORMAT*/
+  /*THIS CODE EXECUTE EVEN EVERY TIME THE USER CHANGE THE QUANTITY OF CART NUMBER*/
 
   cardNumber?.addEventListener("input", () => {
     const digits = cardNumber.value.replace(/\D/g, "").slice(0, 16);
@@ -1262,9 +1221,7 @@ function initializeCardPaymentUI() {
     }
   });
 
-  /* =====================================================
-     EXPIRY FORMAT
-  ====================================================== */
+  /* EXPIRY FORMAT */
 
   cardExpiry?.addEventListener("input", () => {
     const digits = cardExpiry.value.replace(/\D/g, "").slice(0, 4);
@@ -1279,9 +1236,7 @@ function initializeCardPaymentUI() {
     }
   });
 
-  /* =====================================================
-     CVV
-  ====================================================== */
+  /* THIS CODE CONTROL THE QUANTITY OF CVV */
 
   cardCvv?.addEventListener("input", () => {
     cardCvv.value = cardCvv.value.replace(/\D/g, "").slice(0, 4);
@@ -1292,7 +1247,7 @@ function initializeCardPaymentUI() {
       placeOrderButton.disabled = true;
     }
   });
-
+  /*IF THE NAME OF CART CHANGE THE CHECKOUT AND ORDER WILL STOP*/
   cardholderName?.addEventListener("input", () => {
     resetVerification();
 
@@ -1304,9 +1259,8 @@ function initializeCardPaymentUI() {
   updatePaymentUI();
 }
 
-/* =========================================================
-   DEMO CARD PAYMENT
-========================================================= */
+/* DEMO CARD PAYMENT*/
+/*THIS FUNC EXECUTE WHEN WE CLICK ON PAY BY CARD*/
 
 function processDemoCardPayment() {
   const cardholderName = document.getElementById("cardholderName");
@@ -1354,9 +1308,7 @@ function processDemoCardPayment() {
     return;
   }
 
-  /* =====================================================
-     PAYMENT SUCCESS
-  ====================================================== */
+  /*  PAYMENT SUCCESS */
 
   cardPaymentVerified = true;
 
@@ -1392,9 +1344,7 @@ function processDemoCardPayment() {
   refreshIcons();
 }
 
-/* =========================================================
-   CARD VALIDATION
-========================================================= */
+/* CARD VALIDATION*/
 
 function validateCardDetails(name, number, expiry, cvv) {
   const cardholder = String(name || "").trim();
@@ -1414,7 +1364,7 @@ function validateCardDetails(name, number, expiry, cvv) {
       message: "Please enter a valid 16-digit card number.",
     };
   }
-
+  /*passesLuhn can check the mistake of typing*/
   if (!passesLuhn(digits)) {
     return {
       valid: false,
@@ -1470,9 +1420,7 @@ function validateCardDetails(name, number, expiry, cvv) {
   };
 }
 
-/* =========================================================
-   LUHN CHECK
-========================================================= */
+/* LUHN CHECK*/
 
 function passesLuhn(number) {
   let sum = 0;
@@ -1498,9 +1446,7 @@ function passesLuhn(number) {
   return sum % 10 === 0;
 }
 
-/* =========================================================
-   RENDER CHECKOUT
-========================================================= */
+/* RENDER CHECKOUT */
 
 function renderCheckout() {
   const itemsContainer = document.getElementById("checkoutOrderItems");
@@ -1528,7 +1474,7 @@ function renderCheckout() {
   }
 
   itemsContainer.innerHTML = "";
-
+  /*start the adding of products from 0*/
   let subtotal = 0;
 
   cart.forEach((item) => {
@@ -1594,9 +1540,7 @@ function renderCheckout() {
   refreshIcons();
 }
 
-/* =========================================================
-   CHECKOUT TOTALS
-========================================================= */
+/* CHECKOUT TOTALS*/
 
 function updateCheckoutTotals(subtotal, shipping) {
   const total = subtotal + shipping;
@@ -1698,9 +1642,7 @@ function fillCheckoutDefaultAddress() {
   }
 }
 
-/* =========================================================
-   PLACE ORDER
-========================================================= */
+/* PLACE ORDER */
 
 function handleCheckoutSubmit(event) {
   event.preventDefault();
@@ -1727,9 +1669,7 @@ function handleCheckoutSubmit(event) {
     return;
   }
 
-  /* =====================================================
-     CARD MUST BE PAID FIRST
-  ====================================================== */
+  /*  CARD MUST BE PAID FIRST*/
 
   if (paymentMethod === "card" && !cardPaymentVerified) {
     alert(
@@ -1745,13 +1685,14 @@ function handleCheckoutSubmit(event) {
 
     return;
   }
+  /*PLACING ORDER*/
+  const orders = readCurrentUserOrders();
 
-  let orders = readStorage("eveBeautyOrders", []);
-
-  if (!Array.isArray(orders)) {
-    orders = [];
+  if (!getUserOrdersStorageKey()) {
+    alert("Please sign in before placing an order.");
+    return;
   }
-
+  /*ADD THE PRICE OF ALL PRODUCT CART*/
   const subtotal = cart.reduce((total, item) => {
     const price =
       Number(item.price ?? item.salePrice ?? item.productPrice ?? 0) || 0;
@@ -1771,9 +1712,7 @@ function handleCheckoutSubmit(event) {
 
   const orderNumber = `EVB-${timestamp}`;
 
-  /* =====================================================
-     PAYMENT DATA
-  ====================================================== */
+  /* PAYMENT DATA*/
 
   let paymentStatus = "Pending";
 
@@ -1789,9 +1728,7 @@ function handleCheckoutSubmit(event) {
     paymentVerifiedAt = now.toISOString();
   }
 
-  /* =====================================================
-     ORDER OBJECT
-  ====================================================== */
+  /* ORDER OBJECT*/
 
   const order = {
     id: `order_${timestamp}`,
@@ -1847,52 +1784,41 @@ function handleCheckoutSubmit(event) {
     createdAt: now.toISOString(),
   };
 
-  /* =====================================================
-     SAVE ORDER TO LOCAL STORAGE
+  /* SAVE ORDER TO LOCAL STORAGE
   ====================================================== */
 
   orders.push(order);
 
-  const saved = writeStorage("eveBeautyOrders", orders);
+  const saved = saveCurrentUserOrders(orders);
 
   if (!saved) {
     return;
   }
 
-  /* =====================================================
-     CLEAR CART
-  ====================================================== */
+  /*CLEAR CART AFTER PAYMENT*/
 
   writeStorage("eveBeautyCart", []);
 
-  /* =====================================================
-     RESET CARD PAYMENT STATE
-  ====================================================== */
+  /*RESET CARD PAYMENT STATE*/
 
   cardPaymentVerified = false;
 
   currentCardLast4 = "";
 
-  /* =====================================================
-     SYNC
-  ====================================================== */
+  /* SYNC OR SHARE OF CHANGING OF THIS TWO TO ANOTHER CODE OF SITE */
 
   window.dispatchEvent(new Event("eveBeautyCartChanged"));
 
   window.dispatchEvent(new Event("eveBeautyOrderChanged"));
 
-  /* =====================================================
-     SUCCESS
-  ====================================================== */
+  /*  SUCCESS*/
 
   alert(`Order placed successfully!\n\nOrder Number: ${orderNumber}`);
 
   openPage("orders");
 }
 
-/* =========================================================
-   ADDRESSES
-========================================================= */
+/* ADDRESSES PAGE*/
 
 function initializeAddresses() {
   document
@@ -2060,7 +1986,7 @@ function openAddressModal(address = null) {
     defaultInput.checked = Boolean(address?.default);
   }
 }
-
+/*CLOSE ADDRES MODAL*/
 function closeAddressModal() {
   const modal = document.getElementById("addressModal");
 
@@ -2142,9 +2068,7 @@ function setDefaultAddress(id) {
   renderAddresses();
 }
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+/*SETTINGS PAGE*/
 
 function initializeSettings() {
   document
@@ -2196,9 +2120,7 @@ function saveProfile(event) {
   alert("Profile updated successfully.");
 }
 
-/* =========================================================
-   PROFILE IMAGE
-========================================================= */
+/* PROFILE IMAGE */
 
 function handleProfileImage(event) {
   const file = event.target.files[0];
@@ -2287,112 +2209,7 @@ function removeProfileImage() {
   window.dispatchEvent(new Event("eveBeautyUserChanged"));
 }
 
-/* =========================================================
-   RECENTLY VIEWED
-========================================================= */
-
-function renderRecentlyViewed() {
-  const container = document.getElementById("recentlyViewed");
-
-  const empty = document.getElementById("recentlyViewedEmpty");
-
-  if (!container) {
-    return;
-  }
-
-  const products = readStorage("eveBeautyRecentlyViewed", []);
-
-  container.innerHTML = "";
-
-  if (!Array.isArray(products) || products.length === 0) {
-    if (empty) {
-      empty.style.display = "block";
-    }
-
-    return;
-  }
-
-  if (empty) {
-    empty.style.display = "none";
-  }
-
-  products.slice(0, 4).forEach((product) => {
-    const button = document.createElement("button");
-
-    button.className = "viewed-product";
-
-    const image = getProductImage(product);
-
-    const name = getProductName(product);
-
-    const price = Number(product.price || product.salePrice || 0);
-
-    button.innerHTML = `
-          <div class="viewed-product-image">
-
-            ${
-              image
-                ? `
-                  <img
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(name)}"
-                  >
-                `
-                : `
-                  <i data-lucide="sparkles"></i>
-                `
-            }
-
-          </div>
-
-          <span class="viewed-product-name">
-            ${escapeHTML(name)}
-          </span>
-
-          <span class="viewed-product-price">
-            ${formatCurrency(price)}
-          </span>
-        `;
-
-    button.addEventListener("click", () => {
-      window.location.href = "shop.html";
-    });
-
-    container.appendChild(button);
-  });
-
-  refreshIcons();
-}
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-function initializeSearch() {
-  const input = document.getElementById("dashboardSearch");
-
-  input?.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter") {
-      return;
-    }
-
-    const value = input.value.trim();
-
-    if (!value) {
-      window.location.href = "shop.html";
-
-      return;
-    }
-
-    const search = encodeURIComponent(value);
-
-    window.location.href = `shop.html?search=${search}`;
-  });
-}
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
+/*NOTIFICATIONS */
 
 function initializeNotifications() {
   const button = document.getElementById("notificationButton");
@@ -2410,9 +2227,7 @@ function initializeNotifications() {
   });
 }
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+/* LOGOUT*/
 
 function initializeLogout() {
   const logoutButton = document.getElementById("logoutButton");
@@ -2438,9 +2253,7 @@ function initializeLogout() {
   });
 }
 
-/* =========================================================
-   HELPERS
-========================================================= */
+/* HELPERS */
 
 function setText(id, value) {
   const element = document.getElementById(id);
@@ -2449,6 +2262,7 @@ function setText(id, value) {
     element.textContent = String(value);
   }
 }
+/*CART COUNT*/
 
 function formatCount(value) {
   const number = Number(value) || 0;
@@ -2501,6 +2315,7 @@ function getProductImage(product) {
   );
 }
 
+/*WHEN ONE ORDER HAVE SEVERAL PRODUCTS*/
 function getFirstOrderItem(order) {
   if (!order) {
     return {};
@@ -2530,7 +2345,7 @@ function getFirstOrderItem(order) {
 
   return {};
 }
-
+/*ORDER TOTAL TWO WAYS*/
 function getOrderTotal(order) {
   const direct =
     order.total ?? order.grandTotal ?? order.orderTotal ?? order.amount;
@@ -2556,6 +2371,7 @@ function getOrderTotal(order) {
   }, 0);
 }
 
+/*ORDER DATE*/
 function getOrderDate(order) {
   const value =
     order.date ||
@@ -2581,6 +2397,7 @@ function getOrderDate(order) {
   });
 }
 
+/*SORTING ORDER DATE THAT THE NEW DATE WRITE ABOVE OF THE OLD DATE*/
 function compareOrders(a, b) {
   const dateA = new Date(
     a?.createdAt || a?.date || a?.orderDate || 0,
@@ -2718,9 +2535,7 @@ function escapeHTML(value) {
     .replace(/'/g, "&#039;");
 }
 
-/* =========================================================
-   LUCIDE
-========================================================= */
+/* LUCIDE */
 
 function refreshIcons() {
   if (window.lucide && typeof window.lucide.createIcons === "function") {
@@ -2728,9 +2543,7 @@ function refreshIcons() {
   }
 }
 
-/* =========================================================
-   CROSS-SCRIPT USER SYNC
-========================================================= */
+/* CROSS-SCRIPT USER SYNC*/
 
 window.addEventListener("eveBeautyUserChanged", () => {
   initializeUser();
@@ -2748,9 +2561,7 @@ window.addEventListener("eveBeautyUserChanged", () => {
   refreshIcons();
 });
 
-/* =========================================================
-   CROSS-SCRIPT CART SYNC
-========================================================= */
+/*  CROSS-SCRIPT CART SYNC*/
 
 window.addEventListener("eveBeautyCartChanged", () => {
   updateStatistics();
@@ -2766,9 +2577,7 @@ window.addEventListener("eveBeautyCartChanged", () => {
   }
 });
 
-/* =========================================================
-   CROSS-SCRIPT WISHLIST SYNC
-========================================================= */
+/* CROSS-SCRIPT WISHLIST SYNC */
 
 window.addEventListener("eveBeautyWishlistChanged", () => {
   updateStatistics();
@@ -2780,9 +2589,7 @@ window.addEventListener("eveBeautyWishlistChanged", () => {
   }
 });
 
-/* =========================================================
-   CROSS-SCRIPT ORDER SYNC
-========================================================= */
+/* CROSS-SCRIPT ORDER SYNC*/
 
 window.addEventListener("eveBeautyOrderChanged", () => {
   updateStatistics();

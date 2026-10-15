@@ -18,7 +18,7 @@
   --muted: #796d70;
 
   --burgundy: #aa8386;
-  --burgundy-dark: #8f696d;
+  --burgundy-dark: #ba8186;
 
   --pink-bg: #f3e3e3;
 
@@ -95,7 +95,7 @@ a {
 .contact-hero {
   position: relative;
 
-  min-height: 420px;
+  min-height: 580px;
 
   display: flex;
   align-items: center;
@@ -109,16 +109,16 @@ a {
 
   background-image:
     linear-gradient(
-      90deg,
-      rgba(248, 241, 237, 0.96) 0%,
-      rgba(248, 241, 237, 0.82) 38%,
-      rgba(248, 241, 237, 0.42) 70%,
-      rgba(248, 241, 237, 0.12) 100%
+      30deg,
+      rgba(248, 241, 237, 0.26) 0%,
+      rgba(248, 241, 237, 0.42) 38%,
+      rgba(248, 241, 237, 0.22) 70%,
+      rgba(248, 241, 237, 0.9) 100%
     ),
     url("../assets/images/contact-hero.jpg");
 
   background-size: cover;
-  background-position: center;
+  background-position: center 20%;
   background-repeat: no-repeat;
 }
 
@@ -135,7 +135,7 @@ a {
 
   margin-bottom: 18px;
 
-  color: var(--burgundy);
+  color: black;
 
   font-size: 11px;
   font-weight: 700;
@@ -158,9 +158,13 @@ a {
 }
 
 .contact-hero h1 em,
-.contact-info h2 em,
-.form-heading h2 em,
 .faq-heading h2 em {
+  color: white;
+
+  font-style: italic;
+}
+.contact-info h2 em,
+.form-heading h2 em {
   color: var(--burgundy);
 
   font-style: italic;
@@ -170,7 +174,7 @@ a {
   max-width: 600px;
   margin: 0 auto;
 
-  color: var(--muted);
+  color: rgb(73, 65, 65);
 
   font-size: 16px;
 }
@@ -840,8 +844,8 @@ body.dark-mode {
 
   --muted: #bfaeb2;
 
-  --burgundy: #c7969b;
-  --burgundy-dark: #aa7d82;
+  --burgundy: #aa8386;
+  --burgundy-dark: #ba8186;
 
   --pink-bg: #2b2023;
 
@@ -869,10 +873,19 @@ body.dark-mode {
     url("../assets/images/contact-hero.jpg");
 
   background-size: cover;
-  background-position: center;
+  background-position: center 20%;
   background-repeat: no-repeat;
 }
 
+.dark-mode .contact-hero span {
+  color: #fcf9fa;
+}
+.dark-mode .contact-hero h1 {
+  color: #171315;
+}
+.dark-mode .contact-hero p {
+  color: #f5f5f5;
+}
 /* =========================================================
    DARK MODE ELEMENTS
 ========================================================= */

@@ -93,17 +93,7 @@ a {
   letter-spacing: 2px;
   margin-bottom: 16px;
   position: relative;
-  padding-left: 38px;
-}
-
-.shop-eyebrow::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 24px;
-  height: 1px;
-  background: #aa8386;
+  padding-left: 5px;
 }
 
 .shop-hero-content h1 {
@@ -713,13 +703,28 @@ body.dark-mode .shop-hero {
 }
 
 body.dark-mode .shop-hero-content h1 {
-  color: #f6eeee;
+  color: #000000;
 }
 
 body.dark-mode .shop-hero-content p {
-  color: #cfc3c5;
+  color: #060606;
+}
+body.dark-mode .wishlist-button {
+  background: rgba(35, 27, 29, 0.94);
+  border-color: #503b3f;
+  color: #aa8386;
 }
 
+body.dark-mode .wishlist-button:hover,
+body.dark-mode .wishlist-button.active {
+  background: rgba(35, 27, 29, 0.94);
+  color: #fff;
+}
+
+body.dark-mode .wishlist-button.active svg {
+  fill: #fff;
+  stroke: #fff;
+}
 body.dark-mode .shop-sidebar,
 body.dark-mode .product-card,
 body.dark-mode .sort-label,

@@ -165,7 +165,7 @@
           <!--THE HERO IMAGE-->
           <div class="hero-image">
             <img
-              src="images/hero.jpg"
+              src="assets/images/hero.jpg"
               alt="Eve Beauty model with beauty products"
             />
           </div>
@@ -272,14 +272,6 @@
         <div class="container">
           <div class="section-heading">
             <h2>Shop By Collection</h2>
-            <div class="slider-arrows">
-              <button class="collection-prev">
-                <i data-lucide="chevron-left"></i>
-              </button>
-              <button class="collection-next">
-                <i data-lucide="chevron-right"></i>
-              </button>
-            </div>
           </div>
 
           <div class="collection-grid">
@@ -307,9 +299,9 @@
 
             <article class="collection-card">
               <div class="collection-details">
-                <span>Exclusive</span>
+                <span>Sets</span>
                 <h3>Special beauty picks</h3>
-                <a href="exclusive.html"
+                <a href="trending.html?category=sets"
                   >Shop Now <i data-lucide="arrow-right"></i
                 ></a>
               </div>
@@ -332,10 +324,6 @@
           </div>
 
           <div class="products-wrapper">
-            <button class="product-arrow product-prev" type="button">
-              <i data-lucide="chevron-left"></i>
-            </button>
-
             <div class="products-grid" id="productsGrid">
               <!--FIRST PRODUCT-->
               <article class="product-card">
@@ -589,10 +577,6 @@
                 </div>
               </article>
             </div>
-
-            <button class="product-arrow product-next" type="button">
-              <i data-lucide="chevron-right"></i>
-            </button>
           </div>
         </div>
       </section>
@@ -987,6 +971,49 @@
           </div>
         </div>
       </section>
+      <!-- BEAUTY JOURNAL MODAL -->
+      <div
+        class="journal-modal"
+        id="journalModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="journalModalTitle"
+      >
+        <div class="journal-modal-content">
+          <button
+            type="button"
+            class="journal-modal-close"
+            id="journalModalClose"
+            aria-label="Close article"
+          >
+            <i data-lucide="x"></i>
+          </button>
+
+          <div class="journal-modal-image">
+            <img id="journalModalImage" src="" alt="" />
+          </div>
+
+          <div class="journal-modal-details">
+            <span id="journalModalCategory"></span>
+
+            <h2 id="journalModalTitle"></h2>
+
+            <p id="journalModalDescription"></p>
+
+            <div id="journalModalExtra"></div>
+
+            <button
+              type="button"
+              class="journal-modal-button"
+              id="journalModalDone"
+            >
+              Continue Exploring
+              <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!--THE NEWSLETTER SECTION-->
 
@@ -1033,6 +1060,7 @@
     <!-- THE FOOTER COMPONENT -->
     <div id="footer-container"></div>
     <!--THE JAVASCRIPT URL-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="js/home.js"></script>
     <script src="js/components.js"></script>

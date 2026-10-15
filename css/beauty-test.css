@@ -2,9 +2,9 @@
    EVE BEAUTY — BEAUTY TEST
    Main Color: #aa8386
 ========================================================= */
+
 /* =========================================================
-   EVE BEAUTY - BEAUTY TEST
-   MATCHED WITH BRANDS PAGE DESIGN
+   ROOT VARIABLES
 ========================================================= */
 
 :root {
@@ -32,6 +32,10 @@
 
   --transition: 0.3s ease;
 }
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
   margin: 0;
@@ -81,7 +85,7 @@ img {
 }
 
 /* =========================================================
-   RESET
+   RESET — BEAUTY TEST
 ========================================================= */
 
 .beauty-test-page {
@@ -125,16 +129,17 @@ img {
 
 /* =========================================================
    HERO
+   عکس کل بخش را می‌گیرد و متن روی عکس قرار می‌گیرد.
 ========================================================= */
 
 .beauty-test-hero {
-  min-height: 560px;
+  position: relative;
 
-  display: grid;
+  min-height: 760px;
 
-  grid-template-columns:
-    minmax(0, 1fr)
-    minmax(0, 1fr);
+  display: block;
+
+  overflow: hidden;
 
   background:
     radial-gradient(
@@ -143,11 +148,52 @@ img {
       transparent 30%
     ),
     linear-gradient(120deg, #fff5f5, #f7e7e8);
-
-  overflow: hidden;
 }
 
+/* =========================================================
+   HERO IMAGE — FULL BACKGROUND
+========================================================= */
+
+.beauty-test-hero-image {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 560px;
+
+  overflow: hidden;
+
+  z-index: 0;
+}
+
+.beauty-test-hero-image img {
+  width: 100%;
+
+  height: 100%;
+
+  max-width: none;
+
+  object-fit: cover;
+
+  object-position: center 10%;
+}
+
+/* =========================================================
+   HERO CONTENT — TEXT OVER IMAGE
+========================================================= */
+
 .beauty-test-hero-content {
+  position: relative;
+
+  z-index: 2;
+
+  width: 100%;
+
+  min-height: 560px;
+
   padding: 95px clamp(30px, 8vw, 120px);
 
   display: flex;
@@ -157,71 +203,46 @@ img {
   flex-direction: column;
 }
 
-.beauty-eyebrow {
-  color: var(--burgundy);
-
-  font-size: 11px;
-
-  font-weight: 600;
-
-  letter-spacing: 0.24em;
-
-  margin-bottom: 18px;
-}
-
 .beauty-test-hero-content h1 {
-  margin: 0;
+  margin-top: 200px;
+  margin-left: 120px;
 
   font-family: "Cormorant Garamond", Georgia, serif;
 
-  font-size: clamp(48px, 5vw, 76px);
+  font-size: clamp(30px, 5vw, 76px);
 
   line-height: 0.95;
 
   font-weight: 500;
 
   color: #292126;
+
+  max-width: 650px;
 }
 
 .beauty-test-hero-content h1 em {
   color: var(--burgundy);
+  margin-left: 100px;
 
   font-style: italic;
 }
 
 .beauty-test-hero-content p {
   max-width: 520px;
+  margin-top: 30px;
 
-  margin: 30px 0;
+  margin-left: 225px;
 
-  color: var(--muted);
+  color: rgb(70, 66, 66);
 
-  font-size: 15px;
+  font-size: 13px;
 
   line-height: 1.9;
 }
 
 /* =========================================================
-   HERO IMAGE
+   HERO IMAGE DECORATIONS
 ========================================================= */
-
-.beauty-test-hero-image {
-  position: relative;
-
-  min-height: 560px;
-
-  overflow: hidden;
-}
-
-.beauty-test-hero-image img {
-  width: 100%;
-
-  height: 100%;
-
-  object-fit: cover;
-
-  object-position: center;
-}
 
 .hero-image-decoration {
   position: absolute;
@@ -229,6 +250,8 @@ img {
   border-radius: 50%;
 
   pointer-events: none;
+
+  z-index: 1;
 }
 
 .hero-circle-one {
@@ -261,31 +284,23 @@ img {
 
 .beauty-primary-button {
   border: none;
-
   min-height: 38px;
-  margin-bottom: 15px;
   padding: 0 25px;
-
   border-radius: 7px;
-
   background: var(--burgundy);
-
   color: white;
 
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 10px;
 
   width: fit-content;
+  margin-left: 225px;
+  margin-top: 30px;
 
   cursor: pointer;
-
   font-size: 13px;
-
   font-weight: 500;
 
   transition:
@@ -466,8 +481,12 @@ img {
   box-shadow: var(--pink-bg);
 }
 
+/* =========================================================
+   CATEGORY IMAGE — BIGGER
+========================================================= */
+
 .category-image {
-  height: 210px;
+  height: 400px;
 
   overflow: hidden;
 
@@ -504,6 +523,7 @@ img {
 
 .category-card-body h3 {
   margin: 6px 0 8px;
+  color: var(--burgundy);
 
   font-family: "Cormorant Garamond", Georgia, serif;
 
@@ -779,9 +799,7 @@ img {
 .quiz-question-wrapper {
   display: grid;
 
-  grid-template-columns:
-    280px
-    1fr;
+  grid-template-columns: 280px 1fr;
 
   gap: 45px;
 
@@ -1160,6 +1178,7 @@ img {
   min-height: 38px;
 
   padding: 0 19px;
+
   margin-bottom: 15px;
 
   background: white;
@@ -1273,12 +1292,18 @@ img {
   box-shadow: 0 15px 35px rgba(80, 50, 55, 0.08);
 }
 
+/* =========================================================
+   PRODUCT IMAGE — BIGGER
+========================================================= */
+
 .product-image-wrap {
-  height: 205px;
+  height: 270px;
 
   background: #faf3f3;
 
   position: relative;
+
+  overflow: hidden;
 }
 
 .product-image-wrap img {
@@ -1287,44 +1312,51 @@ img {
   height: 100%;
 
   object-fit: cover;
+
+  transition: transform 0.4s ease;
 }
+
+.recommendation-product:hover .product-image-wrap img {
+  transform: scale(1.04);
+}
+
+/* WISHLIST HEART */
 
 .product-heart {
   position: absolute;
-
   top: 10px;
-
   right: 10px;
-
   width: 30px;
-
   height: 30px;
-
   border-radius: 50%;
-
   border: none;
-
   background: rgba(255, 255, 255, 0.9);
-
-  color: var(--burgundy);
-
+  color: #aa8386;
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   cursor: pointer;
-}
-
-.product-heart.active {
-  background: var(--pink-bg);
-
-  color: white;
+  z-index: 2;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .product-heart svg {
   width: 14px;
+  fill: none;
+  stroke: currentColor;
+}
+
+/* Light Mode — Clicked */
+.product-heart.active {
+  background: rgba(255, 255, 255, 0.9);
+  color: #aa8386;
+}
+
+.product-heart.active svg {
+  fill: #aa8386;
+  stroke: #aa8386;
 }
 
 .product-content {
@@ -1424,16 +1456,8 @@ img {
 }
 
 /* =========================================================
-   EVE BEAUTY — BEAUTY TEST
    DARK MODE
-   ---------------------------------------------------------
-   فقط Dark Mode
-   Responsive در انتهای فایل قرار دارد.
-========================================================= */
-
-/* =========================================================
-   DARK MODE — ROOT / VARIABLES
-========================================================= */
+   ========================================================= */
 
 html.dark-mode .beauty-test-page,
 body.dark-mode .beauty-test-page {
@@ -1485,32 +1509,37 @@ body.dark-mode .beauty-test-page .beauty-test-hero {
     ),
     linear-gradient(120deg, #291d20, #21181b);
 }
+body.dark-mode .beauty-test-hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+}
 body.beauty-test-page.dark-mode .beauty-test-hero {
   background: #1d1718;
 }
 
-body.beauty-test-page.dark-mode .beauty-test-hero-content h1,
 body.beauty-test-page.dark-mode .beauty-section-heading h2,
 body.beauty-test-page.dark-mode .beauty-category-card h3,
 body.beauty-test-page.dark-mode .beauty-feature h3 {
-  color: #f8eeee;
+  color: #fbf9f9;
 }
 
 body.beauty-test-page.dark-mode .beauty-test-hero-content p,
 body.beauty-test-page.dark-mode .beauty-section-heading p,
 body.beauty-test-page.dark-mode .beauty-feature p,
 body.beauty-test-page.dark-mode .category-card-body p {
-  color: #cbbfc1;
+  color: #3f3d3d;
 }
 
 html.dark-mode .beauty-test-page .beauty-test-hero-content h1 em,
 body.dark-mode .beauty-test-page .beauty-test-hero-content h1 em {
-  color: #d09da3;
-}
-
-html.dark-mode .beauty-test-page .beauty-eyebrow,
-body.dark-mode .beauty-test-page .beauty-eyebrow {
   color: #d09da3;
 }
 
@@ -1532,7 +1561,7 @@ body.dark-mode .beauty-test-page .hero-circle-two {
 
 html.dark-mode .beauty-test-page .beauty-primary-button,
 body.dark-mode .beauty-test-page .beauty-primary-button {
-  background: #aa8386;
+  background: #1e1a1a;
   color: #fff;
 }
 
@@ -1583,7 +1612,7 @@ body.dark-mode .beauty-test-page .beauty-section-heading h2 {
 }
 
 body.dark-mode .beauty-test-page .beauty-section-heading p {
-  color: #bfaeb2;
+  color: #e2dbdb;
 }
 
 html.dark-mode .beauty-test-page .beauty-section-heading > span,
@@ -1603,6 +1632,12 @@ body.beauty-test-page.dark-mode .beauty-category-card {
 
 body.beauty-test-page.dark-mode .category-card-body {
   background: #211a1b;
+}
+body.beauty-test-page.dark-mode .category-card-body h3 {
+  color: var(--burgundy);
+}
+body.beauty-test-page.dark-mode .category-card-body p {
+  color: rgb(146, 141, 141);
 }
 
 body.beauty-test-page.dark-mode .category-number {
@@ -1910,13 +1945,13 @@ body.beauty-test-page.dark-mode .product-price {
 
 body.beauty-test-page.dark-mode .product-heart {
   background: rgba(20, 15, 16, 0.8);
-  color: #f5e5e6;
+  color: #f6f2f3;
 }
 
 body.beauty-test-page.dark-mode .product-heart:hover,
 body.beauty-test-page.dark-mode .product-heart.active {
-  background: #aa8386;
-  color: #fff;
+  background: #080808;
+  color: #fffdfd;
 }
 
 /* =========================================================
@@ -2007,240 +2042,478 @@ html.dark-mode .beauty-test-page::-webkit-scrollbar-thumb {
 /* =========================================================
    RESPONSIVE
    ---------------------------------------------------------
-   تمام Responsive ها باید آخر فایل باشند.
+   تمام Responsive ها در آخر فایل قرار دارند.
+========================================================= */
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
 ========================================================= */
 
 @media (max-width: 1000px) {
-  .beauty-test-hero {
-    grid-template-columns: 1fr;
-  }
+  /* HERO */
 
-  .beauty-test-hero-content {
-    min-height: 430px;
-    padding: 70px 40px;
+  .beauty-test-hero {
+    min-height: 540px;
   }
 
   .beauty-test-hero-image {
-    min-height: 400px;
+    min-height: 540px;
   }
 
-  .beauty-primary-button {
-    border: none;
+  .beauty-test-hero-content {
+    min-height: 540px;
 
-    min-height: 34px;
-    margin-bottom: 15px;
-    padding: 0 25px;
-
-    border-radius: 7px;
-
-    background: var(--burgundy);
-
-    color: white;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 10px;
-
-    width: fit-content;
-
-    cursor: pointer;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    transition:
-      transform 0.25s ease,
-      background 0.25s ease,
-      box-shadow 0.25s ease;
+    padding: 70px 50px;
   }
 
-  .beauty-primary-button:hover {
-    background: var(--burgundy-dark);
+  .beauty-test-hero-content h1 {
+    font-size: clamp(44px, 7vw, 68px);
 
-    transform: translateY(-2px);
-
-    box-shadow: 0 10px 25px rgba(170, 131, 134, 0.25);
+    max-width: 600px;
   }
 
-  .beauty-primary-button svg {
-    width: 16px;
+  .beauty-test-hero-content p {
+    max-width: 470px;
 
-    height: 16px;
+    font-size: 14px;
+
+    margin: 25px 0;
   }
 
-  .outline-button {
-    min-height: 35px;
-    padding: 0 15px;
-    margin-bottom: 15px;
-
-    background: white;
-
-    color: var(--burgundy);
-
-    border: 1px solid var(--burgundy);
-
-    border-radius: 6px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 7px;
-
-    cursor: pointer;
-
-    font-size: 11px;
-
-    white-space: nowrap;
-  }
-
-  .outline-button:hover {
-    background: var(--burgundy);
-
-    color: white;
-  }
+  /* CATEGORY */
 
   .beauty-category-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
   }
+
+  .category-image {
+    height: 280px;
+  }
+
+  /* QUIZ */
 
   .quiz-question-wrapper {
     grid-template-columns: 220px 1fr;
+
     gap: 25px;
   }
 
+  /* RESULTS */
+
   .recommendation-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-image-wrap {
+    height: 270px;
   }
 }
 
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+  /* HERO */
+
+  .beauty-test-hero {
+    min-height: 520px;
+  }
+
+  .beauty-test-hero-image {
+    min-height: 520px;
+  }
+
+  .beauty-test-hero-content {
+    min-height: 520px;
+
+    padding: 65px 40px;
+  }
+
+  .beauty-test-hero-content h1 {
+    font-size: clamp(42px, 8vw, 62px);
+
+    max-width: 560px;
+  }
+
+  .beauty-test-hero-content p {
+    max-width: 430px;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+  }
+
+  /* CATEGORY */
+
+  .beauty-category-section {
+    padding: 75px 25px;
+  }
+
+  .beauty-section-heading {
+    margin-bottom: 35px;
+  }
+
+  .beauty-section-heading h2 {
+    font-size: 38px;
+  }
+
+  .category-image {
+    height: 260px;
+  }
+
+  /* TRUST */
+
+  .beauty-trust-bar {
+    padding: 20px 5vw;
+
+    gap: 20px;
+  }
+
+  /* QUIZ */
+
+  .quiz-container {
+    width: min(720px, calc(100% - 35px));
+  }
+
+  .quiz-question-wrapper {
+    grid-template-columns: 200px 1fr;
+
+    gap: 22px;
+  }
+
+  .quiz-question-image-wrap {
+    min-height: 380px;
+  }
+
+  .quiz-options {
+    gap: 10px;
+  }
+
+  /* RESULTS */
+
+  .results-container {
+    padding: 65px 22px 80px;
+  }
+
+  .profile-results-grid {
+    gap: 16px;
+  }
+
+  .profile-result-card {
+    padding: 25px;
+  }
+
+  .product-image-wrap {
+    height: 250px;
+  }
+}
+
+/* =========================================================
+   MOBILE — 700PX
+========================================================= */
+
 @media (max-width: 700px) {
+  /* HERO */
+
+  .beauty-test-hero {
+    min-height: 600px;
+  }
+
+  .beauty-test-hero-image {
+    min-height: 600px;
+  }
+
+  .beauty-test-hero-image img {
+    object-position: center;
+  }
+
+  .beauty-test-hero-content {
+    min-height: 600px;
+
+    padding: 60px 25px;
+
+    justify-content: center;
+  }
+
+  .beauty-test-hero-content h1 {
+    font-size: clamp(42px, 11vw, 58px);
+
+    line-height: 0.98;
+
+    max-width: 500px;
+  }
+
+  .beauty-test-hero-content p {
+    max-width: 440px;
+
+    margin: 22px 0;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+  }
+
+  .beauty-primary-button {
+    min-height: 40px;
+
+    padding: 0 22px;
+
+    font-size: 12px;
+  }
+
+  .beauty-primary-button svg {
+    width: 15px;
+
+    height: 15px;
+  }
+
+  /* FEATURES */
+
   .beauty-test-features {
     grid-template-columns: 1fr;
   }
 
   .beauty-feature {
+    min-height: 125px;
+
+    padding: 25px 20px;
+
     border-right: none;
+
     border-bottom: 1px solid var(--border);
   }
 
   .beauty-feature:last-child {
     border-bottom: none;
   }
-  .outline-button {
-    min-height: 30px;
-    margin-bottom: 15px;
-    padding: 0 12px;
 
-    background: white;
-
-    color: var(--burgundy);
-
-    border: 1px solid var(--burgundy);
-
-    border-radius: 6px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 7px;
-
-    cursor: pointer;
-
-    font-size: 11px;
-
-    white-space: nowrap;
-  }
-
-  .outline-button:hover {
-    background: var(--burgundy);
-
-    color: white;
-  }
+  /* CATEGORY */
 
   .beauty-category-section {
-    padding: 65px 20px;
+    padding: 60px 20px;
+  }
+
+  .beauty-section-heading {
+    margin-bottom: 30px;
+  }
+
+  .beauty-section-heading h2 {
+    font-size: 36px;
+  }
+
+  .beauty-section-heading p {
+    font-size: 12px;
   }
 
   .beauty-category-grid {
     grid-template-columns: 1fr;
+
+    gap: 20px;
   }
+
+  .category-image {
+    height: 300px;
+  }
+
+  .category-card-body {
+    padding: 22px;
+  }
+
+  .category-card-body h3 {
+    font-size: 27px;
+  }
+
+  /* TRUST BAR */
 
   .beauty-trust-bar {
     grid-template-columns: 1fr;
+
+    min-height: auto;
+
+    padding: 25px 20px;
+
+    gap: 20px;
+  }
+
+  .beauty-trust-bar > div {
+    justify-content: center;
+  }
+
+  /* QUIZ */
+
+  .beauty-quiz-screen {
+    min-height: auto;
   }
 
   .quiz-container {
     width: calc(100% - 30px);
-    padding-top: 35px;
+
+    padding: 35px 0 60px;
   }
 
   .quiz-steps {
     justify-content: space-between;
-  }
 
-  .step-line {
-    width: 35px;
-    margin: 0 8px;
+    width: 100%;
+
+    margin-bottom: 35px;
   }
 
   .quiz-step {
     flex-direction: column;
+
     gap: 5px;
+
+    text-align: center;
+  }
+
+  .quiz-step span:last-child {
+    font-size: 9px;
+  }
+
+  .step-line {
+    width: 35px;
+
+    margin: 0 7px;
+  }
+
+  .step-circle {
+    width: 32px;
+
+    height: 32px;
   }
 
   .quiz-question-wrapper {
     grid-template-columns: 1fr;
+
+    gap: 25px;
+
+    min-height: auto;
   }
 
   .quiz-question-image-wrap {
-    min-height: 230px;
-    height: 230px;
+    width: 100%;
+
+    min-height: 280px;
+
+    height: 280px;
+  }
+
+  .quiz-question-content {
+    min-height: auto;
+  }
+
+  .quiz-question-content h2 {
+    font-size: 34px;
+
+    margin-bottom: 25px;
   }
 
   .quiz-options {
     grid-template-columns: 1fr;
+
+    gap: 11px;
+  }
+
+  .quiz-option {
+    min-height: 58px;
+
+    padding: 13px 15px;
   }
 
   .quiz-actions {
     margin-top: 30px;
   }
 
+  /* RESULTS */
+
+  .beauty-results-screen {
+    min-height: auto;
+  }
+
+  .results-container {
+    padding: 60px 18px 75px;
+  }
+
+  .results-hero {
+    margin-bottom: 40px;
+  }
+
+  .results-hero h1 {
+    font-size: 43px;
+
+    line-height: 1.05;
+  }
+
+  .results-hero p {
+    font-size: 12px;
+
+    line-height: 1.7;
+  }
+
   .profile-results-grid {
     grid-template-columns: 1fr;
+
+    gap: 15px;
+
+    margin-bottom: 60px;
+  }
+
+  .profile-result-card {
+    padding: 25px 20px;
   }
 
   .recommendation-heading {
     flex-direction: column;
+
     align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 28px;
+  }
+
+  .recommendation-heading h2 {
+    font-size: 32px;
   }
 
   .recommendation-section-title {
     align-items: flex-start;
+
     flex-direction: column;
+
     gap: 10px;
   }
 
   .recommendation-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
   }
 
   .product-image-wrap {
-    height: 180px;
+    height: 210px;
+  }
+
+  .product-content {
+    padding: 14px;
+  }
+
+  .product-name {
+    font-size: 17px;
+  }
+
+  .product-add-button {
+    min-height: 38px;
   }
 
   .result-bottom-actions {
     flex-direction: column;
+
+    width: 100%;
   }
 
   .result-bottom-actions button {
@@ -2248,67 +2521,280 @@ html.dark-mode .beauty-test-page::-webkit-scrollbar-thumb {
   }
 }
 
+/* =========================================================
+   SMALL MOBILE — 460PX
+========================================================= */
+
 @media (max-width: 460px) {
-  .beauty-test-hero-content {
-    padding: 55px 22px;
-  }
+  /* HERO */
 
-  .beauty-test-hero-content h1 {
-    font-size: 50px;
-  }
-
-  .outline-button {
-    min-height: 28px;
-    margin-bottom: 15px;
-    padding: 0 12px;
-
-    background: white;
-
-    color: var(--burgundy);
-
-    border: 1px solid var(--burgundy);
-
-    border-radius: 6px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 7px;
-
-    cursor: pointer;
-
-    font-size: 9px;
-
-    white-space: nowrap;
-  }
-
-  .outline-button:hover {
-    background: var(--burgundy);
-
-    color: white;
+  .beauty-test-hero {
+    min-height: 560px;
   }
 
   .beauty-test-hero-image {
-    min-height: 280px;
+    min-height: 560px;
   }
 
-  .recommendation-grid {
-    grid-template-columns: 1fr;
+  .beauty-test-hero-content {
+    min-height: 560px;
+
+    padding: 50px 22px;
   }
 
-  .product-image-wrap {
-    height: 230px;
+  .beauty-test-hero-content h1 {
+    font-size: 48px;
+
+    line-height: 0.98;
+  }
+
+  .beauty-test-hero-content p {
+    font-size: 12px;
+
+    line-height: 1.75;
+
+    margin: 20px 0;
+  }
+
+  .beauty-primary-button {
+    min-height: 39px;
+
+    padding: 0 19px;
+
+    font-size: 11px;
+  }
+
+  /* CATEGORY */
+
+  .beauty-category-section {
+    padding: 55px 16px;
+  }
+
+  .beauty-section-heading h2 {
+    font-size: 33px;
+  }
+
+  .beauty-section-heading p {
+    font-size: 11px;
+  }
+
+  .category-image {
+    height: 260px;
+  }
+
+  .category-card-body {
+    padding: 20px;
+  }
+
+  .category-card-body h3 {
+    font-size: 25px;
+  }
+
+  .category-card-body p {
+    font-size: 11px;
+  }
+
+  .category-start-button {
+    min-height: 42px;
+
+    font-size: 11px;
+  }
+
+  /* QUIZ */
+
+  .quiz-container {
+    width: calc(100% - 24px);
+  }
+
+  .quiz-steps {
+    margin-bottom: 30px;
+  }
+
+  .step-line {
+    width: 20px;
+
+    margin: 0 4px;
   }
 
   .step-circle {
     width: 30px;
+
     height: 30px;
   }
 
   .quiz-step span:last-child {
+    font-size: 8px;
+  }
+
+  .quiz-question-image-wrap {
+    min-height: 240px;
+
+    height: 240px;
+  }
+
+  .quiz-question-content h2 {
+    font-size: 30px;
+  }
+
+  .quiz-option {
+    min-height: 55px;
+
+    font-size: 11px;
+  }
+
+  .quiz-option-marker {
+    width: 25px;
+
+    height: 25px;
+  }
+
+  .quiz-actions {
+    gap: 10px;
+  }
+
+  .quiz-back-button {
+    min-height: 42px;
+
+    padding: 0 15px;
+
+    font-size: 11px;
+  }
+
+  .quiz-next-button {
+    min-width: 100px;
+  }
+
+  /* RESULTS */
+
+  .results-container {
+    padding: 50px 14px 65px;
+  }
+
+  .results-hero h1 {
+    font-size: 39px;
+  }
+
+  .results-hero p {
+    font-size: 11px;
+  }
+
+  .recommendation-heading h2 {
+    font-size: 29px;
+  }
+
+  .recommendation-heading p {
+    font-size: 11px;
+  }
+
+  .recommendation-grid {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+  .product-image-wrap {
+    height: 250px;
+  }
+
+  .product-content {
+    padding: 16px;
+  }
+
+  .product-name {
+    font-size: 19px;
+  }
+
+  .product-brand {
     font-size: 9px;
+  }
+
+  .product-rating {
+    font-size: 10px;
+  }
+
+  .product-price {
+    font-size: 13px;
+  }
+
+  .product-add-button {
+    min-height: 40px;
+
+    font-size: 11px;
+  }
+
+  .outline-button {
+    min-height: 35px;
+
+    padding: 0 13px;
+
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE — 380PX
+========================================================= */
+
+@media (max-width: 380px) {
+  .beauty-test-hero {
+    min-height: 530px;
+  }
+
+  .beauty-test-hero-image {
+    min-height: 530px;
+  }
+
+  .beauty-test-hero-content {
+    min-height: 530px;
+
+    padding: 45px 18px;
+  }
+
+  .beauty-test-hero-content h1 {
+    font-size: 43px;
+  }
+
+  .beauty-test-hero-content p {
+    font-size: 11px;
+
+    margin: 17px 0;
+  }
+
+  .beauty-primary-button {
+    min-height: 37px;
+
+    padding: 0 16px;
+
+    font-size: 10px;
+  }
+
+  .beauty-section-heading h2 {
+    font-size: 30px;
+  }
+
+  .category-image {
+    height: 230px;
+  }
+
+  .category-card-body h3 {
+    font-size: 23px;
+  }
+
+  .quiz-question-image-wrap {
+    min-height: 210px;
+
+    height: 210px;
+  }
+
+  .quiz-question-content h2 {
+    font-size: 27px;
+  }
+
+  .results-hero h1 {
+    font-size: 35px;
+  }
+
+  .product-image-wrap {
+    height: 230px;
   }
 }
