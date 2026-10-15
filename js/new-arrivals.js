@@ -538,7 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const icon = button.querySelector("svg");
 
     if (icon) {
-      icon.style.fill = active ? "#faf6f6" : "none";
+      icon.style.fill = active ? "#aa8386" : "none";
       icon.style.color = active ? "#aa8386" : "";
     }
   }

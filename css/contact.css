@@ -44,11 +44,12 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
-
+  overflow: hidden;
   background: var(--cream);
   color: var(--text);
 
