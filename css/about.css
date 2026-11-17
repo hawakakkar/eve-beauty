@@ -1705,85 +1705,552 @@ body.dark-mode .reviews-statistics,
 body.dark-mode .reviews-stat {
   border-color: #443336;
 }
+/* =========================================================
+   EVE BEAUTY — COMPLETE RESPONSIVE PATCH
+   Tablet + Mobile
+   Add this block at the VERY END of your CSS file.
+========================================================= */
 
 /* =========================================================
-   TABLET
+   GLOBAL RESPONSIVE FIXES
+========================================================= */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+.who-wrapper,
+.journey-wrapper,
+.values-wrapper,
+.reviews-layout,
+.team-grid,
+.reviews-statistics {
+  min-width: 0;
+}
+
+.who-content,
+.journey-content,
+.values-title,
+.values-text,
+.reviews-intro,
+.reviews-showcase {
+  min-width: 0;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+span {
+  overflow-wrap: break-word;
+}
+
+/* =========================================================
+   TABLET — 1050px
 ========================================================= */
 
 @media (max-width: 1050px) {
+  /* HERO */
+
+  .about-hero {
+    min-height: 500px;
+    background-position: center;
+  }
+
+  .about-hero-content {
+    width: 90%;
+    padding: 55px 0;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(48px, 7vw, 68px);
+  }
+
+  /* WHO WE ARE */
+
+  .who-we-are {
+    padding: 55px 0;
+  }
+
+  .who-wrapper {
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+  }
+
+  .who-image {
+    min-height: 0;
+  }
+
+  .who-image img {
+    height: 520px;
+  }
+
+  .who-content {
+    padding-right: 0;
+  }
+
+  .who-content h2 {
+    font-size: clamp(34px, 4.5vw, 45px);
+  }
+
+  .who-features {
+    gap: 18px 14px;
+  }
+
+  .who-feature {
+    align-items: flex-start;
+    gap: 9px;
+  }
+
+  .feature-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* JOURNEY */
+
+  .journey-wrapper {
+    width: 90%;
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .journey-content {
+    max-width: 650px;
+  }
+
+  .journey-content p {
+    max-width: 520px;
+  }
+
+  .journey-stats {
+    width: 100%;
+  }
+
+  .journey-stat {
+    min-height: 125px;
+  }
+
+  /* TEAM */
+
+  .team-heading,
+  .team-grid {
+    width: 90%;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .team-image {
+    height: 270px;
+  }
+
+  /* VALUES */
+
+  .values-wrapper {
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+
+  .values-signature {
+    grid-column: 1 / -1;
+    margin: 10px 0 0;
+    text-align: right;
+  }
+
+  /* REVIEWS */
+
   .reviews-layout {
-    grid-template-columns: 0.8fr 1.2fr;
+    width: 90%;
+    grid-template-columns: 0.85fr 1.15fr;
     gap: 25px;
   }
 
   .reviews-showcase {
-    min-height: 490px;
+    min-height: 480px;
   }
 
   .review-card-main {
-    left: 26%;
-    width: 55%;
-
-    padding: 23px 20px;
+    left: 28%;
+    width: 65%;
+    padding: 22px 18px;
   }
 
   .review-card-small {
-    width: 43%;
-    padding: 14px;
+    width: 48%;
+    padding: 12px;
   }
 
   .reviews-image-frame {
     left: 0;
-    width: 46%;
+    width: 45%;
   }
 
-  .review-quote {
-    font-size: 20px;
+  .reviews-statistics {
+    width: 90%;
   }
 
-  .review-customer {
-    flex-wrap: wrap;
-  }
-
-  .review-date {
-    width: 100%;
-    margin-left: 60px;
-    text-align: left;
-  }
-
-  .reviews-stat {
-    padding: 15px 9px;
-    gap: 8px;
-  }
-
-  .reviews-stat strong {
-    font-size: 17px;
+  .reviews-form-wrap {
+    width: 90%;
   }
 }
 
 /* =========================================================
-   MOBILE
+   TABLET PORTRAIT — 850px
+========================================================= */
+
+@media (max-width: 850px) {
+  /* WHO WE ARE */
+
+  .who-wrapper {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .who-image {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+  }
+
+  .who-image img {
+    height: 480px;
+  }
+
+  .who-content {
+    max-width: 700px;
+  }
+
+  /* TEAM */
+
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .team-image {
+    height: 300px;
+  }
+
+  /* VALUES */
+
+  .values-wrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* REVIEWS */
+
+  .reviews-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .reviews-intro {
+    max-width: 650px;
+  }
+
+  .reviews-showcase {
+    width: 100%;
+    max-width: 650px;
+    min-height: 550px;
+    margin: auto;
+  }
+
+  .reviews-image-frame {
+    left: 7%;
+    width: 43%;
+  }
+
+  .review-card-main {
+    left: 37%;
+    width: 52%;
+  }
+
+  .review-card-small {
+    width: 42%;
+  }
+
+  .reviews-floating-note {
+    left: 48%;
+  }
+}
+
+/* =========================================================
+   MOBILE — 700px
 ========================================================= */
 
 @media (max-width: 700px) {
+  /* HERO */
+
+  .about-hero {
+    min-height: 440px;
+    background-position: 58% center;
+  }
+
+  .about-hero-content {
+    width: 90%;
+    padding: 65px 0;
+  }
+
+  .about-hero h1 {
+    max-width: 100%;
+    font-size: clamp(43px, 10vw, 62px);
+    line-height: 0.98;
+  }
+
+  .about-hero p {
+    width: 100%;
+    max-width: 390px;
+    margin-left: 0;
+    margin-top: 18px;
+    font-size: 12px;
+  }
+
+  /* WHO WE ARE */
+
+  .who-we-are {
+    padding: 45px 0 50px;
+  }
+
+  .who-wrapper {
+    width: 90%;
+    gap: 30px;
+  }
+
+  .who-image {
+    width: 100%;
+    min-height: 0;
+  }
+
+  .who-image img {
+    width: 100%;
+    height: clamp(300px, 85vw, 430px);
+    object-position: center 20%;
+  }
+
+  .who-image-decoration {
+    width: 75px;
+    height: 150px;
+    left: -8px;
+    bottom: 12px;
+  }
+
+  .image-script {
+    left: 18px;
+    bottom: 20px;
+    font-size: 20px;
+  }
+
+  .who-content {
+    padding: 0;
+  }
+
+  .who-content h2 {
+    font-size: clamp(34px, 8vw, 43px);
+  }
+
+  .who-description {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .who-features {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 12px;
+  }
+
+  .who-feature {
+    gap: 9px;
+  }
+
+  .feature-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .feature-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .who-feature h3 {
+    font-size: 11px;
+  }
+
+  .who-feature p {
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  /* JOURNEY */
+
+  .journey-section {
+    padding: 45px 0;
+  }
+
+  .journey-wrapper {
+    width: 90%;
+    gap: 28px;
+  }
+
+  .journey-content h2 {
+    font-size: clamp(34px, 8vw, 44px);
+  }
+
+  .journey-content p {
+    max-width: 100%;
+    font-size: 12px;
+  }
+
+  .journey-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .journey-stat {
+    min-height: 120px;
+    padding: 14px 8px;
+    border-bottom: 1px solid rgba(170, 131, 134, 0.25);
+  }
+
+  .journey-stat:nth-child(2n) {
+    border-left: 1px solid rgba(170, 131, 134, 0.25);
+  }
+
+  .journey-stat:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .journey-stat > svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .journey-stat strong {
+    font-size: 27px;
+  }
+
+  .journey-stat span {
+    font-size: 9px;
+  }
+
+  /* TEAM */
+
+  .team-section {
+    padding: 48px 0 50px;
+  }
+
+  .team-heading {
+    width: 90%;
+    margin-bottom: 25px;
+    display: block;
+  }
+
+  .team-heading h2 {
+    font-size: clamp(36px, 8vw, 46px);
+  }
+
+  .team-heading p {
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  .team-grid {
+    width: 90%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .team-image {
+    height: clamp(170px, 48vw, 250px);
+  }
+
+  .team-info {
+    padding: 11px 7px 12px;
+  }
+
+  .team-info h3 {
+    font-size: 11px;
+  }
+
+  .team-info p {
+    font-size: 9px;
+  }
+
+  /* VALUES */
+
+  .values-section {
+    padding: 35px 0;
+  }
+
+  .values-wrapper {
+    width: 90%;
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .values-title h2 {
+    font-size: 34px;
+  }
+
+  .values-text p {
+    font-size: 11px;
+    line-height: 1.8;
+  }
+
+  .values-signature {
+    margin: 8px 0 0;
+    font-size: 23px;
+    text-align: right;
+  }
+
+  .values-decoration-one {
+    width: 130px;
+    height: 80px;
+  }
+
+  .values-decoration-two {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* REVIEWS */
+
   .eve-reviews {
-    padding: 55px 0 60px;
+    padding: 48px 0 55px;
   }
 
   .reviews-topline {
     width: 90%;
-    margin-bottom: 25px;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .reviews-topline > span {
+    width: 30px;
+    flex-shrink: 0;
   }
 
   .reviews-topline p {
-    font-size: 9px;
-    letter-spacing: 2px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
   }
 
   .reviews-layout {
     width: 90%;
     grid-template-columns: 1fr;
-    gap: 25px;
+    gap: 20px;
   }
 
   .reviews-intro {
@@ -1792,116 +2259,175 @@ body.dark-mode .reviews-stat {
 
   .reviews-brand {
     justify-content: center;
+    font-size: 9px;
+    letter-spacing: 2px;
   }
 
   .reviews-intro h2 {
-    font-size: clamp(47px, 11vw, 65px);
+    font-size: clamp(43px, 10vw, 60px);
+    letter-spacing: -1px;
+    line-height: 0.95;
   }
 
   .reviews-description {
     max-width: 430px;
-    margin: 22px auto 0;
-
+    margin: 20px auto 0;
     font-size: 12px;
+    line-height: 1.8;
   }
 
   .reviews-rating {
     max-width: 350px;
-    margin: 22px auto 0;
+    margin: 20px auto 0;
+    gap: 9px;
+  }
+
+  .rating-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .rating-copy strong {
+    font-size: 23px;
+  }
+
+  .rating-copy span {
+    font-size: 9px;
+  }
+
+  .rating-stars {
+    font-size: 14px;
+    letter-spacing: 1px;
   }
 
   .reviews-cta {
-    margin: 25px auto 0;
+    margin: 23px auto 0;
+    font-size: 11px;
   }
 
   .reviews-handwritten {
-    margin: 30px auto 0;
-
+    margin: 27px auto 0;
+    font-size: 20px;
     text-align: center;
     transform: rotate(-4deg);
   }
 
+  /* REVIEW SHOWCASE */
+
   .reviews-showcase {
-    min-height: 490px;
-    margin-top: 10px;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    aspect-ratio: 1 / 1.12;
+    margin-top: 8px;
   }
 
   .reviews-image-frame {
     left: 1%;
-    top: 13%;
-
-    width: 49%;
-    height: 69%;
+    top: 15%;
+    width: 55%;
+    height: 68%;
   }
 
   .orbit-one {
     left: 0;
+    top: 5%;
     width: 75%;
-    height: 390px;
+    height: 80%;
   }
 
   .orbit-two {
     left: 2%;
+    bottom: 3%;
     width: 65%;
-    height: 320px;
+    height: 70%;
   }
 
   .review-card-main {
-    left: 22%;
-    top: 16%;
-
-    width: 66%;
+    left: 38% !important;
+    top: 17%;
+    width: 60% !important;
+    min-width: 0 !important;
+    max-width: 60% !important;
     min-height: 0;
-
-    padding: 22px 18px 18px;
-
-    border-radius: 15px 48px 25px 22px;
+    padding: 17px 14px;
+    border-radius: 13px 38px 20px 18px;
   }
 
-  .review-quote {
-    margin-top: 12px;
-    font-size: clamp(17px, 4.3vw, 22px);
+  .review-quote-mark {
+    font-size: 36px;
+  }
+
+  .review-verified {
+    font-size: 8px;
+  }
+
+  .review-verified svg {
+    width: 12px;
+    height: 12px;
   }
 
   .review-stars {
-    font-size: 17px;
+    margin-top: 8px;
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+
+  .review-quote {
+    margin-top: 9px;
+    font-size: clamp(15px, 4vw, 20px);
+    line-height: 1.3;
   }
 
   .review-customer {
-    margin-top: 18px;
-    gap: 9px;
+    margin-top: 13px;
+    gap: 7px;
   }
 
   .review-avatar {
-    width: 39px;
-    height: 39px;
-
-    font-size: 17px;
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
   }
 
   .review-customer-info h3 {
-    font-size: 11px;
+    font-size: 10px;
   }
 
-  .review-customer-info p,
-  .review-date {
-    font-size: 9px;
+  .review-customer-info p {
+    font-size: 8px;
   }
 
   .review-date {
-    margin-left: 48px;
+    width: auto;
+    margin-left: auto;
+    font-size: 8px;
   }
 
   .review-product {
-    margin-top: 15px;
-    font-size: 9px;
+    margin-top: 11px;
+    padding-top: 9px;
+    gap: 6px;
+    font-size: 8px;
   }
 
-  .review-card-small {
-    width: 44%;
-    padding: 12px;
+  .product-mini-icon {
+    width: 23px;
+    height: 23px;
+  }
 
-    border-radius: 10px 20px 14px 12px;
+  .product-mini-icon svg,
+  .review-product > svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* SMALL REVIEW CARDS */
+
+  .review-card-small {
+    width: 43%;
+    padding: 10px;
+    border-radius: 9px 18px 13px 11px;
   }
 
   .review-card-top-right {
@@ -1911,781 +2437,408 @@ body.dark-mode .reviews-stat {
 
   .review-card-bottom-right {
     right: 0;
-    bottom: 6%;
+    bottom: 5%;
   }
 
   .small-review-header {
-    gap: 7px;
+    gap: 6px;
   }
 
   .small-review-header .review-avatar {
-    width: 31px;
-    height: 31px;
-
-    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
   }
 
   .small-review-header h3 {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .small-review-header .review-stars {
-    font-size: 10px;
-    letter-spacing: 0;
+    margin-top: 2px;
+    font-size: 9px;
   }
 
   .review-card-small > p {
-    margin-top: 8px;
-    font-size: 9px;
-    line-height: 1.6;
+    margin-top: 7px;
+    font-size: 8px;
+    line-height: 1.5;
   }
 
   .small-review-date {
-    margin-top: 8px;
-    font-size: 8px;
+    margin-top: 6px;
+    font-size: 7px;
   }
 
   .reviews-floating-note {
-    top: -1%;
-    left: 42%;
+    top: 0;
+    left: 45%;
+  }
+
+  .reviews-floating-note > span:first-child {
+    font-size: 11px;
   }
 
   .reviews-floating-note strong {
-    font-size: 18px;
+    font-size: 16px;
+  }
+
+  .note-heart {
+    font-size: 22px;
   }
 
   .reviews-flower-decoration {
-    font-size: 75px;
+    font-size: 60px;
   }
 
   .reviews-carousel-navigation {
     right: 0;
-    bottom: -1%;
-    gap: 7px;
+    bottom: -2%;
+    gap: 6px;
   }
 
   .reviews-carousel-navigation button {
-    width: 39px;
-    height: 39px;
-    min-height: 39px;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
   }
+
+  .reviews-carousel-navigation button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* REVIEW STATISTICS */
 
   .reviews-statistics {
     width: 90%;
-    margin-top: 50px;
-
-    grid-template-columns: 1fr 1fr;
+    margin-top: 42px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .reviews-stat {
-    min-height: 80px;
-    padding: 12px 8px;
-
-    justify-content: flex-start;
-
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .reviews-stat:nth-child(2n) {
-    border-right: 0;
-  }
-
-  .reviews-stat:nth-last-child(-n + 2) {
-    border-bottom: 0;
+    min-height: 75px;
+    padding: 10px 7px;
+    gap: 7px;
   }
 
   .reviews-stat > svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 
   .reviews-stat strong {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .reviews-stat span {
-    font-size: 9px;
+    font-size: 8px;
   }
+
+  /* REVIEW FORM */
 
   .reviews-form-wrap {
     width: 90%;
-    margin-top: 55px;
-    padding: 23px 17px;
+    margin-top: 45px;
+    padding: 22px 16px;
+    border-radius: 5px 24px 5px 24px;
+  }
+
+  .reviews-form-heading {
+    margin-bottom: 20px;
   }
 
   .reviews-form-heading h3 {
-    font-size: 31px;
+    font-size: 29px;
   }
 
   .reviews-form-heading p {
-    font-size: 11px;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  .eve-review-form {
+    gap: 15px;
   }
 
   .review-form-row {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 15px;
+  }
+
+  .eve-review-form label {
+    font-size: 10px;
+  }
+
+  .eve-review-form input:not([type="hidden"]),
+  .eve-review-form textarea {
+    font-size: 12px;
+    min-height: 44px;
+  }
+
+  .eve-review-form textarea {
+    min-height: 110px;
+  }
+
+  .review-star-picker button {
+    width: 34px;
+    height: 36px;
+    font-size: 26px;
   }
 
   .reviews-submit {
     width: 100%;
+    min-height: 45px;
+  }
+
+  /* SWEETALERT */
+
+  .eve-review-swal {
+    width: calc(100% - 28px) !important;
+    max-width: 420px !important;
+    padding: 27px 19px 22px !important;
+    border-radius: 19px !important;
+  }
+
+  .eve-review-swal-title {
+    font-size: 21px !important;
+  }
+
+  .eve-review-swal-text {
+    font-size: 12px !important;
+    line-height: 1.7 !important;
+  }
+
+  .eve-review-swal-button {
+    min-width: 130px !important;
+    padding: 12px 22px !important;
+    font-size: 12px !important;
   }
 }
 
 /* =========================================================
-   SMALL MOBILE
+   SMALL MOBILE — 430px
 ========================================================= */
 
-@media (max-width: 400px) {
+@media (max-width: 430px) {
+  .about-hero {
+    min-height: 400px;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(39px, 10vw, 48px);
+  }
+
+  .who-features {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .who-feature {
+    align-items: center;
+  }
+
+  .team-grid {
+    gap: 9px;
+  }
+
+  .team-image {
+    height: 175px;
+  }
+
+  .team-info h3 {
+    font-size: 10px;
+  }
+
+  .team-info p {
+    font-size: 8px;
+  }
+
+  .journey-stat {
+    min-height: 108px;
+  }
+
+  .journey-stat strong {
+    font-size: 24px;
+  }
+
   .reviews-showcase {
-    min-height: 430px;
+    aspect-ratio: 1 / 1.22;
   }
 
   .review-card-main {
-    left: 17%;
+    left: 23%;
     top: 18%;
-
-    width: 72%;
-    padding: 18px 14px;
+    width: 74%;
+    padding: 14px 11px;
   }
 
   .review-card-small {
-    width: 47%;
-    padding: 10px;
+    width: 46%;
+    padding: 8px;
+  }
+
+  .review-card-top-right {
+    top: 1%;
+  }
+
+  .review-card-bottom-right {
+    bottom: 4%;
   }
 
   .review-quote {
-    font-size: 17px;
+    font-size: 15px;
   }
 
-  .review-verified {
-    font-size: 8px;
+  .review-customer-info h3 {
+    font-size: 9px;
   }
 
-  .review-customer {
-    gap: 7px;
-  }
-
-  .review-product {
-    gap: 6px;
+  .review-date {
+    font-size: 7px;
   }
 
   .reviews-stat {
-    gap: 6px;
+    min-height: 70px;
   }
 
   .reviews-stat strong {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .reviews-stat span {
-    font-size: 8px;
-  }
-
-  .reviews-form-wrap {
-    padding: 20px 13px;
+    font-size: 7px;
   }
 }
 
 /* =========================================================
-   ACCESSIBILITY
+   EXTRA SMALL MOBILE — 360px
 ========================================================= */
 
-.eve-reviews button:focus-visible,
-.eve-reviews a:focus-visible,
-.eve-reviews input:focus-visible,
-.eve-reviews textarea:focus-visible {
-  outline: 2px solid var(--burgundy-dark);
-  outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eve-reviews *,
-  .eve-reviews *::before,
-  .eve-reviews *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
-/* EVE BEAUTY — REVIEW LOGIN ALERT */
-
-.eve-review-swal {
-  position: fixed !important;
-  width: min(420px, calc(100% - 32px)) !important;
-  margin: 0 !important;
-  padding: 34px 28px 28px !important;
-  border: 1px solid #f0dfdc !important;
-  border-radius: 24px !important;
-  box-shadow: 0 20px 65px rgba(73, 53, 57, 0.16) !important;
-  font-family: "Inter", sans-serif !important;
-}
-.eve-review-swal .swal2-icon {
-  margin: 0 auto 22px !important;
-  border-width: 2px !important;
-}
-
-.eve-review-swal-title {
-  margin-top: 4px !important;
-  color: #493539 !important;
-  font-family: "Inter", sans-serif !important;
-  font-size: 24px !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.5px !important;
-}
-
-.eve-review-swal-text {
-  margin: 12px auto 24px !important;
-  color: #887477 !important;
-  font-size: 14px !important;
-  line-height: 1.8 !important;
-}
-
-.eve-review-swal-button {
-  min-width: 145px !important;
-  padding: 13px 28px !important;
-  border: 1px solid #a7797d !important;
-  border-radius: 30px !important;
-  background: linear-gradient(135deg, #b98a8e, #98696f) !important;
-  color: #ffffff !important;
-  font-family: "Inter", sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.3px !important;
-  box-shadow: 0 6px 18px rgba(167, 121, 125, 0.24) !important;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease !important;
-}
-
-.eve-review-swal-button:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 9px 22px rgba(167, 121, 125, 0.32) !important;
-}
-
-.eve-review-swal-close {
-  color: #a7797d !important;
-  transition: color 0.2s ease !important;
-}
-
-.eve-review-swal-close:hover {
-  color: #493539 !important;
-}
-
-/* =========================================================
-   DARK MODE
-========================================================= */
-
-body.dark-mode {
-  --cream: #171315;
-  --white: #21191c;
-  --text: #f4e8ea;
-  --muted: #c1afb3;
-  --border: #443336;
-  --pink-bg: #2a2023;
-
-  background: #171315;
-  color: #f4e8ea;
-}
-
-body.dark-mode .who-we-are,
-body.dark-mode .team-section {
-  background: #171315;
-}
-
-body.dark-mode .journey-section {
-  background: #241b1e;
-}
-
-body.dark-mode .who-content h2,
-body.dark-mode .journey-content h2,
-body.dark-mode .team-heading h2 {
-  color: var(--burgundy);
-}
-body.dark-mode .who-content p {
-  color: #fbfafb;
-}
-
-body.dark-mode .team-card {
-  background: #2a2023;
-}
-
-body.dark-mode .team-info {
-  background: rgba(33, 25, 28, 0.7);
-}
-
-body.dark-mode .values-section {
-  background: linear-gradient(90deg, #2a2023, #332529, #2a2023);
-}
-
-/* =========================================================
-   LARGE TABLET
-   1200px
-========================================================= */
-
-@media (max-width: 1200px) {
+@media (max-width: 360px) {
   .about-hero-content,
   .who-wrapper,
   .journey-wrapper,
   .team-heading,
   .team-grid,
-  .values-wrapper {
+  .values-wrapper,
+  .reviews-layout,
+  .reviews-topline,
+  .reviews-statistics,
+  .reviews-form-wrap {
     width: 92%;
   }
 
-  .who-wrapper {
-    gap: 45px;
+  .about-hero h1 {
+    font-size: 37px;
   }
 
-  .journey-wrapper {
-    gap: 30px;
+  .who-image img {
+    height: 280px;
   }
 
-  .team-grid {
-    gap: 12px;
+  .who-content h2,
+  .journey-content h2 {
+    font-size: 32px;
   }
 
-  /* =========================================================
-   TABLET
-   900px
-========================================================= */
-
-  @media (max-width: 900px) {
-    /* HERO */
-
-    .about-hero {
-      min-height: 430px;
-
-      background-position: 60% center;
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(250, 229, 231, 0.98) 0%,
-          rgba(250, 229, 231, 0.86) 48%,
-          rgba(250, 229, 231, 0.35) 100%
-        ),
-        url("../images/about-hero.jpg");
-
-      background-size: cover;
-    }
-
-    .about-hero-content {
-      padding: 55px 0;
-    }
-
-    /* WHO */
-
-    .who-wrapper {
-      grid-template-columns: 1fr;
-
-      gap: 40px;
-    }
-
-    .who-image {
-      width: 85%;
-      max-width: 600px;
-
-      margin: auto;
-    }
-
-    .who-content {
-      max-width: 700px;
-
-      margin: auto;
-    }
-
-    /* JOURNEY */
-
-    .journey-wrapper {
-      grid-template-columns: 1fr;
-
-      gap: 40px;
-    }
-
-    .journey-content {
-      text-align: center;
-    }
-
-    .journey-content p {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .journey-button {
-      margin-top: 20px;
-    }
-
-    /* TEAM */
-
-    .team-heading {
-      align-items: flex-start;
-    }
-
-    .team-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    /* VALUES */
-
-    .values-wrapper {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .values-signature {
-      grid-column: span 2;
-      text-align: center;
-    }
-
-    /* FOOTER */
+  .team-image {
+    height: 145px;
   }
 
-  /* =========================================================
-   MOBILE
-   700px
+  .team-info {
+    padding: 9px 5px;
+  }
+
+  .journey-stat strong {
+    font-size: 22px;
+  }
+
+  .reviews-intro h2 {
+    font-size: 42px;
+  }
+
+  .reviews-showcase {
+    aspect-ratio: 1 / 1.3;
+  }
+
+  .review-card-main {
+    left: 20%;
+    width: 77%;
+    padding: 12px 9px;
+  }
+
+  .review-card-small {
+    width: 47%;
+    padding: 7px;
+  }
+
+  .review-card-small > p {
+    font-size: 7px;
+  }
+
+  .review-avatar {
+    width: 29px;
+    height: 29px;
+  }
+
+  .review-product {
+    font-size: 7px;
+  }
+
+  .reviews-carousel-navigation button {
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+  }
+
+  .reviews-form-wrap {
+    padding: 19px 12px;
+  }
+}
+
+/* =========================================================
+   TABLET LANDSCAPE / TOUCH IMPROVEMENTS
 ========================================================= */
 
-  @media (max-width: 700px) {
-    /* HERO */
+@media (hover: none) and (pointer: coarse) {
+  .team-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
 
-    .about-hero {
-      min-height: 500px;
+  .team-card:hover .team-image img,
+  .reviews-image-frame:hover img,
+  .explore-product-card:hover .explore-product-image img {
+    transform: none;
+  }
 
-      align-items: center;
+  .reviews-carousel-navigation button {
+    min-width: 42px;
+    min-height: 42px;
+  }
 
-      background-position: 62% center;
+  .journey-button,
+  .reviews-cta,
+  .reviews-submit {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
 
-      background:
-        linear-gradient(
-          180deg,
-          rgba(250, 229, 231, 0.58) 0%,
-          rgba(250, 229, 231, 0.84) 48%,
-          rgba(250, 229, 231, 0.98) 100%
-        ),
-        url("../images/about-hero.jpg");
-
-      background-size: cover;
-    }
-
-    .about-hero-content {
-      width: 90%;
-
-      padding: 50px 0;
-
-      text-align: center;
-    }
-
-    .about-eyebrow {
-      justify-content: center;
-    }
-
-    .about-hero h1 {
-      font-size: 58px;
-    }
-
-    .about-hero p {
-      width: 100%;
-      max-width: 430px;
-
-      margin: 20px auto 0;
-
-      font-size: 12px;
-      line-height: 1.75;
-    }
-
-    /* WHO */
-
-    .who-we-are {
-      padding: 55px 0;
-    }
-
-    .who-wrapper {
-      width: 90%;
-    }
-
-    .who-image {
-      width: 100%;
-
-      min-height: 330px;
-    }
-
-    .who-image img {
-      height: 330px;
-    }
-
-    .image-script {
-      left: 20px;
-      bottom: 25px;
-
-      font-size: 20px;
-    }
-
-    .who-content {
-      padding: 0;
-
-      text-align: center;
-    }
-
-    .who-content h2 {
-      font-size: 40px;
-    }
-
-    .who-description {
-      font-size: 11px;
-      line-height: 1.8;
-    }
-
-    .who-features {
-      grid-template-columns: 1fr;
-
-      gap: 17px;
-
-      text-align: left;
-    }
-
-    .who-feature {
-      justify-content: flex-start;
-    }
-
-    /* JOURNEY */
-
-    .journey-section {
-      padding: 55px 0;
-    }
-
-    .journey-wrapper {
-      width: 90%;
-    }
-
-    .journey-content h2 {
-      font-size: 40px;
-    }
-
-    .journey-content p {
-      font-size: 11px;
-    }
-
-    .journey-stats {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .journey-stat {
-      min-height: 130px;
-    }
-
-    .journey-stat:nth-child(3),
-    .journey-stat:nth-child(4) {
-      border-top: 1px solid rgba(170, 131, 134, 0.25);
-    }
-
-    /* TEAM */
-
-    .team-section {
-      padding: 55px 0;
-    }
-
-    .team-heading {
-      width: 90%;
-
-      flex-direction: column;
-
-      align-items: flex-start;
-
-      gap: 18px;
-    }
-
-    .team-heading h2 {
-      font-size: 40px;
-    }
-
-    .team-heading p {
-      font-size: 11px;
-    }
-
-    .team-grid {
-      width: 90%;
-
-      grid-template-columns: 1fr 1fr;
-
-      gap: 10px;
-    }
-
-    .team-image {
-      height: 170px;
-    }
-
-    .team-info h3 {
-      font-size: 11px;
-    }
-
-    .team-info p {
-      font-size: 8px;
-    }
-
-    /* VALUES */
-
-    .values-section {
-      padding: 40px 0;
-    }
-
-    .values-wrapper {
-      width: 90%;
-
-      grid-template-columns: 1fr;
-
-      gap: 15px;
-
-      text-align: center;
-    }
-
-    .values-title h2 {
-      font-size: 34px;
-    }
-
-    .values-text p {
-      font-size: 10px;
-    }
-
-    .values-signature {
-      grid-column: auto;
-
-      text-align: center;
-
-      font-size: 23px;
-    }
-
-    /* =========================================================
-   SMALL MOBILE
-   480px
+/* =========================================================
+   REDUCED MOTION
 ========================================================= */
 
-    @media (max-width: 480px) {
-      .about-hero {
-        min-height: 470px;
-      }
-
-      .about-hero-content {
-        width: 92%;
-      }
-
-      .about-hero h1 {
-        font-size: 50px;
-      }
-
-      .about-hero p {
-        font-size: 11px;
-      }
-
-      .who-image {
-        min-height: 285px;
-      }
-
-      .who-image img {
-        height: 285px;
-      }
-
-      .who-content h2 {
-        font-size: 35px;
-      }
-
-      .journey-content h2 {
-        font-size: 35px;
-      }
-
-      .journey-stat {
-        min-height: 120px;
-        padding: 10px;
-      }
-
-      .journey-stat strong {
-        font-size: 27px;
-      }
-
-      .team-heading h2 {
-        font-size: 35px;
-      }
-
-      .team-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .team-image {
-        height: 220px;
-      }
-
-      .values-title h2 {
-        font-size: 30px;
-      }
-    }
-
-    /* =========================================================
-   EXTRA SMALL
-   360px
-========================================================= */
-
-    @media (max-width: 360px) {
-      .about-hero h1 {
-        font-size: 45px;
-      }
-
-      .about-hero p {
-        font-size: 10px;
-      }
-
-      .who-content h2,
-      .journey-content h2,
-      .team-heading h2 {
-        font-size: 32px;
-      }
-
-      .journey-stats {
-        grid-template-columns: 1fr;
-      }
-
-      .journey-stat {
-        border-left: 0;
-        border-top: 1px solid rgba(170, 131, 134, 0.25);
-      }
-
-      .journey-stat:first-child {
-        border-top: 0;
-      }
-
-      .values-title h2 {
-        font-size: 27px;
-      }
-    }
-
-    /* =========================================================
-   TOUCH DEVICES
-========================================================= */
-
-    @media (hover: none) and (pointer: coarse) {
-      .team-card:hover {
-        transform: none;
-        box-shadow: none;
-      }
-
-      .team-card:hover .team-image img {
-        transform: none;
-      }
-    }
-
-    /* =========================================================
-   ACCESSIBILITY
-========================================================= */
-
-    button,
-    a,
-    input {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    @media (max-width: 700px) {
-      button,
-      a {
-        min-height: 40px;
-      }
-    }
+@media (prefers-reduced-motion: reduce) {
+  .about-hero *,
+  .who-we-are *,
+  .journey-section *,
+  .team-section *,
+  .values-section *,
+  .team-card,
+  .team-image img {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

@@ -85,7 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!window.crypto?.subtle || !window.crypto?.getRandomValues) {
       throw new Error("Secure hashing is unavailable.");
     }
-
+    /*THE SALT WILL USE TO ADD A RANDOM VALUE THAT USE IN CALCULATION HASH WITH  PASSWORD
+UNTIL THE SAME PASSWORD DONT PROCESS THE SAME HASH*/
     const salt = window.crypto.getRandomValues(new Uint8Array(16));
 
     const key = await window.crypto.subtle.importKey(

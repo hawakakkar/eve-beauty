@@ -1583,8 +1583,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modal.hidden = false;
 
-    setupBrandScrollAnimations();
-
     document.body.style.overflow = "hidden";
 
     const closeButton = modal.querySelector(".explore-modal-close");

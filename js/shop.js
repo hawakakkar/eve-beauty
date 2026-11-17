@@ -2006,7 +2006,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setupProductButtons();
 
-    setupShopScrollAnimations();
+    setupProductScrollAnimations();
   }
   /* UPDATE CART BUTTONS*/
 
@@ -2996,15 +2996,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* CART UPDATE EVENT */
 
-  window.addEventListener(
-    "eveBeautyCartUpdated",
+  window.addEventListener("eveBeautyCartUpdated", (event) => {
+    const quantity = event.detail?.quantity;
 
-    () => {
-      updateCartCounter();
+    if (quantity !== undefined) {
+      document
+        .querySelectorAll(
+          "#cartCount, #cartBadge, .cart-count, .cart-badge, [data-cart-count]",
+        )
+        .forEach((element) => {
+          element.textContent = quantity;
+          element.style.display = "";
+        });
+    }
 
-      updateAllCartButtons();
-    },
-  );
+    updateAllCartButtons();
+  });
 
   /* =========================================================
 
@@ -3252,8 +3259,6 @@ function setupShopScrollAnimations(root = document) {
     ".page-header",
 
     // Shop controls and filters
-    "#shopSidebar",
-    ".filter-group",
     "#mobileFilterButton",
     ".shop-toolbar",
     "#productsCount",
@@ -3264,8 +3269,6 @@ function setupShopScrollAnimations(root = document) {
     "#clearFilters",
 
     // Products and pagination
-    "#productsGrid .product-card",
-    "#productsGrid .no-products",
     "#shopPagination",
 
     // Common content sections
@@ -3308,7 +3311,32 @@ function setupShopScrollAnimations(root = document) {
     }
   });
 }
+// Animate only product cards after rendering or filtering
+function setupProductScrollAnimations() {
+  if (!productsGrid) {
+    return;
+  }
 
+  const productElements = productsGrid.querySelectorAll(
+    ".product-card, .no-products",
+  );
+
+  productElements.forEach(function (element, index) {
+    if (element.classList.contains("shop-scroll-reveal")) {
+      return;
+    }
+
+    element.classList.add("shop-scroll-reveal");
+
+    element.style.transitionDelay = `${(index % 4) * 70}ms`;
+
+    if (shopScrollObserver) {
+      shopScrollObserver.observe(element);
+    } else {
+      element.classList.add("is-visible");
+    }
+  });
+}
 // Initialize animations after the page has loaded
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", function () {
